@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import CharactersListScreen from './Characters/CharactersListScreen.js';
 import FavoriteCharactersScreen from './Characters/FavoriteCharactersScreen.js';
 import CharacterDetailsScreen from './Characters/CharacterDetailsScreen.js';
+import CharactersFilterScreen from './Characters/CharactersFilterScreen.js';
 
 import styles from '../config/styles.js';
 
@@ -68,6 +69,12 @@ const RootStack = createStackNavigator({
         screen: CharacterDetailsScreen,
         navigationOptions: {
             title: `Show character's details`
+        }
+    },
+    Filter: {
+        screen: CharactersFilterScreen,
+        navigationOptions: {
+            title: 'Filter by gender'
         }
     }
 })

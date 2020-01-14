@@ -11,20 +11,20 @@ class CharactersList {
     loadingDetails = false;
     errorDetails = false;
 
-    queryCharactersList(page) {
+    queryCharactersList(page, gender) {
         this.loadingList = true;
 
         return client.query({
             query: getCharactersQuery(),
             variables: {
                 page: page,
-                gender: this.gender
+                gender: gender
             }
         })
     }
 
-    loadMore(page) {
-        this.queryCharactersList(page).then( (resp) => {
+    loadMore(page, gender) {
+        this.queryCharactersList(page, gender).then( (resp) => {
             let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
             
             this.loadingList = false;
@@ -35,17 +35,21 @@ class CharactersList {
         });
     }
 
-    refresh(page) {
-        this.queryCharactersList(page).then( (resp) => {
+    refresh() {
+        this.queryCharactersList(1, "").then( (resp) => {
             let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
             
             this.loadingList = false;
             this.characters = data;
-            this.gender = "";
         })
         .catch( (error) => {
             this.errorList = error;
         });
+    }
+
+    filterByGender(gender) {
+        this.gender = gender;
+        charactersStores.characters.replace([]);
     }
 
     //DETAILS
@@ -117,6 +121,7 @@ decorate(CharactersList, {
     loadingList: observable,
     errorList: observable,
     gender: observable,
+    filterByGender: action,
     loadMore: action,
     refresh: action,
 

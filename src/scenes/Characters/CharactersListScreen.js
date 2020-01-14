@@ -18,15 +18,14 @@ class CharactersListScreen extends React.Component{
     }
 
     componentDidMount = () => {
-        this.props.charactersStores.loadMore(1);
+        this.props.charactersStores.loadMore(1, "");
     }
 
     onRefreshUpdateData = () => {
         this.setState({
-            refreshing: true,
-            page: 1
+            refreshing: true
         }, () => {
-            this.props.charactersStores.refresh(this.state.page);
+            this.props.charactersStores.refresh();
         });
         this.setState({
             refreshing: false
@@ -50,17 +49,17 @@ class CharactersListScreen extends React.Component{
         this.setState({
             page: ++this.state.page
         }, () => {
-            this.props.charactersStores.loadMore(this.state.page);
+            this.props.charactersStores.loadMore(this.state.page, this.props.charactersStores.gender);
         })
     }
 
     render(){
         const { charactersStores: {characters, loadingList, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
-        if(loadingList) {
-            return <ActivityIndicator style={{color: '#000'}}/>
-        } else {
         return(
             <View>
+                <Button title='Set filter' raised
+                    onPress={() => navigate('Filter')}
+                    style={styles.filterButton}/>
                 <FlatList 
                     data={characters.flat()} 
                     renderItem={({item}) => 
@@ -96,7 +95,7 @@ class CharactersListScreen extends React.Component{
                     onEndReachedThreshold={0.4}> 
                 </FlatList> 
             </View>
-        )}
+        )
     }
 }
 
