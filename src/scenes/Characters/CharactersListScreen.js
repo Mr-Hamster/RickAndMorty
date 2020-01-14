@@ -4,30 +4,100 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    CheckBox,
+    ActivityIndicator,
     FlatList
 } from 'react-native';
+import { SearchBar, Button, CheckBox, Icon } from 'react-native-elements';
 import styles from '../../config/styles.js';
+import { observer, inject } from 'mobx-react';
 
-export default class CharactersListScreen extends React.Component{
-    componentDidMount = () => {
-        this.props.navigation.state.params.characters.getCharactersList(1,"");
+class CharactersListScreen extends React.Component{
+    state = {
+        page: 1,
+        refreshing: false
     }
-    render(){
-        const { charactersList } = this.props.navigation.state.params.characters;
-        return(
-            <View>
-               <FlatList 
-                data={charactersList} 
-                renderItem={({item}) => 
-                        <View style={styles.favoriteWrapper}>
-                            <Text style={styles.titleTextList}>{item.name}</Text>
-                            <Text style={styles.text}>{item.status}</Text>
-                        </View>  
-                }>
-            </FlatList>   
 
-            </View>
+    componentDidMount = () => {
+        this.props.charactersStores.loadMore(1);
+    }
+
+    onRefreshUpdateData = () => {
+        this.setState({
+            refreshing: true,
+            page: 1
+        }, () => {
+            this.props.charactersStores.refresh(this.state.page);
+        });
+        this.setState({
+            refreshing: false
+        })
+    } 
+
+    renderSeparator = () => {
+        return (
+            <View style={styles.borderList}/>
         )
     }
+
+    renderFooter = () => {
+        if (!this.props.charactersStores.loading) return null;
+        return (
+            <ActivityIndicator style={{color: '#000'}}/>
+        )
+    }
+
+    handleLoadMore = () => {
+        this.setState({
+            page: ++this.state.page
+        }, () => {
+            this.props.charactersStores.loadMore(this.state.page);
+        })
+    }
+
+    render(){
+        const { charactersStores: {characters, loadingList, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
+        if(loadingList) {
+            return <ActivityIndicator style={{color: '#000'}}/>
+        } else {
+        return(
+            <View>
+                <FlatList 
+                    data={characters.flat()} 
+                    renderItem={({item}) => 
+                        <TouchableOpacity 
+                        onPress={ () => {
+                            resetDetails()
+                            navigate('Details', {id: item.id})
+                        }} 
+                        style={view ? styles.textWrapperList : styles.textWrapperTable}>
+                            <Image source={{uri: item.image}} style={styles.imageList}/>
+                            { view ? <View style={styles.favoriteWrapper}>
+                                <View style={styles.characterWrapper}>
+                                    <Text style={styles.titleTextList}>{item.name}</Text>
+                                    <Text style={styles.text}>{item.status}</Text>
+                                </View>
+                                <CheckBox
+                                    checkedIcon={<Icon name='favorite' color='red'/>}
+                                    uncheckedIcon={<Image source={require('../../assets/favorite_border.png')} style={{width: 25, height: 25}}/>}
+                                    checked={item.favorite}
+                                    onPress={() => {addToFavorite(item.id)}}
+                                />
+                            </View>
+                            : <Text>{item.name}</Text>}     
+                        </TouchableOpacity>}
+                    numColumns={view ? 1 : 3}
+                    key={view ? 'h' : 'v'}
+                    onRefresh={() => this.onRefreshUpdateData()}
+                    refreshing={this.state.refreshing}  
+                    keyExtractor={(item, index) => index.toString()}
+                    ItemSeparatorComponent={this.renderSeparator}
+                    ListFooterComponent={this.renderFooter.bind(this)}
+                    onEndReached={this.handleLoadMore.bind(this)}
+                    onEndReachedThreshold={0.4}> 
+                </FlatList> 
+            </View>
+        )}
+    }
 }
+
+export default inject('charactersStores')(observer(CharactersListScreen));

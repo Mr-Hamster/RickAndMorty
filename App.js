@@ -1,14 +1,15 @@
 import React from 'react';
-import { client } from './src/services/client.js';
-import { ApolloProvider } from 'react-apollo';
 import { Navigation } from './src/scenes/Router.js';
+import { Provider } from 'mobx-react';
+import charactersStores from './src/mobX/charactersStores.js';
 
+const stores = {charactersStores};
 class App extends React.Component{
   render() {
     return(
-      <ApolloProvider client={client}>
+      <Provider {...stores}>
         <Navigation/>
-      </ApolloProvider>
+      </Provider>
     );
   }
 }
