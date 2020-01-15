@@ -34,6 +34,9 @@ class CharactersFilterScreen extends React.Component{
             male: false,
             female: false,
             all: true
+        }, () => {
+            this.props.charactersStores.filterByGender('');
+            this.props.charactersStores.loadMore(1, '');
         })
     }
     render(){

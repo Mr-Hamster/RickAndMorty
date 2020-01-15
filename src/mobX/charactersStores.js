@@ -1,4 +1,4 @@
-import { observable, action, computed, decorate, toJS } from "mobx";
+import { observable, action, computed, decorate, toJS, extendObservable } from "mobx";
 import { client } from '../services/client.js';
 import { getCharactersQuery, getDetailsCharacterQuery } from '../services/query.js';
 
@@ -116,11 +116,13 @@ class CharactersList {
     //FAVORITE CHARACTERS
 
     addToFavorite(id) {
-        var newCharacters = toJS(charactersStores.characters).flat().map( characterItem => {
-            if(characterItem.id == id) {
-                characterItem.favorite = !characterItem.favorite
-            }
-        })
+        // var newCharacters = this.characters.flat().map( characterItem => {
+        //     if(characterItem.id == id) {
+        //         characterItem.favorite = !characterItem.favorite
+        //     }
+        // })
+        // extendObservable(this.characters, newCharacters);
+        console.log(this.characters)
         console.log('Characters: ',this.getAllCharacters)
     }
 
@@ -134,18 +136,19 @@ decorate(CharactersList, {
     loadingList: observable,
     errorList: observable,
     gender: observable,
-    filterByGender: action,
-    loadMore: action,
-    refresh: action,
 
     details: observable,
     loadingDetails: observable,
     errorDetails: observable,
+
+    filterByGender: action,
+    loadMore: action,
+    refresh: action,
     loadNextCharacter: action,
     loadPreviousCharacter: action,
     resetDetails: action,
-
     addToFavorite: action,
+
     getFavoritesList: computed,
     getAllCharacters: computed,
     getDetailsList: computed
