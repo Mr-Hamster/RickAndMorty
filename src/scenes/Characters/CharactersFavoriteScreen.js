@@ -1,11 +1,23 @@
 import React from 'react';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
-import { View, Text } from 'react-native';
+import { 
+    View, 
+    Text,
+    FlatList ,
+    TouchableOpacity,
+    Image
+} from 'react-native';
+import { CheckBox, Icon } from 'react-native-elements';
 
 class FavoriteCharactersScreen extends React.Component{
+    renderSeparator = () => {
+        return (
+            <View style={styles.borderList}/>
+        )
+    }
     render() {
-        const { getFavoritesList, resetDetails } = this.props.charactersStores;
+        const { getFavoritesList, resetDetails, addToFavorite } = this.props.charactersStores;
         if(getFavoritesList.length == 0) {
             return (<Text style={styles.textFavorite}>You don't have favorite characters!</Text>)
         } else {
@@ -29,7 +41,7 @@ class FavoriteCharactersScreen extends React.Component{
                                 checkedIcon={<Icon name='favorite' color='red'/>}
                                 uncheckedIcon={<Image source={require('../../assets/favorite_border.png')} style={{width: 25, height: 25}}/>}
                                 checked={item.favorite}
-                                onPress={() => {}}
+                                onPress={() => addToFavorite(item.id)}
                                 />
                             </View>
                             <Text>{item.name}</Text>    
