@@ -54,7 +54,7 @@ class CharactersListScreen extends React.Component{
     }
 
     render(){
-        const { charactersStores: {getAllCharacters, getFavoritesList, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
+        const { charactersStores: {getAllCharacters, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
         return(
             <View>
                 <TouchableOpacity onPress={ () => this.props.navigation.navigate('Search')}>
@@ -86,7 +86,6 @@ class CharactersListScreen extends React.Component{
                                     checked={item.favorite}
                                     onPress={() => {
                                         addToFavorite(item.id)
-                                        console.log(getFavoritesList)
                                     }}
                                 />
                             </View>
