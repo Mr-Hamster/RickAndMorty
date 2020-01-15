@@ -3,7 +3,6 @@ import {
     View,
     Text,
     Image,
-    ActivityIndicator,
     Dimensions,
     ScrollView
  } from 'react-native';
@@ -34,10 +33,7 @@ class CharactersDetailsScreen extends React.Component{
         })
     }
     render(){
-        const { details, loadingDetails } = this.props.charactersStores;
-        if(loadingDetails) {
-            return <ActivityIndicator style={styles.imageCharacter}/>
-        }
+        const { getDetailsList } = this.props.charactersStores;
         return(
             <View>
                 <ScrollView horizontal={true}
@@ -51,8 +47,8 @@ class CharactersDetailsScreen extends React.Component{
                         } else if(x < 0){
                             this.handleLoadMorePrevious()
                         }}}> 
-                     {details.flat().map( item =>
-                        <View key={item.id} style={{width: Dimensions.get('window').width }}>
+                     {getDetailsList.flat().map( item =>
+                     <View key={item.id} style={{width: Dimensions.get('window').width }}>
                         <Image source={{uri: item.image}} style={styles.imageCharacter}/>
                         <Text style={styles.textTitle}>{item.name}</Text>
                         <CheckBox

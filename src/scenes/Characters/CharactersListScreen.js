@@ -54,14 +54,14 @@ class CharactersListScreen extends React.Component{
     }
 
     render(){
-        const { charactersStores: {characters, loadingList, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
+        const { charactersStores: {getAllCharacters, getFavoritesList, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
         return(
             <View>
                 <Button title='Set filter' raised
                     onPress={() => navigate('Filter')}
                     style={styles.filterButton}/>
                 <FlatList 
-                    data={characters.flat()} 
+                    data={getAllCharacters.flat()} 
                     renderItem={({item}) => 
                         <TouchableOpacity 
                         onPress={ () => {
@@ -79,7 +79,10 @@ class CharactersListScreen extends React.Component{
                                     checkedIcon={<Icon name='favorite' color='red'/>}
                                     uncheckedIcon={<Image source={require('../../assets/favorite_border.png')} style={{width: 25, height: 25}}/>}
                                     checked={item.favorite}
-                                    onPress={() => {addToFavorite(item.id)}}
+                                    onPress={() => {
+                                        addToFavorite(item.id)
+                                        console.log(getFavoritesList)
+                                    }}
                                 />
                             </View>
                             : <Text>{item.name}</Text>}     

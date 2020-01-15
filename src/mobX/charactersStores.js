@@ -52,6 +52,10 @@ class CharactersList {
         charactersStores.characters.replace([]);
     }
 
+    get getAllCharacters() {
+        return this.characters;
+    }
+
     //DETAILS
 
     queryDetailsCharacter(id) {
@@ -105,6 +109,10 @@ class CharactersList {
         charactersStores.details.replace([])
     }
 
+    get getDetailsList() {
+        return this.details;
+    }
+
     //FAVORITE CHARACTERS
 
     addToFavorite(id) {
@@ -113,6 +121,11 @@ class CharactersList {
                 characterItem.favorite = !characterItem.favorite
             }
         })
+        console.log('Characters: ',this.getAllCharacters)
+    }
+
+    get getFavoritesList() {
+        return this.characters.flat().filter( item => item.favorite == true)
     }
 }
 
@@ -132,7 +145,10 @@ decorate(CharactersList, {
     loadPreviousCharacter: action,
     resetDetails: action,
 
-    addToFavorite: action
+    addToFavorite: action,
+    getFavoritesList: computed,
+    getAllCharacters: computed,
+    getDetailsList: computed
 })
 
 const charactersStores = new CharactersList();
