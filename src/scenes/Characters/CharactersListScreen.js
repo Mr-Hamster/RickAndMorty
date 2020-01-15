@@ -55,14 +55,11 @@ class CharactersListScreen extends React.Component{
     }
 
     checkRegistration = () => {
-        this.props.users.users.then( value => {
-            console.log(value);
-            if(value === 'true') {
-                this.props.navigation.navigate('Search')
-            } else if(value === 'false') {
-                Alert.alert('Cancelled', 'You must register')
-            }
-        })
+        if(this.props.users.getRegisteredState == 'true') {
+            this.props.navigation.navigate('Search')
+        } else {
+            Alert.alert('Cancelled', 'You must register')
+        }
     }
 
     render(){

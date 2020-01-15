@@ -1,7 +1,7 @@
 import { LoginManager, AccessToken, GraphRequest,GraphRequestManager } from 'react-native-fbsdk';
-import { observer, inject } from 'mobx-react';
+import users from '../mobX/usersStores.js';
 
-function logInWithFacebook() {
+export function logInWithFacebook() {
         LoginManager.logInWithPermissions(["public_profile"]).then(
             (result) => {
               if (result.isCancelled) {
@@ -23,7 +23,7 @@ function getGraphData(data){
             if (error) {
                 console.log(error)
             } else {
-                this.props.users.signInWithFBSDK(result.name, result.picture.data)
+                users.signInWithFBSDK(result.name, result.picture.data)
             }
         }
         const infoRequest = new GraphRequest(
@@ -41,6 +41,3 @@ function getGraphData(data){
         // Start the graph request.
         new GraphRequestManager().addRequest(infoRequest).start()
 }
-
-
-export default inject('users')(observer(logInWithFacebook));

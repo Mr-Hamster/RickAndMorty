@@ -22,13 +22,11 @@ class IntroScreen extends React.Component{
         ]
     }
     componentDidMount = () => {
-        this.props.users.getUserStore.then(value => {
-            if(value===null) {
-                this.props.navigation.navigate('IntroScreen')
-            } else {
-                this.props.navigation.navigate('CharactersList')
-            }
-        })
+        if(this.props.users.getRegisteredState===null) {
+            this.props.navigation.navigate('IntroScreen')
+        } else {
+            this.props.navigation.navigate('CharactersList')
+        }
     }
     render() {
         return(

@@ -4,19 +4,27 @@ import { isRegistered, registeredUsers } from '../services/constants.js';
 
 
 class Users {
-    users = AsyncStorage.getItem(isRegistered);
-    registered = AsyncStorage.getItem(registeredUsers);
+    constructor() {
+        AsyncStorage.getItem(isRegistered).then( value => {
+            if(value){
+                this.registered = value;
+            }
+        })
+    }
+    registered = false;
+    usersStore = [];
     emailError = false;
     passwordError = false;
     email = '';
     photo = '';
 
-    userStore(value) {
+    setRegistered(value) {
+        this.registered = value;
         AsyncStorage.setItem(isRegistered, value);
     }
 
-    get getUserStore() {
-        return this.users;
+    get getRegisteredState() {
+        return this.registered;
     }
 
     addRegisteredUsers(user) {
@@ -28,38 +36,41 @@ class Users {
     }
 
     get getRegisteredUsers() {
-        return this.registered;
+        return this.usersStore;
     }
 
     signIn(email, password) {
         AsyncStorage.getItem(registeredUsers).then( value => {
-            JSON.parse(value).map(item => {
-                if(item.email == email && item.password == password) {
-                    this.userStore('true');
-                    this.emailError = false;
-                    this.passwordError = false;
-                    email = item.email;
-                    photo = item.photo;
-                } else {
-                    this.emailError = true;
-                    this.passwordError = true;
-                }
-            })
+            if(value === null) {
+                this.emailError = true;
+                this.passwordError = true;
+            } else {
+                JSON.parse(value).map(item => {
+                    if(item.email == email && item.password == password) {
+                        this.setRegistered('true');
+                        this.emailError = false;
+                        this.passwordError = false;
+                        email = item.email;
+                        photo = item.photo;
+                    } else {
+                        this.emailError = true;
+                        this.passwordError = true;
+                    }
+                })
+            }
         })
     }
 
     signInWithFBSDK(name, photo) {
-        this.userStore('true');
-        this.emailError = false;
-        this.passwordError = false;
+        this.setRegistered('true')
         this.email = name;
         this.photo = photo;
     }
 
     signUp() {
-        this.userStore('false');
-        this.email = null;
-        this.photo = null;
+        this.setRegistered('false')
+        this.email = "";
+        this.photo = "";
         this.emailError = false;
         this.passwordError = false;
     }
@@ -67,7 +78,7 @@ class Users {
 }
 
 decorate(Users, {
-    userStore: observable,
+    usersStore: observable,
     registered: observable,
     email: observable,
     photo: observable,
@@ -77,9 +88,9 @@ decorate(Users, {
     signIn: action,
     signInWithFBSDK: action,
     signUp: action,
-    userStore: action,
+    setRegistered: action,
 
-    getUserStore: computed,
+    getRegisteredState: computed,
     getRegisteredUsers: computed
 })
 

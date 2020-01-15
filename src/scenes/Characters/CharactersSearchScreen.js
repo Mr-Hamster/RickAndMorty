@@ -50,7 +50,6 @@ class CharactersSearchScreen extends React.Component{
     }
     render() {
         const { search: {searchByName, getSearchResult, loading}, charactersStores: { resetDetails} } = this.props;
-        console.log(getSearchResult)
         return(
             <View>
                 <SearchBar onChangeText={text => {

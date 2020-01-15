@@ -11,6 +11,8 @@ import CharactersFilterScreen from './Characters/CharactersFilterScreen.js';
 import CharactersSearchScreen from './Characters/CharactersSearchScreen.js';
 
 import IntroScreen from './Users/IntroScreen.js';
+import LogInScreen from './Users/LogInScreen.js';
+import ProfileScreen from './Users/ProfileScreen.js';
 
 import styles from '../config/styles.js';
 
@@ -40,6 +42,22 @@ const Favorite = createStackNavigator({
     }
 })
 
+const Profile = createStackNavigator({
+    LogIn: {
+        screen: LogInScreen,
+        navigationOptions: {
+            title: 'LogIn'
+        }
+    },
+    ProfileScreen: {
+        screen: ProfileScreen,
+        navigationOptions: {
+            title: 'Profile',
+            headerLeft: () => null
+        }
+    }
+})
+
 const RootTabs = createBottomTabNavigator({
     List: {
         screen: List,
@@ -52,6 +70,12 @@ const RootTabs = createBottomTabNavigator({
         navigationOptions: () => ({
           tabBarIcon: () => <Icon name="heart" color='#000' style={styles.iconTabBar}/>,
         })
+    },
+    Profile: {
+        screen: Profile,
+        navigationOptions: () => ({
+            tabBarIcon: () => <Icon name="user" color='#000' style={styles.iconTabBar}/>
+        })      
     }
 },
 {
