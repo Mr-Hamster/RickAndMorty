@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     Image,
     ActivityIndicator,
-    FlatList
+    FlatList,
+    Alert
 } from 'react-native';
 import { SearchBar, Button, CheckBox, Icon } from 'react-native-elements';
 import styles from '../../config/styles.js';
@@ -53,11 +54,22 @@ class CharactersListScreen extends React.Component{
         })
     }
 
+    checkRegistration = () => {
+        this.props.users.users.then( value => {
+            console.log(value);
+            if(value === 'true') {
+                this.props.navigation.navigate('Search')
+            } else if(value === 'false') {
+                Alert.alert('Cancelled', 'You must register')
+            }
+        })
+    }
+
     render(){
         const { charactersStores: {getAllCharacters, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
         return(
             <View>
-                <TouchableOpacity onPress={ () => this.props.navigation.navigate('Search')}>
+                <TouchableOpacity onPress={ () => this.checkRegistration()}>
                     <SearchBar lightTheme
                         placeholder='Search...' 
                         pointerEvents='none'/>
@@ -106,4 +118,4 @@ class CharactersListScreen extends React.Component{
     }
 }
 
-export default inject('charactersStores')(observer(CharactersListScreen));
+export default inject('charactersStores', 'users')(observer(CharactersListScreen));

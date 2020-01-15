@@ -10,6 +10,8 @@ import CharacterDetailsScreen from './Characters/CharacterDetailsScreen.js';
 import CharactersFilterScreen from './Characters/CharactersFilterScreen.js';
 import CharactersSearchScreen from './Characters/CharactersSearchScreen.js';
 
+import IntroScreen from './Users/IntroScreen.js';
+
 import styles from '../config/styles.js';
 
 const List = createStackNavigator({
@@ -60,6 +62,12 @@ const RootTabs = createBottomTabNavigator({
 )
 
 const RootStack = createStackNavigator({
+    Intro: {
+        screen: IntroScreen,
+        navigationOptions: {
+            title: 'Rick and Morty'
+        }
+    },
     CharactersScreen: {
         screen: RootTabs,
         navigationOptions: {
