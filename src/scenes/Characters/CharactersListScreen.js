@@ -57,6 +57,11 @@ class CharactersListScreen extends React.Component{
         const { charactersStores: {getAllCharacters, getFavoritesList, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
         return(
             <View>
+                <TouchableOpacity onPress={ () => this.props.navigation.navigate('Search')}>
+                    <SearchBar lightTheme
+                        placeholder='Search...' 
+                        pointerEvents='none'/>
+                </TouchableOpacity>
                 <Button title='Set filter' raised
                     onPress={() => navigate('Filter')}
                     style={styles.filterButton}/>

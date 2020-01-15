@@ -5,9 +5,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import CharactersListScreen from './Characters/CharactersListScreen.js';
-import FavoriteCharactersScreen from './Characters/FavoriteCharactersScreen.js';
+import CharactersFavoriteScreen from './Characters/CharactersFavoriteScreen.js';
 import CharacterDetailsScreen from './Characters/CharacterDetailsScreen.js';
 import CharactersFilterScreen from './Characters/CharactersFilterScreen.js';
+import CharactersSearchScreen from './Characters/CharactersSearchScreen.js';
 
 import styles from '../config/styles.js';
 
@@ -30,7 +31,7 @@ const List = createStackNavigator({
 
 const Favorite = createStackNavigator({
     FavoriteCharacters: {
-        screen: FavoriteCharactersScreen,
+        screen: CharactersFavoriteScreen,
         navigationOptions: {
             title: 'Favorite characters'
         }
@@ -75,6 +76,12 @@ const RootStack = createStackNavigator({
         screen: CharactersFilterScreen,
         navigationOptions: {
             title: 'Filter by gender'
+        }
+    },
+    Search: {
+        screen: CharactersSearchScreen,
+        navigationOptions: {
+            title: 'Search by name'
         }
     }
 })

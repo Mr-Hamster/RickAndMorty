@@ -1,4 +1,4 @@
-import { observable, action, computed, decorate, toJS, extendObservable } from "mobx";
+import { observable, action, computed, decorate } from "mobx";
 import { client } from '../services/client.js';
 import { getCharactersQuery, getDetailsCharacterQuery } from '../services/query.js';
 
