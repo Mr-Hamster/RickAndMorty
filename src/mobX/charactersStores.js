@@ -10,6 +10,11 @@ class CharactersList {
     errorList = false;
     loadingDetails = false;
     errorDetails = false;
+    genderChecked = {
+        male: false,
+        female: false,
+        all: false
+    }
 
     queryCharactersList(page, gender) {
         this.loadingList = true;
@@ -50,6 +55,16 @@ class CharactersList {
     filterByGender(gender) {
         this.gender = gender;
         charactersStores.characters.replace([]);
+    }
+
+    changeCheckedGender(gender) {
+        for( let key in this.genderChecked){
+            if( key == gender) {
+                this.genderChecked[key] = !this.genderChecked[key];
+            } else {
+                this.genderChecked[key] = false;
+            }
+        }
     }
 
     get getAllCharacters() {
@@ -136,12 +151,14 @@ decorate(CharactersList, {
     loadingList: observable,
     errorList: observable,
     gender: observable,
+    genderChecked: observable,
 
     details: observable,
     loadingDetails: observable,
     errorDetails: observable,
 
     filterByGender: action,
+    changeCheckedGender: action,
     loadMore: action,
     refresh: action,
     loadNextCharacter: action,

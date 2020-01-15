@@ -4,43 +4,31 @@ import { observer, inject } from 'mobx-react';
 import { CheckBox } from 'react-native-elements';
 
 class CharactersFilterScreen extends React.Component{
-    state = {
-        male: false,
-        female: false,
-        all: false
-    }
     handleMaleGender = () => {
-        this.setState({
-            male: true,
-            female: false,
-            all: false
-        }, () => {
-            this.props.charactersStores.filterByGender('male');
-            this.props.charactersStores.loadMore(1, 'male');
-        })
+        this.props.charactersStores.filterByGender('male');
+        this.props.charactersStores.changeCheckedGender('male')
     }
     handleFemaleGender = () => {
-        this.setState({
-            male: false,
-            female: true,
-            all: false
-        }, () => {
-            this.props.charactersStores.filterByGender('female');
-            this.props.charactersStores.loadMore(1, 'female');
-        })
+        this.props.charactersStores.filterByGender('female');
+        this.props.charactersStores.changeCheckedGender('female')
     }
     handleAllGender = () => {
-        this.setState({
-            male: false,
-            female: false,
-            all: true
-        }, () => {
-            this.props.charactersStores.filterByGender('');
+        this.props.charactersStores.filterByGender('');
+        this.props.charactersStores.changeCheckedGender('all')
+    }
+    doneFilter = () => {
+        const { male, female, all } = this.props.charactersStores.genderChecked;
+        if(male == true) {
+            this.props.charactersStores.loadMore(1, 'male');
+        } else if(female == true) {
+            this.props.charactersStores.loadMore(1, 'female');
+        } else if(all == true) {
             this.props.charactersStores.loadMore(1, '');
-        })
+        }
+        this.props.navigation.navigate('CharactersList')
     }
     render(){
-        const { male, female, all } = this.state;
+        const { male, female, all } = this.props.charactersStores.genderChecked;
         return(
             <View>
                 <CheckBox title='Male' 
@@ -55,7 +43,7 @@ class CharactersFilterScreen extends React.Component{
                     checked={all}
                     onPress={() => this.handleAllGender()}
                 />
-                <Button title="Done" onPress={ () => this.props.navigation.navigate('CharactersList')}/>
+                <Button title="Done" onPress={ () => this.doneFilter()}/>
             </View>
 
         )
