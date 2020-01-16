@@ -4,7 +4,8 @@ import {
     Text,
     Image,
     Dimensions,
-    ScrollView
+    ScrollView,
+    ActivityIndicator
  } from 'react-native';
  import { CheckBox, Icon } from 'react-native-elements';
  import styles from '../../config/styles.js';
@@ -33,7 +34,7 @@ class CharactersDetailsScreen extends React.Component{
         })
     }
     render(){
-        const { getDetailsList, addToFavorite } = this.props.charactersStores;
+        const { getDetailsList, addToFavorite, loadingDetails } = this.props.charactersStores;
         return(
             <View>
                 <ScrollView horizontal={true}
@@ -48,13 +49,27 @@ class CharactersDetailsScreen extends React.Component{
                         } else if(x < 0){
                             this.handleLoadMorePrevious()
                         }}}> 
-                     {getDetailsList.flat().map( item =>
+                    {loadingDetails ? 
+                        <ActivityIndicator 
+                            size='large' 
+                            style={{
+                                width: Dimensions.get('window').width, 
+                                height: Dimensions.get('window').height
+                            }}
+                        /> 
+                    : null}
+                    {getDetailsList.flat().map( item =>
                      <View key={item.id} style={{width: Dimensions.get('window').width }}>
                         <Image source={{uri: item.image}} style={styles.imageCharacter}/>
                         <Text style={styles.textTitle}>{item.name}</Text>
                         <CheckBox
-                            checkedIcon={<Icon name='favorite' color='red'/>}
-                            uncheckedIcon={<Image source={require('../../assets/favorite_border.png')} style={{width: 25, height: 25}}/>}
+                            checkedIcon={
+                                <Icon name='favorite' color='red'/>
+                            }
+                            uncheckedIcon={
+                                <Image source={require('../../assets/favorite_border.png')} 
+                                    style={{width: 25, height: 25}}/>
+                            }
                             checked={item.favorite}
                             onPress={() => addToFavorite(item.id) }
                         />

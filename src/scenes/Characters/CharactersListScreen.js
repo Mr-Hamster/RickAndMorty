@@ -40,7 +40,7 @@ class CharactersListScreen extends React.Component{
     }
 
     renderFooter = () => {
-        if (!this.props.charactersStores.loading) return null;
+        if (!this.props.charactersStores.loadingList) return null;
         return (
             <ActivityIndicator style={{color: '#000'}}/>
         )
