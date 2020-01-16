@@ -73,7 +73,7 @@ class CharactersList {
     }
 
     get getAllCharacters() {
-        return this.characters;
+        return this.characters.flat();
     }
 
     //DETAILS 
@@ -138,7 +138,7 @@ class CharactersList {
     }
 
     get getDetailsList() {
-        return this.details;
+        return this.details.flat();
     }
 
     //FAVORITE CHARACTERS

@@ -31,20 +31,12 @@ class Users {
         AsyncStorage.setItem(isRegistered, value);
     }
 
-    get getRegisteredState() {
-        return this.registered;
-    }
-
     addRegisteredUsers(user) {
         AsyncStorage.getItem(registeredUsers).then( value => {
             var data = JSON.parse(value) || [];
             data.push(user);
             AsyncStorage.setItem(registeredUsers, JSON.stringify(data));
         })
-    }
-
-    get getRegisteredUsers() {
-        return this.usersStore;
     }
 
     signIn(email, password) {
@@ -74,11 +66,7 @@ class Users {
         this.profileInformation.email = name;
         this.profileInformation.photo = photo;
     }
-
-    get getProfileInformation() {
-        return this.profileInformation;
-    }
-
+    
     signUp() {
         this.setRegistered('false')
         this.profileInformation.email = "";
@@ -102,8 +90,6 @@ decorate(Users, {
     setRegistered: action,
     addRegisteredUsers: action,
 
-    getRegisteredState: computed,
-    getRegisteredUsers: computed,
     getProfileInformation: computed
 })
 

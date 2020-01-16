@@ -18,7 +18,7 @@ class LogInScreen extends React.Component{
         password: ''
     }
     componentDidMount = () => {
-        if(this.props.users.getRegisteredState == "true") {
+        if(this.props.users.registered == "true") {
             this.props.navigation.navigate('ProfileScreen')
         } else {
             this.props.navigation.navigate('LogIn')

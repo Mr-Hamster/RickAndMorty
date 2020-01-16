@@ -22,7 +22,7 @@ class IntroScreen extends React.Component{
         ]
     }
     componentDidMount = () => {
-        if(this.props.users.getRegisteredState===null) {
+        if(this.props.users.registered===null) {
             this.props.navigation.navigate('IntroScreen')
         } else {
             this.props.navigation.navigate('CharactersList')

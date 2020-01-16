@@ -58,7 +58,7 @@ class CharactersDetailsScreen extends React.Component{
                             }}
                         /> 
                     : null}
-                    {getDetailsList.flat().map( item =>
+                    {getDetailsList.map( item =>
                      <View key={item.id} style={{width: Dimensions.get('window').width }}>
                         <Image source={{uri: item.image}} style={styles.imageCharacter}/>
                         <Text style={styles.textTitle}>{item.name}</Text>

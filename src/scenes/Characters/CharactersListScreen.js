@@ -55,7 +55,7 @@ class CharactersListScreen extends React.Component{
     }
 
     checkRegistration = () => {
-        if(this.props.users.getRegisteredState == 'true') {
+        if(this.props.users.registered == 'true') {
             this.props.navigation.navigate('Search')
         } else {
             Alert.alert('Cancelled', 'You must register')
@@ -75,7 +75,7 @@ class CharactersListScreen extends React.Component{
                     onPress={() => navigate('Filter')}
                     style={styles.filterButton}/>
                 <FlatList 
-                    data={getAllCharacters.flat()} 
+                    data={getAllCharacters} 
                     renderItem={({item}) => 
                         <TouchableOpacity 
                         onPress={ () => {

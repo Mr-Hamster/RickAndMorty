@@ -19,7 +19,7 @@ class ProfileScreen extends React.Component{
         this.props.navigation.navigate('LogIn')
     }
     render() {
-        const { email, photo } = this.props.users.getProfileInformation;
+        const { email, photo } = this.props.users.profileInformation;
         return(
             <View style={styles.profileWrapper}>
                 <View>
