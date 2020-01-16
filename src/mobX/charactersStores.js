@@ -137,7 +137,14 @@ class CharactersList {
             }
             return item
         }));
+        const newDetails = toJS(charactersStores.details.flat().map( item => {
+            if(item.id == id) {
+                item.favorite = !item.favorite
+            }
+            return item
+        }));
         charactersStores.characters.replace(newCharacters)
+        charactersStores.details.replace(newDetails)
     }
 
     get getFavoritesList() {
