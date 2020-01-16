@@ -1,31 +1,11 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    wrapper: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    scrollView: {
-        flex: 1
-    },
-    mainWrapper: {
-        flex: 1,
-        flexDirection: "column",
-        padding: 15,
-        justifyContent: 'center'
-    },
-    text: {
-        fontSize: 18,
-        padding: 5,
-        paddingLeft: 20
-    },
-    textCreated: {
-        fontSize: 18,
-        padding: 5,
-        paddingLeft: 20,
-        fontWeight: '100', 
-        textAlign: 'center'
+    //CHARACTERS LIST
+    filterButton: {
+        width: '97%',
+        alignSelf: 'center',
+        height: 50
     },
     textWrapperList: {
         flex: 1,
@@ -41,29 +21,14 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         paddingLeft: '5%'
     },
+    imageList: {
+        width: 100,
+        height: 100
+    },
     favoriteWrapper: {
         width: '75%',
         flexDirection: 'row',
         justifyContent: 'space-between'
-    },
-    detailWrapper: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: 'center'
-    },
-    filterButton: {
-        height: 50
-    },
-    imageCharacter: {
-        marginTop: '5%',
-        marginBottom: '5%',
-        width: 300, 
-        height: 300,
-        alignSelf: 'center'
-    },
-    imageList: {
-        width: 100,
-        height: 100
     },
     characterWrapper: {
         marginLeft: '5%',
@@ -74,20 +39,46 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500'
     },
-    detailsBlock: {
-        flex: 1,
-        width: '100%'
+    text: {
+        fontSize: 18,
+        padding: 5,
+        paddingLeft: 20
     },
-    textTitle: {
-        fontSize: 20, 
-        textAlign: "center",
-        fontWeight: "bold"
+    checkBox: {
+        width: 25, 
+        height: 25
     },
     borderList: {
         height: 2,
         width: '100%',
         backgroundColor: '#CED0CE'
     },
+    //DETAILS SCREEN
+    imageCharacter: {
+        marginTop: '5%',
+        marginBottom: '5%',
+        width: 300, 
+        height: 300,
+        alignSelf: 'center'
+    },
+    textTitle: {
+        fontSize: 20, 
+        textAlign: "center",
+        fontWeight: "bold"
+    },
+    textCreated: {
+        fontSize: 18,
+        padding: 5,
+        paddingLeft: 20,
+        fontWeight: '100', 
+        textAlign: 'center'
+    },
+    detailWrapper: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: 'center'
+    },
+    //SEARCH SCREEN
     inputSearch: {
         width: '100%',
         height: 50,
@@ -102,52 +93,11 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: '5%'
     },
-    filterItemWrapper: {
-        height: 50,
-        borderBottomWidth: 1,
-        paddingLeft: '2%',
-        justifyContent: 'center'
-    },
-    filterItemText: {
-        fontSize: 20
-    },
-    locationWrapper: {
-        height: 50,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-    locationText: {fontSize: 18, paddingLeft: '5%'},
-    buttonLocation: {position: 'absolute', bottom: 0, width: '100%'},
-    loginButton: {
-        height: 40,
-        width: '80%',
-        fontSize: 20,
-        color: '#000',
-        justifyContent: 'center'
-    },
-    textFavorite: {
-        color: '#ff0000',
-        fontSize: 16,
-        textAlign: 'center'
-    },
-    iconTabBar: {fontSize: 20},
+    //LOGIN SCREEN && CREATE ACCOUNT SCREEN
     registrationWrapper: {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center'
-    },
-    profileWrapper: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '2%'
-    },
-    loginText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        padding: 20
     },
     loginInput: {
         height: 50,
@@ -156,6 +106,18 @@ const styles = StyleSheet.create({
         width: '80%',
         marginBottom: '2%',
         backgroundColor: 'transparent'
+    },
+    loginButton: {
+        height: 40,
+        width: '80%',
+        fontSize: 20,
+        color: '#000',
+        justifyContent: 'center'
+    },
+    loginText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        padding: 20
     },
     createAccountText: {
         textDecorationLine: 'underline',
@@ -166,11 +128,33 @@ const styles = StyleSheet.create({
         width: 200,
         marginTop: '5%'
     },
+    //PROFILE
+    profileWrapper: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '2%'
+    },
     imageProfile: {
         height: 300, 
         width: 300,
         marginTop: '5%'
-    }
+    },
+    //ROUTER
+    iconTabBar: {
+        fontSize: 20
+    },
+    //FAVORITE SCREEN
+    noFavoritesWrapper: {
+        flex: 1, 
+        justifyContent: 'center'
+    },
+    textFavorite: {
+        color: '#A9A9A9',
+        fontSize: 16,
+        textAlign: 'center'
+    },
 });
 
 export default styles;

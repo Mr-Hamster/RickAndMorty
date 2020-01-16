@@ -91,7 +91,12 @@ class CharactersListScreen extends React.Component{
                                 </View>
                                 <CheckBox
                                     checkedIcon={<Icon name='favorite' color='red'/>}
-                                    uncheckedIcon={<Image source={require('../../assets/favorite_border.png')} style={{width: 25, height: 25}}/>}
+                                    uncheckedIcon={
+                                        <Image 
+                                            source={require('../../assets/favorite_border.png')} 
+                                            style={styles.checkBox}
+                                        />
+                                    }
                                     checked={item.favorite}
                                     onPress={() => {
                                         addToFavorite(item.id)

@@ -23,7 +23,10 @@ class ProfileScreen extends React.Component{
         return(
             <View style={styles.profileWrapper}>
                 <View>
-                    <Image source={photo? {uri: photo} : {uri: this.state.defaultPhoto}} style={styles.imageProfile}/>
+                    <Image 
+                        source={photo? {uri: photo} : {uri: this.state.defaultPhoto}} 
+                        style={styles.imageProfile}
+                    />
                     <Text style={styles.textTitle}>{email}</Text>
                 </View>
                 <Button 

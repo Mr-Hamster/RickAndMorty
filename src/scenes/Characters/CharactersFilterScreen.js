@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Button } from 'react-native';
+import { View } from 'react-native';
+import { Button } from 'react-native-elements';
 import { observer, inject } from 'mobx-react';
 import { CheckBox } from 'react-native-elements';
+import styles from '../../config/styles.js'
 
 class CharactersFilterScreen extends React.Component{
     handleMaleGender = () => {
@@ -43,7 +45,10 @@ class CharactersFilterScreen extends React.Component{
                     checked={all}
                     onPress={() => this.handleAllGender()}
                 />
-                <Button title="Done" onPress={ () => this.doneFilter()}/>
+                <Button title='Done' raised
+                    onPress={() => this.doneFilter()}
+                    style={styles.filterButton}
+                />
             </View>
 
         )

@@ -34,7 +34,13 @@ class IntroScreen extends React.Component{
                 slides={this.state.slides}
                 renderItem={({item}) =>
                     <View>
-                        <Image source={item.image} style={{width: Dimensions.get('screen').width, height: Dimensions.get('screen').height}}/>
+                        <Image 
+                            source={item.image} 
+                            style={{
+                                width: Dimensions.get('screen').width, 
+                                height: Dimensions.get('screen').height
+                            }}
+                        />
                     </View>}
                 showSkipButton={true}
                 bottomButton

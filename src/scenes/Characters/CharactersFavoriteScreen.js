@@ -19,7 +19,11 @@ class FavoriteCharactersScreen extends React.Component{
     render() {
         const { getFavoritesList, resetDetails, addToFavorite } = this.props.charactersStores;
         if(getFavoritesList.length == 0) {
-            return (<Text style={styles.textFavorite}>You don't have favorite characters!</Text>)
+            return (<View style={styles.noFavoritesWrapper}>
+                        <Icon name='favorite' color='grey'/>
+                        <Text style={styles.textFavorite}>No favorites added yet</Text>
+                    </View>
+            )
         } else {
             return(
                 <FlatList 

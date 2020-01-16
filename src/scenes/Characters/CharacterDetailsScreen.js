@@ -36,7 +36,7 @@ class CharactersDetailsScreen extends React.Component{
     render(){
         const { getDetailsList, addToFavorite, loadingDetails } = this.props.charactersStores;
         return(
-            <View>
+            <View style={styles.detailWrapper}>
                 <ScrollView horizontal={true}
                     ref={'scrollView'}
                     showsHorizontalScrollIndicator={false}
@@ -68,7 +68,7 @@ class CharactersDetailsScreen extends React.Component{
                             }
                             uncheckedIcon={
                                 <Image source={require('../../assets/favorite_border.png')} 
-                                    style={{width: 25, height: 25}}/>
+                                    style={styles.checkBox}/>
                             }
                             checked={item.favorite}
                             onPress={() => addToFavorite(item.id) }
