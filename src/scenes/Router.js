@@ -13,6 +13,7 @@ import CharactersSearchScreen from './Characters/CharactersSearchScreen.js';
 import IntroScreen from './Users/IntroScreen.js';
 import LogInScreen from './Users/LogInScreen.js';
 import ProfileScreen from './Users/ProfileScreen.js';
+import CreateAccount from './Users/CreateAccountScreen.js';
 
 import styles from '../config/styles.js';
 
@@ -54,6 +55,12 @@ const Profile = createStackNavigator({
         navigationOptions: {
             title: 'Profile',
             headerLeft: () => null
+        }
+    },
+    CreateAccount: {
+        screen: CreateAccount,
+        navigationOptions: {
+            title: 'Create Account'
         }
     }
 })

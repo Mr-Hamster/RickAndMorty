@@ -10,13 +10,21 @@ class Users {
                 this.registered = value;
             }
         })
+
+        AsyncStorage.getItem(registeredUsers).then( value => {
+            if(value) {
+                this.usersStore = value;
+            }
+        })
     }
     registered = false;
     usersStore = [];
     emailError = false;
     passwordError = false;
-    email = '';
-    photo = '';
+    profileInformation = {
+        photo: '',
+        email: ''
+    }
 
     setRegistered(value) {
         this.registered = value;
@@ -50,8 +58,8 @@ class Users {
                         this.setRegistered('true');
                         this.emailError = false;
                         this.passwordError = false;
-                        email = item.email;
-                        photo = item.photo;
+                        this.profileInformation.email = item.email;
+                        this.profileInformation.photo = item.photo;
                     } else {
                         this.emailError = true;
                         this.passwordError = true;
@@ -63,14 +71,18 @@ class Users {
 
     signInWithFBSDK(name, photo) {
         this.setRegistered('true')
-        this.email = name;
-        this.photo = photo;
+        this.profileInformation.email = name;
+        this.profileInformation.photo = photo;
+    }
+
+    get getProfileInformation() {
+        return this.profileInformation;
     }
 
     signUp() {
         this.setRegistered('false')
-        this.email = "";
-        this.photo = "";
+        this.profileInformation.email = "";
+        this.profileInformation.photo = "";
         this.emailError = false;
         this.passwordError = false;
     }
@@ -80,8 +92,7 @@ class Users {
 decorate(Users, {
     usersStore: observable,
     registered: observable,
-    email: observable,
-    photo: observable,
+    profileInformation: observable,
     emailError: observable,
     passwordError: observable,
 
@@ -89,9 +100,11 @@ decorate(Users, {
     signInWithFBSDK: action,
     signUp: action,
     setRegistered: action,
+    addRegisteredUsers: action,
 
     getRegisteredState: computed,
-    getRegisteredUsers: computed
+    getRegisteredUsers: computed,
+    getProfileInformation: computed
 })
 
 const users = new Users();

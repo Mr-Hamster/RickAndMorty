@@ -34,12 +34,6 @@ class CharactersSearchScreen extends React.Component{
             <View style={styles.borderList}/>
         )
     }
-    renderFooter = () => {
-        if (!this.props.search.loading) return null;
-        return (
-            <ActivityIndicator style={{color: '#000'}}/>
-        )
-    }
     handleLoadMore = () => {
         const { page, searchValue } = this.state;
         this.setState({
@@ -49,7 +43,7 @@ class CharactersSearchScreen extends React.Component{
         })
     }
     render() {
-        const { search: {searchByName, getSearchResult, loading}, charactersStores: { resetDetails} } = this.props;
+        const { search: {searchByName, getSearchResult}, charactersStores: { resetDetails} } = this.props;
         return(
             <View>
                 <SearchBar onChangeText={text => {
@@ -62,8 +56,7 @@ class CharactersSearchScreen extends React.Component{
                     value={this.state.searchValue}
                     lightTheme
                 />
-                {loading ? <ActivityIndicator size='large'/> :
-                getSearchResult.length == 0 ? <Text style={styles.textNoMatches}>No matches</Text>
+                {getSearchResult.length == 0 ? <Text style={styles.textNoMatches}>No matches</Text>
                 : <FlatList
                     data={getSearchResult}
                     renderItem={({item}) =>
@@ -82,7 +75,6 @@ class CharactersSearchScreen extends React.Component{
                     refreshing={this.state.refreshing}
                     keyExtractor={(item, index) => index.toString()}
                     ItemSeparatorComponent={this.renderSeparator}
-                    ListFooterComponent={this.renderFooter.bind(this)}
                     onEndReached={this.handleLoadMore.bind(this)}
                     onEndReachedThreshold={0.4}>
                 </FlatList>}

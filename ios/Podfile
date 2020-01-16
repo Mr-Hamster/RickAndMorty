@@ -46,6 +46,8 @@ target 'mobX_task' do
 
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
 
+  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
+
   target 'mobX_taskTests' do
     inherit! :search_paths
     # Pods for testing

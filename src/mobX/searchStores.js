@@ -17,7 +17,11 @@ class Search {
             }
         })
         .then( (resp) => {
-            search.charactersSearch.replace(resp.data.characters.results)
+            if(resp.data.characters.results == null) {
+                search.charactersSearch.replace([]);
+            } else {
+                search.charactersSearch.replace(resp.data.characters.results)
+            }
             this.loading = false;
         })
         .catch( (error) => {
@@ -36,7 +40,7 @@ class Search {
         })
         .then( (resp) => {
             if(resp.data.characters.results == null) {
-                search.charactersSearch.replace([]);
+                search.charactersSearch.replace(this.charactersSearch);
             } else {
                 search.charactersSearch.replace([...this.charactersSearch, resp.data.characters.results]);
             }

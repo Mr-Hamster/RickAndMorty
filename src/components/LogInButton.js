@@ -23,7 +23,7 @@ function getGraphData(data){
             if (error) {
                 console.log(error)
             } else {
-                users.signInWithFBSDK(result.name, result.picture.data)
+                users.signInWithFBSDK(result.name, result.picture.data.url)
             }
         }
         const infoRequest = new GraphRequest(
