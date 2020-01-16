@@ -30,10 +30,13 @@ class CharactersList {
 
     loadMore(page, gender) {
         this.queryCharactersList(page, gender).then( (resp) => {
-            let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
-            
+            if(resp.data.characters.results == null) {
+                this.characters = [...this.characters];
+            } else {
+                let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
+                this.characters = [...this.characters, data];
+            }
             this.loadingList = false;
-            this.characters = [...this.characters, data];
         })
         .catch( (error) => {
             this.errorList = error;
@@ -51,6 +54,8 @@ class CharactersList {
             this.errorList = error;
         });
     }
+
+    //FILTER 
 
     filterByGender(gender) {
         this.gender = gender;
@@ -71,7 +76,7 @@ class CharactersList {
         return this.characters;
     }
 
-    //DETAILS
+    //DETAILS 
 
     queryDetailsCharacter(id) {
         this.loadingDetails = true;
@@ -86,15 +91,19 @@ class CharactersList {
 
     loadNextCharacter(id) {
         this.queryDetailsCharacter(id).then( (resp) => {
-            let data = new Array(resp.data.character).map( item => Object.assign({}, item, item.favorite=false))
-            this.characters.flat().map( itemCharacters => {
-                data.filter( item => {
-                    if(itemCharacters.id == item.id) {
-                        item.favorite = itemCharacters.favorite
-                    }
+            if(resp.data.character == null) {
+                this.details = [...this.details];
+            } else {
+                let data = new Array(resp.data.character).map( item => Object.assign({}, item, item.favorite=false))
+                this.characters.flat().map( itemCharacters => {
+                    data.filter( item => {
+                        if(itemCharacters.id == item.id) {
+                            item.favorite = itemCharacters.favorite
+                        }
+                    })
                 })
-            })
-            this.details = [...this.details, data];
+                this.details = [...this.details, data];
+            }
             this.loadingDetails = false;
         })
         .catch( (error) => {
@@ -104,15 +113,19 @@ class CharactersList {
 
     loadPreviousCharacter(id) {
         this.queryDetailsCharacter(id).then( (resp) => {
-            let data = new Array(resp.data.character).map( item => Object.assign({}, item, item.favorite=false))
-            this.characters.flat().map( itemCharacters => {
-                data.filter( item => {
-                    if(itemCharacters.id == item.id) {
-                        item.favorite = itemCharacters.favorite
-                    }
+            if(resp.data.character == null) {
+                this.details = [...this.details];
+            } else {
+                let data = new Array(resp.data.character).map( item => Object.assign({}, item, item.favorite=false))
+                this.characters.flat().map( itemCharacters => {
+                    data.filter( item => {
+                        if(itemCharacters.id == item.id) {
+                            item.favorite = itemCharacters.favorite
+                        }
+                    })
                 })
-            })
-            this.details = data.concat(this.details);
+                this.details = data.concat(this.details);
+            }
             this.loadingDetails = false;
         })
         .catch( (error) => {

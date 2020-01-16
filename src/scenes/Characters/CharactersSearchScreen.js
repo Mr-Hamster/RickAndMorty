@@ -4,8 +4,7 @@ import {
     FlatList,
     TouchableOpacity,
     Image,
-    Text,
-    ActivityIndicator
+    Text
 } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import styles from '../../config/styles.js';
