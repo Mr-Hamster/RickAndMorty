@@ -88,9 +88,7 @@ decorate(Users, {
     signInWithFBSDK: action,
     signUp: action,
     setRegistered: action,
-    addRegisteredUsers: action,
-
-    getProfileInformation: computed
+    addRegisteredUsers: action
 })
 
 const users = new Users();

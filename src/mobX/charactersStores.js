@@ -134,7 +134,7 @@ class CharactersList {
     }
 
     resetDetails() {
-        charactersStores.details.replace([])
+        charactersStores.details.clear()
     }
 
     get getDetailsList() {
