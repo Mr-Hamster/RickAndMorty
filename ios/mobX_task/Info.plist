@@ -34,6 +34,11 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
 
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>RNGPDemos needs your location to show you places</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>RNGPDemos needs your location to show you places</string>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

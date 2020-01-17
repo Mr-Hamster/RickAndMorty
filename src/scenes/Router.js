@@ -16,6 +16,7 @@ import ProfileScreen from './Users/ProfileScreen.js';
 import CreateAccount from './Users/CreateAccountScreen.js';
 
 import styles from '../config/styles.js';
+import Map from '../components/Map.js';
 
 const List = createStackNavigator({
     CharactersList: {
@@ -62,32 +63,45 @@ const Profile = createStackNavigator({
         navigationOptions: {
             title: 'Create Account'
         }
+    },
+    MapScreen: {
+        screen: Map,
+        navigationOptions: {
+            title: 'Your location'
+        }
     }
 })
 
 const RootTabs = createBottomTabNavigator({
     List: {
-        screen: List,
-        navigationOptions: () => ({
-            tabBarIcon: () => <Icon name="list" color='#000' style={styles.iconTabBar}/>
-        })
+        screen: List
     },
     Favorite: {
-        screen: Favorite,
-        navigationOptions: () => ({
-          tabBarIcon: () => <Icon name="heart" color='#000' style={styles.iconTabBar}/>,
-        })
+        screen: Favorite
     },
     Profile: {
-        screen: Profile,
-        navigationOptions: () => ({
-            tabBarIcon: () => <Icon name="user" color='#000' style={styles.iconTabBar}/>
-        })      
+        screen: Profile     
     }
 },
 {
+    defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ tintColor }) => {
+            const { routeName } = navigation.state;
+            let iconName;
+            if( routeName === 'List' ) {
+                iconName = "list"
+            } else if ( routeName === 'Favorite' ) {
+                iconName = "heart"
+            } else if ( routeName === 'Profile' ) {
+                iconName = "user"
+            }
+            return <Icon name={iconName} color={tintColor} style={styles.iconTabBar}/>
+        }
+    }),
     tabBarOptions: {
-      showLabel: false
+      showLabel: false,
+      activeTintColor: '#147efb',
+      inactiveTintColor: '#000000'
   }
 }
 )

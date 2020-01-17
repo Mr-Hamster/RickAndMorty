@@ -49,15 +49,6 @@ class CharactersDetailsScreen extends React.Component{
                         } else if(x < 0){
                             this.handleLoadMorePrevious()
                         }}}> 
-                    {loadingDetails ? 
-                        <ActivityIndicator 
-                            size='large' 
-                            style={{
-                                width: Dimensions.get('window').width, 
-                                height: Dimensions.get('window').height
-                            }}
-                        /> 
-                    : null}
                     {getDetailsList.map( item =>
                      <View key={item.id} style={{width: Dimensions.get('window').width }}>
                         <Image source={{uri: item.image}} style={styles.imageCharacter}/>

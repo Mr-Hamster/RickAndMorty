@@ -3,13 +3,15 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Alert
+    Alert,
+    Text
 } from 'react-native';
-import { TextInput, HelperText, Button } from 'react-native-paper';
+import { TextInput, HelperText, Button, IconButton } from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker';
 import { observer, inject } from 'mobx-react';
 import styles from '../../config/styles.js';
 import {defaultPhotoURL} from '../../services/constants.js';
+import RNGooglePlaces from 'react-native-google-places';
 
 class CreateAccount extends React.Component{
     state = {
@@ -19,7 +21,9 @@ class CreateAccount extends React.Component{
         passwordError: '',
         passwordAgain: '',
         passwordAgainError: '',
-        photo: defaultPhotoURL
+        photo: defaultPhotoURL,
+        place: '',
+        locationCoordinate: []
     }
 
     handleChangePhoto = () => {
@@ -99,7 +103,9 @@ class CreateAccount extends React.Component{
         const user = {
             email: this.state.email,
             password: this.state.password,
-            photo: this.state.photo
+            photo: this.state.photo,
+            place: this.state.place,
+            location: this.state.locationCoordinate
         }
         if(emailError==false && passwordError==false && passwordAgainError==false){
             this.props.users.addRegisteredUsers(user);
@@ -109,8 +115,31 @@ class CreateAccount extends React.Component{
         
     }
 
+    openSearchModal = () => {
+        RNGooglePlaces.openAutocompleteModal()
+        .then((place) => {
+            console.log(place);
+            this.setState({
+                place: place.address,
+                locationCoordinate: place.location
+            })
+        })
+        .catch(error => console.log(error.message));  
+      }
+//??????
+    getCurrent = () => {
+        RNGooglePlaces.getCurrentPlace(['address', 'location'])
+        .then((results) => {
+            console.log(results)
+            this.setState({
+                place: results[0].address,
+                locationCoordinate: results[0].location
+            })
+        })
+        .catch((error) => console.log(error.message));
+    }
     render(){
-        const { email, emailError, password, passwordError, passwordAgain, passwordAgainError, photo } = this.state;
+        const { email, emailError, password, passwordError, passwordAgain, passwordAgainError, photo, place } = this.state;
         return(
             <View style={styles.registrationWrapper}>
                 <TouchableOpacity onPress={() => this.handleChangePhoto()}>
@@ -151,8 +180,31 @@ class CreateAccount extends React.Component{
                     type='error'
                     visible={passwordAgainError}
                 >Passwords don't match!</HelperText>
+                <Text style={styles.placesTitleText}>Your location: 
+                    <Text style={styles.placesText}> {place}</Text>
+                </Text>
+                <View style={styles.buttonPlacesWrapper}>
+                    <IconButton
+                        icon='format-list-bulleted'
+                        color='#000'
+                        size={30}
+                        onPress={ () => this.openSearchModal()}
+                    />
+                    <IconButton
+                        icon='map-marker-radius'
+                        color='#000'
+                        size={30}
+                        onPress={ () => this.getCurrent()}
+                    />
+                    <IconButton
+                        icon='map-search'
+                        color='#000'
+                        size={30}
+                        onPress={ () => this.props.navigation.navigate('MapScreen', {location: this.state.locationCoordinate})}
+                    />
+                </View>
                 <Button 
-                    mode='outlined' 
+                    mode='contained' 
                     color='#000' 
                     style={styles.loginButton}
                     onPress={() => this.createAccount()}

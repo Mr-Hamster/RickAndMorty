@@ -4,8 +4,7 @@ import {
     View, 
     Dimensions,
     Text,
-    TouchableOpacity,
-    AsyncStorage
+    TouchableOpacity
 } from 'react-native';
 import { HelperText, TextInput, Button } from 'react-native-paper';
 import styles from '../../config/styles.js';

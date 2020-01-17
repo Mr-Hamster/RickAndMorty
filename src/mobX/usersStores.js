@@ -23,7 +23,9 @@ class Users {
     passwordError = false;
     profileInformation = {
         photo: '',
-        email: ''
+        email: '',
+        place: '',
+        location: {}
     }
 
     setRegistered(value) {
@@ -50,8 +52,12 @@ class Users {
                         this.setRegistered('true');
                         this.emailError = false;
                         this.passwordError = false;
-                        this.profileInformation.email = item.email;
-                        this.profileInformation.photo = item.photo;
+                        this.profileInformation = {
+                            email: item.email,
+                            photo: item.photo,
+                            place: item.place,
+                            location: item.location
+                        }
                     } else {
                         this.emailError = true;
                         this.passwordError = true;
@@ -63,14 +69,22 @@ class Users {
 
     signInWithFBSDK(name, photo) {
         this.setRegistered('true')
-        this.profileInformation.email = name;
-        this.profileInformation.photo = photo;
+        this.profileInformation = {
+            email: name,
+            photo: photo,
+            place: 'LogIn with Facebook',
+            location: {}
+        }
     }
     
     signUp() {
         this.setRegistered('false')
-        this.profileInformation.email = "";
-        this.profileInformation.photo = "";
+        this.profileInformation = {
+            email: '',
+            photo: '',
+            place: '',
+            location: {}
+        }
         this.emailError = false;
         this.passwordError = false;
     }

@@ -128,6 +128,21 @@ const styles = StyleSheet.create({
         width: 200,
         marginTop: '5%'
     },
+    placesTitleText: {
+        width: '80%',
+        fontSize: 20,
+        color: "#A9A9A9",
+        marginBottom: '5%'
+    },
+    placesText: {
+        color: '#147efb',
+        fontSize: 18
+    },
+    buttonPlacesWrapper: {
+        width: '100%',
+        justifyContent: 'space-evenly',
+        flexDirection: 'row'
+    },
     //PROFILE
     profileWrapper: {
         flex: 1,
@@ -140,6 +155,11 @@ const styles = StyleSheet.create({
         height: 300, 
         width: 300,
         marginTop: '5%'
+    },
+    profileInformationWrapper: {
+        flexDirection: 'column',
+        height: '70%', 
+        justifyContent: 'space-evenly'
     },
     //ROUTER
     iconTabBar: {

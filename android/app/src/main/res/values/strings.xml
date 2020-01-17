@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">mobX_task</string>
+    <string name="facebook_app_id">470732783617358</string>
+    <string name="fb_login_protocol_scheme">fb470732783617358</string>
 </resources>
