@@ -32,7 +32,9 @@ class LogInScreen extends React.Component{
     logIn = () => {
         const{ email, password } = this.state;
         this.props.users.signIn(email, password);
-        this.props.navigation.navigate('ProfileScreen')
+        if(!this.props.users.emailError && !this.props.users.passwordError) {
+            this.props.navigation.navigate('ProfileScreen')
+        }
     }
     render() {
         const { emailError, passwordError } = this.props.users;

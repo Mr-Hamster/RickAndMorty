@@ -266,9 +266,9 @@ PODS:
     - React
   - RNGestureHandler (1.5.3):
     - React
-  - RNReanimated (1.4.0):
+  - RNReanimated (1.5.0):
     - React
-  - RNScreens (2.0.0-alpha.23):
+  - RNScreens (2.0.0-alpha.24):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -417,10 +417,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
-  react-native-google-places: 978bcc6ec4bd1d9b0ab3693e3705d4f1f2459caf
-  react-native-image-picker: ba7fe85b3373ff33d4827210d989dfcbbd68f7f9
+  react-native-google-places: 34e976a0e13cb55cc9603ef2fa6764ed534af806
+  react-native-image-picker: a878ed6ac8c54ec4f5d7ab7a019c7b5eb7a737d4
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
-  react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
+  react-native-safe-area-context: 25260c5d0b9c53fd7aa88e569e2edae72af1f6a3
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
   React-RCTAnimation: 791a87558389c80908ed06cc5dfc5e7920dfa360
   React-RCTBlob: d89293cc0236d9cb0933d85e430b0bbe81ad1d72
@@ -431,10 +431,10 @@ SPEC CHECKSUMS:
   React-RCTText: 9ccc88273e9a3aacff5094d2175a605efa854dbe
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
-  RNCMaskedView: e5b99bc191945f157adeede68da9d424462de177
+  RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
   RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
-  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
-  RNScreens: 55c735f525774e894be67848c250c95a9c3194c0
+  RNReanimated: 1761c14b3982fc77fc9fdad6ea2f42ed861c342a
+  RNScreens: 52650fc6874b8ba68a88da452833562fcf45afb5
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
