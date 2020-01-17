@@ -1,6 +1,6 @@
 import { observable, action, computed, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
-import { isRegistered, registeredUsers } from '../services/constants.js';
+import { isRegistered, registeredUsers, userInformation } from '../services/constants.js';
 
 
 class Users {
@@ -14,6 +14,12 @@ class Users {
         AsyncStorage.getItem(registeredUsers).then( value => {
             if(value) {
                 this.usersStore = value;
+            }
+        })
+
+        AsyncStorage.getItem(userInformation).then( value => {
+            if(value) {
+                this.profileInformation = JSON.parse(value);
             }
         })
     }
@@ -31,6 +37,11 @@ class Users {
     setRegistered(value) {
         this.registered = value;
         AsyncStorage.setItem(isRegistered, value);
+    }
+
+    setProfileInformation(user) {
+        this.profileInformation = user;
+        AsyncStorage.setItem(userInformation, JSON.stringify(user));
     }
 
     addRegisteredUsers(user) {
@@ -52,12 +63,13 @@ class Users {
                         this.setRegistered('true');
                         this.emailError = false;
                         this.passwordError = false;
-                        this.profileInformation = {
+                        const user = {
                             email: item.email,
                             photo: item.photo,
                             place: item.place,
                             location: item.location
                         }
+                        this.setProfileInformation(user);
                     } else {
                         this.emailError = true;
                         this.passwordError = true;
@@ -69,12 +81,13 @@ class Users {
 
     signInWithFBSDK(name, photo) {
         this.setRegistered('true')
-        this.profileInformation = {
+        const user = {
             email: name,
             photo: photo,
             place: 'LogIn with Facebook',
             location: {}
         }
+        this.setProfileInformation(user);
     }
     
     signUp() {

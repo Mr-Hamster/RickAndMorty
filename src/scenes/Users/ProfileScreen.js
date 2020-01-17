@@ -5,7 +5,6 @@ import {
     Text 
 } from 'react-native';
 import { Button } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 import {defaultPhotoURL} from '../../services/constants.js';
