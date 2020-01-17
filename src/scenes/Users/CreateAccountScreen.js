@@ -42,6 +42,8 @@ class CreateAccount extends React.Component{
           console.log('User cancelled image picker');
         } else if (response.error) {
           console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+            this.setState({ photo: defaultPhotoURL})
         } else {
             this.setState({ photo: response.uri });
         }
@@ -126,7 +128,7 @@ class CreateAccount extends React.Component{
         })
         .catch(error => console.log(error.message));  
       }
-//??????
+      
     getCurrent = () => {
         RNGooglePlaces.getCurrentPlace(['address', 'location'])
         .then((results) => {

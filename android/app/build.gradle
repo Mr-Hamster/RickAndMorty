@@ -179,10 +179,8 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-google-places')
-    implementation project(':react-native-image-picker')
     implementation project(':react-native-fbsdk')
-    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-google-places')
     implementation project(':react-native-safe-area-context')
     implementation project(':react-native-screens')
     implementation project(':react-native-gesture-handler')
