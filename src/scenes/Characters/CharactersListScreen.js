@@ -64,6 +64,9 @@ class CharactersListScreen extends React.Component{
 
     render(){
         const { charactersStores: {getAllCharacters, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
+        if(getAllCharacters == []) {
+            return <ActivityIndicator size='large'/>
+        }
         return(
             <View>
                 <TouchableOpacity onPress={ () => this.checkRegistration()}>

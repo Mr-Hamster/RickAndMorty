@@ -4,8 +4,7 @@ import {
     Text,
     Image,
     Dimensions,
-    ScrollView,
-    ActivityIndicator
+    ScrollView
  } from 'react-native';
  import { CheckBox, Icon } from 'react-native-elements';
  import styles from '../../config/styles.js';
@@ -34,7 +33,7 @@ class CharactersDetailsScreen extends React.Component{
         })
     }
     render(){
-        const { getDetailsList, addToFavorite, loadingDetails } = this.props.charactersStores;
+        const { getDetailsList, addToFavorite } = this.props.charactersStores;
         return(
             <View style={styles.detailWrapper}>
                 <ScrollView horizontal={true}
@@ -46,7 +45,7 @@ class CharactersDetailsScreen extends React.Component{
                     onScroll={({nativeEvent: {contentOffset: {x}}}) => {
                         if(x > 0){
                             this.handleLoadMore()
-                        } else if(x < 0){
+                        } else if(x <= 0){
                             this.handleLoadMorePrevious()
                         }}}> 
                     {getDetailsList.map( item =>

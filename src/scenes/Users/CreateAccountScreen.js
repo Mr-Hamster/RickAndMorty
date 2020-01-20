@@ -101,7 +101,8 @@ class CreateAccount extends React.Component{
     }
 
     createAccount = () => {
-        const { emailError, passwordError, passwordAgainError } = this.state;
+        const { emailError, passwordError, passwordAgainError,
+                email, password, passwordAgain } = this.state;
         const user = {
             email: this.state.email,
             password: this.state.password,
@@ -109,7 +110,8 @@ class CreateAccount extends React.Component{
             place: this.state.place,
             location: this.state.locationCoordinate
         }
-        if(emailError==false && passwordError==false && passwordAgainError==false){
+        if(emailError==false && passwordError==false && passwordAgainError==false
+            && email != "" && password != "" && passwordAgain != ""){
             this.props.users.addRegisteredUsers(user);
             Alert.alert('Success', 'You are successfully registered');
             this.props.navigation.navigate('LogIn');
