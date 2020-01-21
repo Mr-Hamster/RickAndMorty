@@ -20,7 +20,6 @@
 {
   [GMSServices provideAPIKey:@"AIzaSyAuKr8SQ2YiI0bkKjgbH27SbKdRENpOETw"];
   [GMSPlacesClient provideAPIKey:@"AIzaSyAuKr8SQ2YiI0bkKjgbH27SbKdRENpOETw"];
-//  [GeneratedPluginRegistrant registerWithRegistry:self];
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge

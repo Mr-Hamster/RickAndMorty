@@ -4,7 +4,9 @@ import {
     Text,
     Image,
     Dimensions,
-    ScrollView
+    ScrollView,
+    InteractionManager,
+    ActivityIndicator
  } from 'react-native';
  import { CheckBox, Icon } from 'react-native-elements';
  import styles from '../../config/styles.js';
@@ -13,11 +15,15 @@ import { observer, inject } from 'mobx-react';
 class CharactersDetailsScreen extends React.Component{
     state = {
         nextId: Number(this.props.navigation.state.params.id)+1,
-        previousId: Number(this.props.navigation.state.params.id)
+        previousId: Number(this.props.navigation.state.params.id)-1,
+        loading: true
     }
     componentDidMount() {
         this.props.charactersStores.loadFirstCharacters(Number(this.props.navigation.state.params.id))
-        this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width})
+        InteractionManager.runAfterInteractions(() => {
+            this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false});
+            this.setState({loading: false})
+          })  
     }
     handleLoadMore = () => {
         this.setState({
@@ -28,9 +34,13 @@ class CharactersDetailsScreen extends React.Component{
     }
     handleLoadMorePrevious = () => {
         this.setState({
-            previousId: --this.state.previousId
+            previousId: --this.state.previousId,
+            loading: true
         }, () => {
             this.props.charactersStores.loadPreviousCharacter(this.state.previousId)
+            this.setState({
+                loading: false
+            })
         })
     }
     render(){
@@ -44,11 +54,18 @@ class CharactersDetailsScreen extends React.Component{
                     pagingEnabled={true}
                     scrollEventThrottle={500}
                     onScroll={({nativeEvent: {contentOffset: {x}}}) => {
+                        console.log(x)
                         if(x > 0){
                             this.handleLoadMore()
-                        } else if(x < 0){
+                        } else if(x <= 0){
                             this.handleLoadMorePrevious()
-                        }}}>
+                        }
+                    }}>
+                    {this.state.loading 
+                    ? <View style={{width: Dimensions.get('window').width, justifyContent: 'center' }}>
+                        <ActivityIndicator size='large'/>
+                    </View>
+                    : null}
                     {getDetailsList.map( item =>
                      <View key={item.id} style={{width: Dimensions.get('window').width }}>
                         <Image source={{uri: item.image}} style={styles.imageCharacter}/>

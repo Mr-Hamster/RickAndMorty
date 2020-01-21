@@ -6,7 +6,8 @@ import {
     Image,
     ActivityIndicator,
     FlatList,
-    Alert
+    Alert,
+    Keyboard
 } from 'react-native';
 import { SearchBar, Button, CheckBox, Icon } from 'react-native-elements';
 import styles from '../../config/styles.js';
@@ -72,7 +73,9 @@ class CharactersListScreen extends React.Component{
                 <TouchableOpacity onPress={ () => this.checkRegistration()}>
                     <SearchBar lightTheme
                         placeholder='Search...' 
-                        pointerEvents='none'/>
+                        pointerEvents='none'
+                        editable={false}
+                    />
                 </TouchableOpacity>
                 <Button title='Set filter' raised
                     onPress={() => navigate('Filter')}

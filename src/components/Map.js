@@ -14,14 +14,15 @@ export default class Map extends React.Component{
                         longitude: longitude || -122.4324,
                         latitudeDelta: 0.05,
                         longitudeDelta: 0.05
-                    }}>
-                        <Marker
-                            coordinate={{
-                                latitude: latitude || 37.78825,
-                                longitude: longitude || -122.4324
-                            }}
-                            title={"You"}
-                        />
+                    }}
+                >
+                    <Marker
+                        coordinate={{
+                            latitude: latitude || 37.78825,
+                            longitude: longitude || -122.4324
+                        }}
+                        title={"You"}
+                    />
                 </MapView>
             </View>
         )

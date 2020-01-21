@@ -91,7 +91,7 @@ class CharactersList {
 
     async loadFirstCharacters(id) {
         const prevID = id - 1;
-        await this.loadPreviousCharacter(prevID);
+        await this.loadNextCharacter(prevID);
         await this.loadNextCharacter(id);
         const nextID = id + 1;
         await this.loadNextCharacter(nextID);

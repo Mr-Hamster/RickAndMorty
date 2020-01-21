@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     Alert,
     Text,
-    PermissionsAndroid
+    PermissionsAndroid,
+    Platform
 } from 'react-native';
 import { TextInput, HelperText, Button, IconButton } from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker';
@@ -146,7 +147,6 @@ class CreateAccount extends React.Component{
     openSearchModal = () => {
         RNGooglePlaces.openAutocompleteModal()
         .then((place) => {
-            console.log(place);
             this.setState({
                 place: place.address,
                 locationCoordinate: place.location
@@ -156,7 +156,9 @@ class CreateAccount extends React.Component{
       }
       
     getCurrent = () => {
-        requestLocationPermission()
+        if(Platform.OS === 'android'){
+            requestLocationPermission()
+        } 
         RNGooglePlaces.getCurrentPlace(['address', 'location'])
         .then((results) => {
             console.log(results)
