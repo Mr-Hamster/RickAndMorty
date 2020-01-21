@@ -14,6 +14,7 @@ import { observer, inject } from 'mobx-react';
 import styles from '../../config/styles.js';
 import {defaultPhotoURL} from '../../services/constants.js';
 import RNGooglePlaces from 'react-native-google-places';
+import Geolocation from '@react-native-community/geolocation';
 
 async function requestLocationPermission() {
     try {
@@ -158,16 +159,22 @@ class CreateAccount extends React.Component{
     getCurrent = () => {
         if(Platform.OS === 'android'){
             requestLocationPermission()
-        } 
-        RNGooglePlaces.getCurrentPlace(['address', 'location'])
-        .then((results) => {
-            console.log(results)
-            this.setState({
-                place: results[0].address,
-                locationCoordinate: results[0].location
+            Geolocation.getCurrentPosition( position => {
+                this.setState({
+                    locationCoordinate: position.coords
+                })
             })
-        })
-        .catch((error) => console.log(error.message));
+        } else if(Platform.OS == 'ios'){
+            RNGooglePlaces.getCurrentPlace(['address', 'location'])
+            .then((results) => {
+                console.log(results)
+                this.setState({
+                    place: results[0].address,
+                    locationCoordinate: results[0].location
+                })
+            })
+            .catch((error) => console.log(error.message));
+        }
     }
     render(){
         const { email, emailError, password, passwordError, passwordAgain, passwordAgainError, photo, place } = this.state;
