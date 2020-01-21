@@ -4,7 +4,8 @@ import {
     Image,
     TouchableOpacity,
     Alert,
-    Text
+    Text,
+    PermissionsAndroid
 } from 'react-native';
 import { TextInput, HelperText, Button, IconButton } from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker';
@@ -12,6 +13,29 @@ import { observer, inject } from 'mobx-react';
 import styles from '../../config/styles.js';
 import {defaultPhotoURL} from '../../services/constants.js';
 import RNGooglePlaces from 'react-native-google-places';
+
+async function requestLocationPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location Permission',
+          message:
+            'App needs access to your location ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the location');
+      } else {
+        console.log('Location permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
 
 class CreateAccount extends React.Component{
     state = {
@@ -132,6 +156,7 @@ class CreateAccount extends React.Component{
       }
       
     getCurrent = () => {
+        requestLocationPermission()
         RNGooglePlaces.getCurrentPlace(['address', 'location'])
         .then((results) => {
             console.log(results)

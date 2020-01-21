@@ -89,8 +89,16 @@ class CharactersList {
         })
     }
 
-    loadNextCharacter(id) {
-        this.queryDetailsCharacter(id).then( (resp) => {
+    async loadFirstCharacters(id) {
+        const prevID = id - 1;
+        await this.loadPreviousCharacter(prevID);
+        await this.loadNextCharacter(id);
+        const nextID = id + 1;
+        await this.loadNextCharacter(nextID);
+    }
+
+    async loadNextCharacter(id) {
+        return this.queryDetailsCharacter(id).then( (resp) => {
             if(resp.data.character == null) {
                 this.details = [...this.details];
             } else {
@@ -108,11 +116,12 @@ class CharactersList {
         })
         .catch( (error) => {
             this.errorDetails = error;
-        });
+        })
+      
     }
 
-    loadPreviousCharacter(id) {
-        this.queryDetailsCharacter(id).then( (resp) => {
+    async loadPreviousCharacter(id) {
+        return this.queryDetailsCharacter(id).then( (resp) => {
             if(resp.data.character == null) {
                 this.details = [...this.details];
             } else {
@@ -131,25 +140,6 @@ class CharactersList {
         .catch( (error) => {
             this.errorDetails = error;
         })
-        .then( this.queryCharactersList(id + 1).then(resp => {
-            if(resp.data.character == null) {
-                this.details = [...this.details];
-            } else {
-                let data = new Array(resp.data.character).map( item => Object.assign({}, item, item.favorite=false))
-                this.characters.flat().map( itemCharacters => {
-                    data.filter( item => {
-                        if(itemCharacters.id == item.id) {
-                            item.favorite = itemCharacters.favorite
-                        }
-                    })
-                })
-                this.details = data.concat(this.details);
-            }
-            this.loadingDetails = false;
-        })
-        .catch( (error) => {
-            this.errorDetails = error;
-        }))
     }
 
     resetDetails() {

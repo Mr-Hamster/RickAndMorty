@@ -12,11 +12,12 @@ import { observer, inject } from 'mobx-react';
 
 class CharactersDetailsScreen extends React.Component{
     state = {
-        nextId: this.props.navigation.state.params.id,
-        previousId: this.props.navigation.state.params.id
+        nextId: Number(this.props.navigation.state.params.id)+1,
+        previousId: Number(this.props.navigation.state.params.id)
     }
     componentDidMount() {
-        this.props.charactersStores.loadNextCharacter(this.props.navigation.state.params.id)
+        this.props.charactersStores.loadFirstCharacters(Number(this.props.navigation.state.params.id))
+        this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width})
     }
     handleLoadMore = () => {
         this.setState({
@@ -37,7 +38,7 @@ class CharactersDetailsScreen extends React.Component{
         return(
             <View style={styles.detailWrapper}>
                 <ScrollView horizontal={true}
-                    ref={'scrollView'}
+                    ref={(ref) => this.scrollViewRef = ref}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                     pagingEnabled={true}
@@ -45,9 +46,9 @@ class CharactersDetailsScreen extends React.Component{
                     onScroll={({nativeEvent: {contentOffset: {x}}}) => {
                         if(x > 0){
                             this.handleLoadMore()
-                        } else if(x <= 0){
+                        } else if(x < 0){
                             this.handleLoadMorePrevious()
-                        }}}> 
+                        }}}>
                     {getDetailsList.map( item =>
                      <View key={item.id} style={{width: Dimensions.get('window').width }}>
                         <Image source={{uri: item.image}} style={styles.imageCharacter}/>

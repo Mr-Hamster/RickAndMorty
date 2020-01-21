@@ -46,6 +46,7 @@ public class MainApplication extends Application implements ReactApplication {
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
   }
 
+
   /**
    * Loads Flipper in React Native templates.
    *
