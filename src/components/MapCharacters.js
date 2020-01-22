@@ -26,7 +26,7 @@ class MapCharacters extends React.Component{
         }
     }
     render() {
-        const { charactersStores: { getAllCharacters }, users: { profileInformation } } = this.props;
+        const { charactersStores: { getAllCharacters, resetDetails }, users: { profileInformation } } = this.props;
         return(
             <MapView
             style={this.state.mapStyle}
@@ -43,16 +43,18 @@ class MapCharacters extends React.Component{
                             latitude: randomLatitude(),
                             longitude: randomLongitude()
                         }}
+                        onPress={ () => {
+                            resetDetails()
+                            this.props.navigation.navigate('Details', {id: item.id})
+                        }}
                         key={item.id}
                     >
-                        <TouchableOpacity onPress={ () => console.log('Click')}>
-                            <View style={styles.mapWrapper}>
-                                <Image
-                                    source={{ uri: item.image }}
-                                    style={styles.mapImage}
-                                />
-                            </View>
-                        </TouchableOpacity>
+                        <View style={styles.mapWrapper}>
+                            <Image
+                                source={{ uri: item.image }}
+                                style={styles.mapImage}
+                            />
+                        </View>
                     </Marker>
                 )}
                 <Marker

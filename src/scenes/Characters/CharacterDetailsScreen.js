@@ -15,13 +15,13 @@ import { observer, inject } from 'mobx-react';
 class CharactersDetailsScreen extends React.Component{
     state = {
         nextId: Number(this.props.navigation.state.params.id)+1,
-        previousId: Number(this.props.navigation.state.params.id)-1,
+        previousId: Number(this.props.navigation.state.params.id),
         loading: true
     }
     componentDidMount() {
         this.props.charactersStores.loadFirstCharacters(Number(this.props.navigation.state.params.id))
         InteractionManager.runAfterInteractions(() => {
-            this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false});
+            // this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false});
             this.setState({loading: false})
           })  
     }
@@ -57,7 +57,7 @@ class CharactersDetailsScreen extends React.Component{
                         console.log(x)
                         if(x > 0){
                             this.handleLoadMore()
-                        } else if(x <= 0){
+                        } else if(x < 0){
                             this.handleLoadMorePrevious()
                         }
                     }}>
