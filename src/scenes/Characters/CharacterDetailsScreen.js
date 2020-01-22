@@ -43,6 +43,17 @@ class CharactersDetailsScreen extends React.Component{
             })
         })
     }
+    convertDateCreated = (created) => {
+        const parseCreated = new Date(created);
+        var year = parseCreated.getFullYear();
+        var month = parseCreated.getMonth() < 10 ? '0'+parseCreated.getMonth() : parseCreated.getMonth();
+        var day = parseCreated.getDate() < 10 ? '0'+parseCreated.getDate() : parseCreated.getDate();
+
+        var hours = parseCreated.getHours() < 10 ? '0'+parseCreated.getHours() : parseCreated.getHours();
+        var minutes = parseCreated.getMinutes() < 10 ? '0'+parseCreated.getMinutes() : parseCreated.getMinutes();
+
+        return `${day}/${month}/${year}, ${hours}:${minutes}`
+    }
     render(){
         const { getDetailsList, addToFavorite } = this.props.charactersStores;
         return(
@@ -84,13 +95,13 @@ class CharactersDetailsScreen extends React.Component{
                         <Text style={styles.text}>Status: {item.status}</Text>
                         <Text style={styles.text}>Species: {item.species}</Text>
                         <Text style={styles.text}>Gender: {item.gender}</Text>
-                        <Text style={styles.text}>Type: {item.type}</Text>
+                        <Text style={styles.text}>Type: {item.type == "" ? 'Unknown' : item.type}</Text>
                         <Text style={styles.text}>Location:{"\n"}
                             {item.location.name}{"\n"}
                             {item.location.name}{"\n"}
                             {item.location.dimension}
-                            </Text>
-                            <Text style={styles.textCreated}>{item.created}</Text>
+                        </Text>
+                        <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
                     </View>)}
                 </ScrollView>
             </View>

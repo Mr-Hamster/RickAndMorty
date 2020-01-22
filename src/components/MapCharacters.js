@@ -34,7 +34,7 @@ class MapCharacters extends React.Component{
                     latitude: 37.7,
                     longitude: -122.2,
                     latitudeDelta: 0,
-                    longitudeDelta: 0
+                    longitudeDelta: 100
                 }}
             >
                 {getAllCharacters.map( item => 
@@ -59,8 +59,8 @@ class MapCharacters extends React.Component{
                 )}
                 <Marker
                     coordinate={{
-                        latitude: profileInformation.location.latitude,
-                        longitude: profileInformation.location.longitude
+                        latitude: profileInformation.location.latitude || 0,
+                        longitude: profileInformation.location.longitude || 0
                     }}
                     title={"You"}
                 />

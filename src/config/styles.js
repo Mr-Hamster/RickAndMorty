@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         padding: 5,
         paddingLeft: 20,
-        fontWeight: '100', 
+        fontWeight: '100',
         textAlign: 'center'
     },
     detailWrapper: {
@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
     },
     placesText: {
         color: '#147efb',
-        fontSize: 18
+        fontSize: 18,
+        textAlign: 'center'
     },
     buttonPlacesWrapper: {
         width: '100%',
@@ -159,7 +160,8 @@ const styles = StyleSheet.create({
     profileInformationWrapper: {
         flexDirection: 'column',
         height: '70%', 
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        alignItems: 'center'
     },
     //ROUTER
     iconTabBar: {
