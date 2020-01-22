@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -17,6 +18,7 @@ import CreateAccount from './Users/CreateAccountScreen.js';
 
 import styles from '../config/styles.js';
 import Map from '../components/Map.js';
+import MapCharacters from '../components/MapCharacters.js'
 
 const List = createStackNavigator({
     CharactersList: {
@@ -32,6 +34,12 @@ const List = createStackNavigator({
             onPress={ () => navigation.navigate("CharactersList", { view: !navigation.state.params.view })}/>
       
           })
+    },
+    MapCharactersScreen: {
+        screen: MapCharacters,
+        navigationOptions: {
+            title: 'Characters Map'
+        }
     }
 })
 

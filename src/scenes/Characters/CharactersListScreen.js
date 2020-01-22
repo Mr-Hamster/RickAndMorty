@@ -7,11 +7,15 @@ import {
     ActivityIndicator,
     FlatList,
     Alert,
-    Keyboard
+    ScrollView,
+    Dimensions,
+    RefreshControl,
+    SafeAreaView
 } from 'react-native';
 import { SearchBar, Button, CheckBox, Icon } from 'react-native-elements';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
+import MapCharacters from '../../components/MapCharacters.js';
 
 class CharactersListScreen extends React.Component{
     state = {
@@ -70,51 +74,69 @@ class CharactersListScreen extends React.Component{
         }
         return(
             <View>
-                <TouchableOpacity onPress={ () => this.checkRegistration()}>
-                    <SearchBar lightTheme
-                        placeholder='Search...' 
-                        pointerEvents='none'
-                        editable={false}
-                    />
-                </TouchableOpacity>
-                <Button title='Set filter' raised
-                    onPress={() => navigate('Filter')}
-                    style={styles.filterButton}/>
                 <FlatList 
                     data={getAllCharacters} 
+                    ListHeaderComponent={ () =>
+                        <View>
+                            <TouchableOpacity onPress={ () => this.checkRegistration()}>
+                                <SearchBar lightTheme
+                                    placeholder='Search...' 
+                                    pointerEvents='none'
+                                    editable={false}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={ () => navigate('MapCharactersScreen', {size: 'global'})}>
+                                <View style={{
+                                    alignSelf: 'center', 
+                                    height: Dimensions.get('screen').height * 0.23, 
+                                    justifyContent: 'center'
+                                    }}
+                                    pointerEvents='none'>
+                                        <MapCharacters/>
+                                </View>
+                            </TouchableOpacity>
+                             <Button title='Set filter' raised
+                                onPress={() => navigate('Filter')}
+                                style={styles.filterButton}
+                            />
+                        </View>
+                    }
                     renderItem={({item}) => 
                         <TouchableOpacity 
-                        onPress={ () => {
-                            resetDetails()
-                            navigate('Details', {id: item.id})
-                        }} 
-                        style={view ? styles.textWrapperList : styles.textWrapperTable}>
+                            style={view ? styles.textWrapperList : styles.textWrapperTable}
+                            onPress={ () => {
+                                resetDetails()
+                                navigate('Details', {id: item.id})
+                            }} 
+                        >
                             <Image source={{uri: item.image}} style={styles.imageList}/>
-                            { view ? <View style={styles.favoriteWrapper}>
-                                <View style={styles.characterWrapper}>
-                                    <Text style={styles.titleTextList}>{item.name}</Text>
-                                    <Text style={styles.text}>{item.status}</Text>
+                            { view ? 
+                                <View style={styles.favoriteWrapper}>
+                                    <View style={styles.characterWrapper}>
+                                        <Text style={styles.titleTextList}>{item.name}</Text>
+                                        <Text style={styles.text}>{item.status}</Text>
+                                    </View>
+                                    <CheckBox
+                                        checkedIcon={<Icon name='favorite' color='red'/>}
+                                        uncheckedIcon={
+                                            <Image 
+                                                source={require('../../assets/favorite_border.png')} 
+                                                style={styles.checkBox}
+                                            />
+                                        }
+                                        checked={item.favorite}
+                                        onPress={() => {
+                                            addToFavorite(item.id)
+                                        }}
+                                    />
                                 </View>
-                                <CheckBox
-                                    checkedIcon={<Icon name='favorite' color='red'/>}
-                                    uncheckedIcon={
-                                        <Image 
-                                            source={require('../../assets/favorite_border.png')} 
-                                            style={styles.checkBox}
-                                        />
-                                    }
-                                    checked={item.favorite}
-                                    onPress={() => {
-                                        addToFavorite(item.id)
-                                    }}
-                                />
-                            </View>
                             : <Text>{item.name}</Text>}     
-                        </TouchableOpacity>}
+                        </TouchableOpacity>
+                    }
                     numColumns={view ? 1 : 3}
                     key={view ? 'h' : 'v'}
                     onRefresh={() => this.onRefreshUpdateData()}
-                    refreshing={this.state.refreshing}  
+                    refreshing={this.state.refreshing}
                     keyExtractor={(item, index) => index.toString()}
                     ItemSeparatorComponent={this.renderSeparator}
                     ListFooterComponent={this.renderFooter.bind(this)}

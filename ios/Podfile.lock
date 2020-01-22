@@ -217,6 +217,8 @@ PODS:
   - react-native-fbsdk/Share (1.1.1):
     - FBSDKShareKit (= 5.8)
     - React
+  - react-native-geolocation (2.0.2):
+    - React
   - react-native-google-places (3.1.2):
     - GoogleMaps (~> 3.1.0)
     - GooglePlaces (~> 3.1.0)
@@ -294,6 +296,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
+  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-places (from `../node_modules/react-native-google-places`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-maps (from `../node_modules/react-native-maps`)
@@ -357,6 +360,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-fbsdk:
     :path: "../node_modules/react-native-fbsdk"
+  react-native-geolocation:
+    :path: "../node_modules/@react-native-community/geolocation"
   react-native-google-places:
     :path: "../node_modules/react-native-google-places"
   react-native-image-picker:
@@ -422,6 +427,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
+  react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
   react-native-google-places: 978bcc6ec4bd1d9b0ab3693e3705d4f1f2459caf
   react-native-image-picker: ba7fe85b3373ff33d4827210d989dfcbbd68f7f9
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
@@ -444,6 +450,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: a1dce27de49e2d1b73fc9c960307540784e410ea
+PODFILE CHECKSUM: d61edc1f90a6964eea7bba83d52de6a9cabc4f6a
 
 COCOAPODS: 1.8.4

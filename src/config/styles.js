@@ -175,6 +175,19 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center'
     },
+    //MAP CHARACTERS
+    mapWrapper: {
+        padding: 4,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#eee',
+    },
+    mapImage: { 
+        width: 50, 
+        height: 50, 
+        borderRadius: 8 
+    }
 });
 
 export default styles;

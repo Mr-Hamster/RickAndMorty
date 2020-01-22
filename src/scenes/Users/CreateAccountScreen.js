@@ -161,6 +161,7 @@ class CreateAccount extends React.Component{
             requestLocationPermission()
             Geolocation.getCurrentPosition( position => {
                 this.setState({
+                    place: position.coords.latitude + " " + position.coords.longitude,
                     locationCoordinate: position.coords
                 })
             })
@@ -238,7 +239,7 @@ class CreateAccount extends React.Component{
                         icon='map-search'
                         color='#000'
                         size={30}
-                        onPress={ () => this.props.navigation.navigate('MapScreen', {location: this.state.locationCoordinate})}
+                        onPress={ () => this.props.navigation.navigate('MapScreen', {location: this.state.locationCoordinate, photo: this.state.photo})}
                     />
                 </View>
                 <Button 
