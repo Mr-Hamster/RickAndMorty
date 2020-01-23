@@ -54,6 +54,8 @@ target 'mobX_task' do
 
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
+  pod 'react-native-image-picker-ios', :path => '../node_modules/@react-native-community/image-picker-ios'
+
   target 'mobX_taskTests' do
     inherit! :search_paths
     # Pods for testing

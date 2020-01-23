@@ -219,11 +219,13 @@ PODS:
     - React
   - react-native-geolocation (2.0.2):
     - React
-  - react-native-google-places (3.1.0):
+  - react-native-google-places (3.1.2):
     - GoogleMaps (~> 3.1.0)
     - GooglePlaces (~> 3.1.0)
     - React
-  - react-native-image-picker (2.0.0):
+  - react-native-image-picker (2.2.0):
+    - React
+  - react-native-image-picker-ios (1.0.1):
     - React
   - react-native-maps (0.26.1):
     - React
@@ -266,13 +268,13 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - RNCMaskedView (0.1.6):
     - React
-  - RNGestureHandler (1.3.0):
+  - RNGestureHandler (1.5.3):
     - React
   - RNPermissions (2.0.9):
     - React
-  - RNReanimated (1.4.0):
+  - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.0.0-alpha.23):
+  - RNScreens (2.0.0-alpha.29):
     - React
   - RNVectorIcons (6.6.0):
     - React
@@ -299,6 +301,7 @@ DEPENDENCIES:
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-google-places (from `../node_modules/react-native-google-places`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
+  - "react-native-image-picker-ios (from `../node_modules/@react-native-community/image-picker-ios`)"
   - react-native-maps (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -366,6 +369,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-google-places"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
+  react-native-image-picker-ios:
+    :path: "../node_modules/@react-native-community/image-picker-ios"
   react-native-maps:
     :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
@@ -428,8 +433,9 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
-  react-native-google-places: 5740209ef3dfe035a63446ae1324d5ea4dfe61e1
-  react-native-image-picker: ba7fe85b3373ff33d4827210d989dfcbbd68f7f9
+  react-native-google-places: 978bcc6ec4bd1d9b0ab3693e3705d4f1f2459caf
+  react-native-image-picker: d7ba8117e782534adbed4581931f2f9ec1db3704
+  react-native-image-picker-ios: 6794e4a6495da816cbe12a346a347988602900d0
   react-native-maps: 6e499eee4eabf422ba8b6f94e993cc768bf35153
   react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
   React-RCTActionSheet: 600b4d10e3aea0913b5a92256d2719c0cdd26d76
@@ -443,13 +449,13 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   RNCMaskedView: e5b99bc191945f157adeede68da9d424462de177
-  RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
+  RNGestureHandler: 02905abe54e1f6e59c081a10b4bd689721e17aa6
   RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
-  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
-  RNScreens: 55c735f525774e894be67848c250c95a9c3194c0
+  RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
+  RNScreens: b20bdb598fe95ac37aada88a5e92f36622549e49
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: d61edc1f90a6964eea7bba83d52de6a9cabc4f6a
+PODFILE CHECKSUM: 892b870208114ff01df244f9ed666e927402946e
 
 COCOAPODS: 1.8.4

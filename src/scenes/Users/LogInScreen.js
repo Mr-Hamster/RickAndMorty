@@ -61,7 +61,7 @@ class LogInScreen extends React.Component{
                     type='error'
                     visible={passwordError}>Incorrect password!</HelperText>
                 <Button 
-                    mode='outlined' 
+                    mode='contained' 
                     color='#000' 
                     style={styles.loginButton}
                     onPress={() => this.logIn()}

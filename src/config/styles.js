@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     },
     loginInput: {
         height: 50,
-        borderBottomWidth: 1,
         fontSize: 14,
         width: '80%',
         marginBottom: '2%',
@@ -126,18 +125,13 @@ const styles = StyleSheet.create({
     imageRegistration: {
         height: 200, 
         width: 200,
-        marginTop: '5%'
+        marginTop: '5%',
+        borderRadius: 10
     },
     placesTitleText: {
-        width: '80%',
-        fontSize: 20,
-        color: "#A9A9A9",
-        marginBottom: '5%'
-    },
-    placesText: {
-        color: '#147efb',
-        fontSize: 18,
-        textAlign: 'center'
+        width: '75%',
+        fontSize: 16,
+        color: "#A9A9A9"
     },
     buttonPlacesWrapper: {
         width: '100%',

@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 import { TextInput, HelperText, Button, IconButton } from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker';
+import ImagePickerIOS from "@react-native-community/image-picker-ios";
 import { observer, inject } from 'mobx-react';
 import styles from '../../config/styles.js';
 import {defaultPhotoURL} from '../../services/constants.js';
 import RNGooglePlaces from 'react-native-google-places';
-import Geolocation from '@react-native-community/geolocation';
 
 async function requestLocationPermission() {
     try {
@@ -54,26 +54,24 @@ class CreateAccount extends React.Component{
 
     handleChangePhoto = () => {
         let options = {
-            title: 'Select Image',
-            customButtons: [
-              { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-            ],
+            title: 'Select Avatar',
+            customButtons: [{ name: 'customOptionKey', title: 'Choose Photo from Custom Option' }],
             storageOptions: {
               skipBackup: true,
               path: 'images',
             },
-          };
-      ImagePicker.showImagePicker(options, (response) => {
-        if (response.didCancel) {
-          console.log('User cancelled image picker');
-        } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
-        } else if (response.customButton) {
-            this.setState({ photo: defaultPhotoURL})
-        } else {
-            this.setState({ photo: response.uri });
-        }
-      });
+        };
+        ImagePicker.showImagePicker(options, (response) => {
+            if (response.didCancel) {
+            console.log('User cancelled image picker');
+            } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                this.setState({ photo: defaultPhotoURL})
+            } else {
+                this.setState({ photo: response.uri });
+            }
+        });
     }
 
     onChangeEmail = (text) => {
@@ -162,7 +160,6 @@ class CreateAccount extends React.Component{
         } 
         RNGooglePlaces.getCurrentPlace(['address', 'location'])
         .then((results) => {
-            console.log(results)
             this.setState({
                 place: results[0].address,
                 locationCoordinate: results[0].location
@@ -183,11 +180,12 @@ class CreateAccount extends React.Component{
                     onChangeText={ text => this.onChangeEmail(text)}
                     style={styles.loginInput}
                     textContentType='emailAddress'
+                    error={emailError}
+                    theme={{colors: { primary: "#147efb"}}}
                 />
-                <HelperText 
-                    type='error'
-                    visible={emailError}
-                >E-mail address is invalid!</HelperText>
+                <HelperText type='error' visible={emailError}>
+                    E-mail is invalid!
+                </HelperText>
                 <TextInput
                     label='Enter your password'
                     value={password}
@@ -195,11 +193,12 @@ class CreateAccount extends React.Component{
                     textContentType='password'
                     style={styles.loginInput}
                     secureTextEntry={true}
+                    error={passwordError}
+                    theme={{colors: { primary: "#147efb"}}}
                 />
-                <HelperText
-                    type='error'
-                    visible={passwordError}
-                >Password is too short!</HelperText>
+                <HelperText type='error' visible={passwordError}>
+                    Password is too short!
+                </HelperText>
                 <TextInput
                     label='Enter your password again'
                     value={passwordAgain}
@@ -207,14 +206,21 @@ class CreateAccount extends React.Component{
                     style={styles.loginInput}
                     textContentType='password'
                     secureTextEntry={true}
+                    error={passwordAgainError}
+                    theme={{colors: { primary: "#147efb"}}}
                 />
-                <HelperText
-                    type='error'
-                    visible={passwordAgainError}
-                >Passwords don't match!</HelperText>
-                <Text style={styles.placesTitleText}>Your location: 
-                    <Text style={styles.placesText}> {place}</Text>
-                </Text>
+                <HelperText type='error' visible={passwordAgainError}>
+                    Password don't match!
+                </HelperText>
+                <TextInput
+                    label='Your location'
+                    value={place}
+                    style={styles.loginInput}
+                    textContentType='addressCityAndState'
+                    editable={false}
+                    selectionColor='#147efb'
+                />
+                <Text style={styles.placesTitleText}>Choose your location there:</Text>
                 <View style={styles.buttonPlacesWrapper}>
                     <IconButton
                         icon='format-list-bulleted'
