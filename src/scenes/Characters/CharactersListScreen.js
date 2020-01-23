@@ -71,12 +71,14 @@ class CharactersListScreen extends React.Component{
     }
 
     render(){
-        const { charactersStores: {getAllCharacters, resetDetails, addToFavorite}, navigation: {state: {params: {view}}, navigate} } = this.props;
+        const { charactersStores: {getAllCharacters, resetDetails, addToFavorite, errorList}, navigation: {state: {params: {view}}, navigate} } = this.props;
         if(getAllCharacters == []) {
             return <ActivityIndicator size='large'/>
-        }
+        } 
         return(
             <View>
+                {errorList ? 
+                <Text>{errorList}</Text> :
                 <FlatList 
                     data={getAllCharacters} 
                     ListHeaderComponent={ () =>
@@ -145,7 +147,7 @@ class CharactersListScreen extends React.Component{
                     ListFooterComponent={this.renderFooter.bind(this)}
                     onEndReached={this.handleLoadMore.bind(this)}
                     onEndReachedThreshold={0.4}> 
-                </FlatList> 
+                    </FlatList> }
             </View>
         )
     }

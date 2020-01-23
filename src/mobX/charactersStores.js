@@ -40,6 +40,7 @@ class CharactersList {
         })
         .catch( (error) => {
             this.errorList = error;
+            console.log(error)
         });
     }
 

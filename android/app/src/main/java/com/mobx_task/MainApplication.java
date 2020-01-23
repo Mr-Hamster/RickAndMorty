@@ -4,12 +4,14 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.geolocation.GeolocationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -45,6 +47,11 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+      // Initialize the SDK
+      Places.initialize(getApplicationContext(), "AIzaSyAuKr8SQ2YiI0bkKjgbH27SbKdRENpOETw");
+
+        // Create a new Places client instance
+      PlacesClient placesClient = Places.createClient(this);
   }
 
 

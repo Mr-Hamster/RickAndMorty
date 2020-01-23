@@ -65,7 +65,6 @@ class CharactersDetailsScreen extends React.Component{
                     pagingEnabled={true}
                     scrollEventThrottle={500}
                     onScroll={({nativeEvent: {contentOffset: {x}}}) => {
-                        console.log(x)
                         if(x > 0){
                             this.handleLoadMore()
                         } else if(x < 0){
