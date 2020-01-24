@@ -93,6 +93,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: '5%'
     },
+    noResultsWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        flexDirection: 'row'
+    },
     //LOGIN SCREEN && CREATE ACCOUNT SCREEN
     registrationWrapper: {
         flex: 1,

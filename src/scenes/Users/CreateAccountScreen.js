@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { TextInput, HelperText, Button, IconButton } from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker';
-import ImagePickerIOS from "@react-native-community/image-picker-ios";
 import { observer, inject } from 'mobx-react';
 import styles from '../../config/styles.js';
 import {defaultPhotoURL} from '../../services/constants.js';

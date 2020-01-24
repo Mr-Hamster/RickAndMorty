@@ -6,7 +6,7 @@ import {
     Image,
     Text
 } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Icon } from 'react-native-elements';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 
@@ -44,7 +44,7 @@ class CharactersSearchScreen extends React.Component{
     render() {
         const { search: {searchByName, getSearchResult}, charactersStores: { resetDetails} } = this.props;
         return(
-            <View>
+            <View style={{flex: 1}}>
                 <SearchBar onChangeText={text => {
                         this.setState({
                             searchValue: text
@@ -55,7 +55,11 @@ class CharactersSearchScreen extends React.Component{
                     value={this.state.searchValue}
                     lightTheme
                 />
-                {getSearchResult.length == 0 ? <Text style={styles.textNoMatches}>No matches</Text>
+                {getSearchResult.length == 0 ? 
+                <View style={styles.noResultsWrapper}>
+                        <Icon name='search' color='grey'/>
+                        <Text style={styles.textFavorite}>No results</Text>
+                    </View>
                 : <FlatList
                     data={getSearchResult}
                     renderItem={({item}) =>

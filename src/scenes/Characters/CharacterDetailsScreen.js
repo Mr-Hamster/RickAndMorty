@@ -57,7 +57,6 @@ class CharactersDetailsScreen extends React.Component{
     render(){
         const { getDetailsList, addToFavorite } = this.props.charactersStores;
         return(
-            <View style={styles.detailWrapper}>
                 <ScrollView horizontal={true}
                     ref={(ref) => this.scrollViewRef = ref}
                     showsHorizontalScrollIndicator={false}
@@ -67,8 +66,9 @@ class CharactersDetailsScreen extends React.Component{
                     onScroll={({nativeEvent: {contentOffset: {x}}}) => {
                         if(x > 0){
                             this.handleLoadMore()
-                        } else if(x < 0){
+                        } else if(x == 0 && this.state.previousId != 1) {
                             this.handleLoadMorePrevious()
+                            this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false})
                         }
                     }}>
                     {this.state.loading 
@@ -103,9 +103,9 @@ class CharactersDetailsScreen extends React.Component{
                         <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
                     </View>)}
                 </ScrollView>
-            </View>
         )
     }
 }
 
 export default inject('charactersStores')(observer(CharactersDetailsScreen));
+
