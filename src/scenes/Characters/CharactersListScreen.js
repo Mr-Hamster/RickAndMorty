@@ -3,19 +3,16 @@ import {
     View, 
     Text,
     TouchableOpacity,
-    Image,
     ActivityIndicator,
     FlatList,
     Alert,
-    ScrollView,
-    Dimensions,
-    RefreshControl,
-    SafeAreaView
+    Dimensions
 } from 'react-native';
-import { SearchBar, Button, CheckBox, Icon } from 'react-native-elements';
+import { SearchBar, Button } from 'react-native-elements';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 import MapCharacters from '../../components/MapCharacters.js';
+import ItemCharacter from '../../components/ItemCharacter.js';
 
 class CharactersListScreen extends React.Component{
     state = {
@@ -70,8 +67,16 @@ class CharactersListScreen extends React.Component{
         }
     }
 
+    getItemLayout = (data, index) => (
+        {
+            length: this.props.navigation.state.params.view ? 120 : 150, 
+            offset: this.props.navigation.state.params.view ? 120 * index : 150 * index, 
+            index
+        }
+    );
+
     render(){
-        const { charactersStores: {getAllCharacters, resetDetails, addToFavorite, errorList}, navigation: {state: {params: {view}}, navigate} } = this.props;
+        const { charactersStores: {getAllCharacters, errorList}, navigation: {state: {params: {view}}, navigate} } = this.props;
         if(getAllCharacters == []) {
             return <ActivityIndicator size='large'/>
         } 
@@ -106,38 +111,9 @@ class CharactersListScreen extends React.Component{
                             />
                         </View>
                     }
-                    renderItem={({item}) => 
-                        <TouchableOpacity 
-                            style={view ? styles.textWrapperList : styles.textWrapperTable}
-                            onPress={ () => {
-                                resetDetails()
-                                navigate('Details', {id: item.id})
-                            }} 
-                        >
-                            <Image source={{uri: item.image}} style={styles.imageList}/>
-                            { view ? 
-                                <View style={styles.favoriteWrapper}>
-                                    <View style={styles.characterWrapper}>
-                                        <Text style={styles.titleTextList}>{item.name}</Text>
-                                        <Text style={styles.text}>{item.status}</Text>
-                                    </View>
-                                    <CheckBox
-                                        checkedIcon={<Icon name='favorite' color='red'/>}
-                                        uncheckedIcon={
-                                            <Image 
-                                                source={require('../../assets/favorite_border.png')} 
-                                                style={styles.checkBox}
-                                            />
-                                        }
-                                        checked={item.favorite}
-                                        onPress={() => {
-                                            addToFavorite(item.id)
-                                        }}
-                                    />
-                                </View>
-                            : <Text>{item.name}</Text>}     
-                        </TouchableOpacity>
-                    }
+                    renderItem={({item}) => <ItemCharacter item={item} view={view} navigate={navigate}/>}
+                    getItemLayout={this.getItemLayout}
+                    initialNumToRender={20}
                     numColumns={view ? 1 : 3}
                     key={view ? 'h' : 'v'}
                     onRefresh={() => this.onRefreshUpdateData()}

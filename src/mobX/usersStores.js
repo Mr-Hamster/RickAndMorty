@@ -1,4 +1,4 @@
-import { observable, action, computed, decorate } from "mobx";
+import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
 import { isRegistered, registeredUsers, userInformation } from '../services/constants.js';
 

@@ -21,7 +21,9 @@ class CharactersDetailsScreen extends React.Component{
     componentDidMount() {
         this.props.charactersStores.loadFirstCharacters(Number(this.props.navigation.state.params.id))
         InteractionManager.runAfterInteractions(() => {
-            this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false});
+            if(this.props.navigation.state.params.id != 1){
+                this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false});
+            }
             this.setState({loading: false})
           })  
     }

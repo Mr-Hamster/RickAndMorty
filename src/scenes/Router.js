@@ -1,4 +1,5 @@
 import React from 'react';
+import { AsyncStorage } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -16,8 +17,9 @@ import ProfileScreen from './Users/ProfileScreen.js';
 import CreateAccount from './Users/CreateAccountScreen.js';
 
 import styles from '../config/styles.js';
+import { isRegistered } from '../services/constants.js';
 import Map from '../components/Map.js';
-import MapCharacters from '../components/MapCharacters.js'
+import MapCharacters from '../components/MapCharacters.js';
 
 const List = createStackNavigator({
     CharactersList: {
@@ -144,5 +146,7 @@ const RootStack = createStackNavigator({
             title: 'Search by name'
         }
     }
+},{
+    initialRouteName: AsyncStorage.getItem(isRegistered).then(value => value === null) ? 'CharactersScreen' : 'Intro'
 })
 export const Navigation = createAppContainer(RootStack);

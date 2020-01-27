@@ -21,13 +21,6 @@ class IntroScreen extends React.Component{
             }
         ]
     }
-    componentDidMount = () => {
-        if(this.props.users.registered===null) {
-            this.props.navigation.navigate('IntroScreen')
-        } else {
-            this.props.navigation.navigate('CharactersList')
-        }
-    }
     render() {
         return(
             <AppIntroSlider
@@ -50,7 +43,10 @@ class IntroScreen extends React.Component{
                 }}
                 skipLabel='Skip Registration'
                 doneLabel='Registration'
-                onDone={() => logInWithFacebook()}
+                onDone={() => {
+                    logInWithFacebook()
+                    this.props.navigation.navigate('CharactersList')
+                }}
             />
         )
     }

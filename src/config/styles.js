@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     },
     imageList: {
         width: 100,
-        height: 100
+        height: 100,
+        backgroundColor: '#d3d3d3'
     },
     favoriteWrapper: {
         width: '75%',

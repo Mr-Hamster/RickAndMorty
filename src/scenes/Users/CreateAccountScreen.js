@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    ScrollView,
     View,
     Image,
     TouchableOpacity,
@@ -151,12 +152,9 @@ class CreateAccount extends React.Component{
             })
         })
         .catch(error => console.log(error.message));  
-      }
-      
-    getCurrent = () => {
-        if(Platform.OS === 'android'){
-            requestLocationPermission()
-        } 
+    }
+
+    getCurrentPosition = () => {
         RNGooglePlaces.getCurrentPlace(['address', 'location'])
         .then((results) => {
             this.setState({
@@ -166,10 +164,20 @@ class CreateAccount extends React.Component{
         })
         .catch((error) => console.log(error.message));
     }
+      
+    getCurrentPlace = () => {
+        if(Platform.OS === 'android'){
+            requestLocationPermission()
+            this.getCurrentPosition()
+        } else {
+            this.getCurrentPosition()
+        }
+    }
+
     render(){
         const { email, emailError, password, passwordError, passwordAgain, passwordAgainError, photo, place } = this.state;
         return(
-            <View style={styles.registrationWrapper}>
+            <ScrollView contentContainerStyle={styles.registrationWrapper}>
                 <TouchableOpacity onPress={() => this.handleChangePhoto()}>
                     <Image source={{uri: photo}} style={styles.imageRegistration}/>
                 </TouchableOpacity>
@@ -180,12 +188,14 @@ class CreateAccount extends React.Component{
                     style={styles.loginInput}
                     textContentType='emailAddress'
                     error={emailError}
+                    onSubmitEditing={() => this.inputPassword.focus()}
                     theme={{colors: { primary: "#147efb"}}}
                 />
                 <HelperText type='error' visible={emailError}>
                     E-mail is invalid!
                 </HelperText>
                 <TextInput
+                    ref={(ref) => this.inputPassword = ref}
                     label='Enter your password'
                     value={password}
                     onChangeText={ text => this.onChangePassword(text)}
@@ -193,12 +203,14 @@ class CreateAccount extends React.Component{
                     style={styles.loginInput}
                     secureTextEntry={true}
                     error={passwordError}
+                    onSubmitEditing={() => this.inputPasswordAgain.focus()}
                     theme={{colors: { primary: "#147efb"}}}
                 />
                 <HelperText type='error' visible={passwordError}>
                     Password is too short!
                 </HelperText>
                 <TextInput
+                    ref={(ref) => this.inputPasswordAgain = ref}
                     label='Enter your password again'
                     value={passwordAgain}
                     onChangeText={ text => this.onChangePasswordAgain(text)}
@@ -206,6 +218,7 @@ class CreateAccount extends React.Component{
                     textContentType='password'
                     secureTextEntry={true}
                     error={passwordAgainError}
+                    multiline={true}
                     theme={{colors: { primary: "#147efb"}}}
                 />
                 <HelperText type='error' visible={passwordAgainError}>
@@ -231,7 +244,7 @@ class CreateAccount extends React.Component{
                         icon='map-marker-radius'
                         color='#000'
                         size={30}
-                        onPress={ () => this.getCurrent()}
+                        onPress={ () => this.getCurrentPlace()}
                     />
                     <IconButton
                         icon='map-search'
@@ -246,8 +259,7 @@ class CreateAccount extends React.Component{
                     style={styles.loginButton}
                     onPress={() => this.createAccount()}
                 >Create Account</Button>
-            </View>
-
+            </ScrollView>
         )
     }
 }
