@@ -36,14 +36,6 @@ class CharactersListScreen extends React.Component{
         }
     }
 
-    getItemLayout = (data, index) => (
-        {
-            length: this.props.navigation.state.params.view ? 120 : 150, 
-            offset: this.props.navigation.state.params.view ? 120 * index : 150 * index, 
-            index
-        }
-    );
-
     renderSeparator = () => {
         return <View style={styles.borderList}/>
     }
@@ -90,39 +82,37 @@ class CharactersListScreen extends React.Component{
         </View>
     }
 
-    renderCharacters = ({item})  => (
-        <TouchableOpacity 
-            onPress={() => {
-                this.props.charactersStores.resetDetails(item.id)
-                this.props.navigation.navigate('Details')
-            }}
-        >
-            {this.props.navigation.state.params.view ?
-                <ItemCharacterList 
-                    item={item} 
-                    style={styles.textWrapperList} 
-                    key={item.id}
-                    {...this.props}
-                /> :
-                <ItemCharacterTable
-                    item={item} 
-                    style={styles.textWrapperTable} 
-                    key={item.id}
-                />
-            }
-        </TouchableOpacity>
+    renderCharactersListView = ({item})  => (
+        <ItemCharacterList 
+            item={item} 
+            style={styles.textWrapperList} 
+            key={item.id}
+            {...this.props}
+        />
     )
+
+    renderCharactersTableView = ({item})  => (
+        <ItemCharacterTable 
+            item={item} 
+            style={styles.textWrapperTable} 
+            key={item.id}
+            {...this.props}
+        />
+    )
+
     render(){
-        const {charactersStores: {getAllCharacters, refreshing, error, isLoading}, navigation: {state: {params: {view}}, navigate}} = this.props;
-        return(
-            <View>
-                {   
-                    error ? this.renderEmpty() :
-                    isLoading ? this.renderLoading() :
+        const {charactersStores: {getAllCharacters, refreshing, isError, isLoading}, navigation: {state: {params: {view}}, navigate}} = this.props;
+        if(isError) {
+            return this.renderEmpty()
+        } else if(isLoading) {
+            return this.renderLoading()
+        } else {
+            return(
+                <View>
                     <FlatList 
                         data={getAllCharacters} 
                         ListHeaderComponent={() => this.renderHeader()}
-                        renderItem={this.renderCharacters}
+                        renderItem={view ? this.renderCharactersListView : this.renderCharactersTableView}
                         getItemLayout={this.getItemLayout}
                         initialNumToRender={20}
                         numColumns={view ? 1 : 3}
@@ -135,9 +125,9 @@ class CharactersListScreen extends React.Component{
                         onEndReached={this.handleLoadMore.bind(this)}
                         onEndReachedThreshold={0.4}> 
                     </FlatList> 
-                }
-            </View>
-        )
+                </View>
+            )
+        }
     }
 }
 

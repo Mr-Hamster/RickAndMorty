@@ -10,6 +10,12 @@ import {
 
 export default ({item, style, ...props}) => {
     return (
+        <TouchableOpacity 
+            onPress={() => {
+                props.charactersStores.resetDetails(item.id)
+                props.navigation.navigate('Details')
+            }}
+        >
             <View style={style}>
                 <Image 
                     source={{uri: item.image}} 
@@ -33,5 +39,6 @@ export default ({item, style, ...props}) => {
                     }}
                 /> 
             </View>
+        </TouchableOpacity>
     )
 }

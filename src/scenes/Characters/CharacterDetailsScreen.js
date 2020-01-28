@@ -16,13 +16,12 @@ class CharactersDetailsScreen extends React.Component{
     componentDidMount() {
         this.props.charactersStores.loadFirstCharacters()
         InteractionManager.runAfterInteractions(() => {
-            if(this.props.charactersStores.characterPrevID < 1){
+            if(this.props.charactersStores.characterPrevID == 0){
                 this.scrollViewRef.scrollTo({x: 0, y: 0, animated: false});
             } else {
-                this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width * 2, y: 0, animated: true});
+                this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width * 2, y: 0, animated: false});
             }
-            this.props.charactersStores.stopLoading()
-          })  
+        }) 
     }
     handleLoadMore = () => {
        this.props.charactersStores.loadNextCharacter()
@@ -42,7 +41,7 @@ class CharactersDetailsScreen extends React.Component{
         return `${day}/${month}/${year}, ${hours}:${minutes}`
     }
     render(){
-        const { getDetailsList, addToFavorite, loadingDetails, characterPrevID } = this.props.charactersStores;
+        const { getDetailsList, addToFavorite, isLoadingDetails } = this.props.charactersStores;
         return(
                 <ScrollView horizontal={true}
                     ref={(ref) => this.scrollViewRef = ref}
@@ -53,14 +52,12 @@ class CharactersDetailsScreen extends React.Component{
                     onScroll={({nativeEvent: {contentOffset: {x}}}) => {
                         if(x > 0){
                             this.handleLoadMore()
-                        } else if(x < Dimensions.get('screen').width && characterPrevID != 1) {
+                        } else if(x < Dimensions.get('screen').width) {
                             this.handleLoadMorePrevious()
-                            if(this.props.charactersStores.characterPrevID > 1){
-                                this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: true});
-                            }
-                        }
+                            this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: true});
+                        } 
                     }}>
-                    {loadingDetails
+                    {isLoadingDetails 
                     ? <View style={{width: Dimensions.get('window').width, justifyContent: 'center' }}>
                         <ActivityIndicator size='large'/>
                     </View>

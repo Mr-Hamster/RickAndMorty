@@ -8,13 +8,13 @@ class CharactersList {
     gender = "";
     refreshing = false;
     isLoading = false;
-    error = false;
+    isError = false;
 
     details = [];
     characterNextID = 0;
     characterPrevID = 0;
-    loadingDetails = true;
-    errorDetails = false;
+    isLoadingDetails = true;
+    isErrorDetails = false;
     genderChecked = {
         male: false,
         female: false,
@@ -89,8 +89,6 @@ class CharactersList {
     //DETAILS 
 
     queryDetailsCharacter(id) {
-        this.loadingDetails = true;
-
         return client.query({
             query: getDetailsCharacterQuery(),
             variables: {
@@ -120,6 +118,7 @@ class CharactersList {
                     })
                 })
                 this.details = [...this.details, data];
+                this.loadingDetails = false;
             }
         })
         .catch( (error) => {
@@ -144,6 +143,7 @@ class CharactersList {
                     })
                 })
                 this.details = data.concat(this.details);
+                this.loadingDetails = false;
             }
         })
         .catch( (error) => {
@@ -156,10 +156,6 @@ class CharactersList {
         charactersStores.details.clear()
         this.characterNextID = id-1;
         this.characterPrevID = id;
-    }
-
-    stopLoading() {
-        this.loadingDetails = false;
     }
 
     get getDetailsList() {
@@ -193,7 +189,7 @@ class CharactersList {
 decorate(CharactersList, {
     characters: observable,
     isLoading: observable,
-    error: observable,
+    isError: observable,
     refreshing: observable,
     gender: observable,
     genderChecked: observable,
@@ -202,9 +198,8 @@ decorate(CharactersList, {
     details: observable,
     characterNextID: observable,
     characterPrevID: observable,
-    loadingDetails: observable,
-    errorDetails: observable,
-    stopLoading: action,
+    isLoadingDetails: observable,
+    isErrorDetails: observable,
 
     filterByGender: action,
     changeCheckedGender: action,
