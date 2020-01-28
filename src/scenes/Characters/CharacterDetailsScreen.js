@@ -13,33 +13,22 @@ import {
 import { observer, inject } from 'mobx-react';
 
 class CharactersDetailsScreen extends React.Component{
-    state = {
-        nextId: Number(this.props.navigation.state.params.id)+1,
-        previousId: Number(this.props.navigation.state.params.id)-1,
-        loading: true
-    }
     componentDidMount() {
-        this.props.charactersStores.loadFirstCharacters(Number(this.props.navigation.state.params.id))
+        this.props.charactersStores.loadFirstCharacters()
         InteractionManager.runAfterInteractions(() => {
-            if(this.props.navigation.state.params.id != 1){
-                this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false});
+            if(this.props.charactersStores.characterPrevID < 1){
+                this.scrollViewRef.scrollTo({x: 0, y: 0, animated: false});
+            } else {
+                this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width * 2, y: 0, animated: true});
             }
-            this.setState({loading: false})
+            this.props.charactersStores.stopLoading()
           })  
     }
     handleLoadMore = () => {
-        this.setState({
-            nextId: ++this.state.nextId
-        }, () => {
-            this.props.charactersStores.loadNextCharacter(this.state.nextId)
-        })
+       this.props.charactersStores.loadNextCharacter()
     }
     handleLoadMorePrevious = () => {
-        this.setState({
-            previousId: --this.state.previousId
-        }, () => {
-            this.props.charactersStores.loadPreviousCharacter(this.state.previousId)
-        })
+        this.props.charactersStores.loadPreviousCharacter()
     }
     convertDateCreated = (created) => {
         const parseCreated = new Date(created);
@@ -53,7 +42,7 @@ class CharactersDetailsScreen extends React.Component{
         return `${day}/${month}/${year}, ${hours}:${minutes}`
     }
     render(){
-        const { getDetailsList, addToFavorite } = this.props.charactersStores;
+        const { getDetailsList, addToFavorite, loadingDetails, characterPrevID } = this.props.charactersStores;
         return(
                 <ScrollView horizontal={true}
                     ref={(ref) => this.scrollViewRef = ref}
@@ -64,12 +53,14 @@ class CharactersDetailsScreen extends React.Component{
                     onScroll={({nativeEvent: {contentOffset: {x}}}) => {
                         if(x > 0){
                             this.handleLoadMore()
-                        } else if(x < Dimensions.get('screen').width && this.state.previousId != 1) {
+                        } else if(x < Dimensions.get('screen').width && characterPrevID != 1) {
                             this.handleLoadMorePrevious()
-                            this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false})
+                            if(this.props.charactersStores.characterPrevID > 1){
+                                this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: true});
+                            }
                         }
                     }}>
-                    {this.state.loading 
+                    {loadingDetails
                     ? <View style={{width: Dimensions.get('window').width, justifyContent: 'center' }}>
                         <ActivityIndicator size='large'/>
                     </View>

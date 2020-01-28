@@ -69,7 +69,7 @@ class CharactersSearchScreen extends React.Component{
                             style={styles.textWrapperList}
                         >
                             <Image source={{uri: item.image}} style={styles.imageList}/>
-                            <View style={styles.characterWrapper}>
+                            <View style={styles.searchTextWrapper}>
                                 <Text style={styles.titleTextList}>{item.name}</Text>
                                 <Text style={styles.text}>{item.status}</Text>
                             </View>

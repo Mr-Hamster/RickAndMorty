@@ -1,13 +1,16 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
     //CHARACTERS LIST
+    loadingCharactersScreen: {color: '#000', height: Dimensions.get('screen').height * 0.8},
     filterButton: {
         width: '97%',
         alignSelf: 'center',
         height: 50
     },
     textWrapperList: {
+        width: '100%',
+        justifyContent: 'space-between',
         alignItems: 'center',
         height: 120,
         flexDirection: 'row',
@@ -26,19 +29,22 @@ const styles = StyleSheet.create({
         height: 100,
         backgroundColor: '#d3d3d3'
     },
-    favoriteWrapper: {
+    characterWrapper: {
         width: '75%',
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    characterWrapper: {
-        marginLeft: '5%',
+    textWrapper: {
+        width: '50%',
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        flexWrap: 'wrap'
     },
     titleTextList: {
         fontSize: 20,
-        fontWeight: '500'
+        fontWeight: '500',
+        flexWrap: 'wrap',
+        width: '80%'
     },
     text: {
         fontSize: 18,
@@ -99,6 +105,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
         flexDirection: 'row'
+    },
+    searchTextWrapper: {
+        width: '70%',
+        flexDirection: 'column'
     },
     //LOGIN SCREEN && CREATE ACCOUNT SCREEN
     registrationWrapper: {

@@ -5,12 +5,15 @@ import { getCharactersQuery, getDetailsCharacterQuery } from '../services/query.
 class CharactersList {
     characters = [];
     charactersPage = 0;
-    details = [];
     gender = "";
     refreshing = false;
     isLoading = false;
     error = false;
-    loadingDetails = false;
+
+    details = [];
+    characterNextID = 0;
+    characterPrevID = 0;
+    loadingDetails = true;
     errorDetails = false;
     genderChecked = {
         male: false,
@@ -18,7 +21,7 @@ class CharactersList {
         all: false
     }
     queryCharactersList() {
-        this.loadingList = true;
+        this.isLoading = true;
 
         return client.query({
             query: getCharactersQuery(),
@@ -38,11 +41,11 @@ class CharactersList {
                 let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
                 this.characters = [...this.characters, data];
             }
-            this.loadingList = false;
+            this.isLoading = false;
         })
         .catch( (error) => {
-            this.errorList = error;
-            console.log(error)
+            this.error = error;
+            this.isLoading = false;
         });
     }
 
@@ -96,16 +99,15 @@ class CharactersList {
         })
     }
 
-    async loadFirstCharacters(id) {
-        const prevID = id - 1;
-        await this.loadNextCharacter(prevID);
-        await this.loadNextCharacter(id);
-        const nextID = id + 1;
-        await this.loadNextCharacter(nextID);
+    async loadFirstCharacters() {
+        await this.loadNextCharacter(this.characterNextID);
+        await this.loadPreviousCharacter(this.characterPrevID);
+        await this.loadNextCharacter(this.characterNextID);
     }
 
-    async loadNextCharacter(id) {
-        return this.queryDetailsCharacter(id).then( (resp) => {
+    async loadNextCharacter() {
+        this.characterNextID++
+        return this.queryDetailsCharacter(this.characterNextID).then( (resp) => {
             if(resp.data.character == null) {
                 this.details = [...this.details];
             } else {
@@ -119,16 +121,17 @@ class CharactersList {
                 })
                 this.details = [...this.details, data];
             }
-            this.loadingDetails = false;
         })
         .catch( (error) => {
             this.errorDetails = error;
+            this.loadingDetails = false;
         })
       
     }
 
-    async loadPreviousCharacter(id) {
-        return this.queryDetailsCharacter(id).then( (resp) => {
+    async loadPreviousCharacter() {
+        this.characterPrevID--
+        return this.queryDetailsCharacter(this.characterPrevID).then( (resp) => {
             if(resp.data.character == null) {
                 this.details = [...this.details];
             } else {
@@ -142,15 +145,21 @@ class CharactersList {
                 })
                 this.details = data.concat(this.details);
             }
-            this.loadingDetails = false;
         })
         .catch( (error) => {
             this.errorDetails = error;
+            this.loadingDetails = false;
         })
     }
 
-    resetDetails() {
+    resetDetails(id) {
         charactersStores.details.clear()
+        this.characterNextID = id-1;
+        this.characterPrevID = id;
+    }
+
+    stopLoading() {
+        this.loadingDetails = false;
     }
 
     get getDetailsList() {
@@ -191,8 +200,11 @@ decorate(CharactersList, {
     charactersPage: observable,
 
     details: observable,
+    characterNextID: observable,
+    characterPrevID: observable,
     loadingDetails: observable,
     errorDetails: observable,
+    stopLoading: action,
 
     filterByGender: action,
     changeCheckedGender: action,

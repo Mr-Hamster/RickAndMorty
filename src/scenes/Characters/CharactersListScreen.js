@@ -24,18 +24,6 @@ class CharactersListScreen extends React.Component{
         this.props.charactersStores.refresh();
     } 
 
-    renderSeparator = () => {
-        return <View style={styles.borderList}/>
-    }
-
-    renderFooter = () => {
-        if (this.props.charactersStores.isLoading){
-            return <ActivityIndicator style={{color: '#000'}}/>
-        } else {
-            return null;
-        }
-    }
-
     handleLoadMore = () => {
         this.props.charactersStores.loadMore();
     }
@@ -56,79 +44,100 @@ class CharactersListScreen extends React.Component{
         }
     );
 
-    render(){
-        const {charactersStores: {getAllCharacters, refreshing, error, isLoading}, navigation: {state: {params: {view}}, navigate}} = this.props;
-        if(error){
-            return <Text>Something went wrong!</Text>
-        } else if(isLoading){
+    renderSeparator = () => {
+        return <View style={styles.borderList}/>
+    }
+
+    renderFooter = () => {
+        if (this.props.charactersStores.isLoading){
             return <ActivityIndicator style={{color: '#000'}}/>
         } else {
-            return(
-                    <View>
-                        <FlatList 
-                            data={getAllCharacters} 
-                            ListHeaderComponent={ () =>
-                                <View>
-                                    <TouchableOpacity onPress={ () => this.checkRegistration()}>
-                                        <SearchBar lightTheme
-                                            placeholder='Search...' 
-                                            pointerEvents='none'
-                                            editable={false}
-                                        />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={ () => navigate('MapCharactersScreen', {size: 'global'})}>
-                                        <View style={{
-                                            alignSelf: 'center', 
-                                            height: Dimensions.get('screen').height * 0.23, 
-                                            justifyContent: 'center'
-                                            }}
-                                            pointerEvents='none'>
-                                                <MapCharacters/>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <Button title='Set filter' raised
-                                        onPress={() => navigate('Filter')}
-                                        style={styles.filterButton}
-                                    />
-                                </View>
-                            }
-                            renderItem={({item}) => 
-                                <TouchableOpacity 
-                                    onPress={() => {
-                                        this.props.charactersStores.resetDetails()
-                                        navigate('Details', {id: item.id})
-                                    }} 
-                                >
-                                { view ?
-                                    <ItemCharacterList 
-                                        item={item} 
-                                        style={styles.textWrapperList} 
-                                        key={item.id}
-                                    /> 
-                                :
-                                    <ItemCharacterTable 
-                                        item={item} 
-                                        style={styles.textWrapperTable} 
-                                        key={item.id}
-                                    />
-                                }
-                                </TouchableOpacity>
-                            }
-                            getItemLayout={this.getItemLayout}
-                            initialNumToRender={20}
-                            numColumns={view ? 1 : 3}
-                            key={view ? 'h' : 'v'}
-                            onRefresh={() => this.onRefreshUpdateData()}
-                            refreshing={refreshing}
-                            keyExtractor={(item, index) => index.toString()}
-                            ItemSeparatorComponent={this.renderSeparator}
-                            ListFooterComponent={this.renderFooter.bind(this)}
-                            onEndReached={this.handleLoadMore.bind(this)}
-                            onEndReachedThreshold={0.4}> 
-                            </FlatList> 
-                    </View>
-                )
+            return null;
         }
+    }
+
+    renderEmpty = () => {
+        return <Text>There is no items available!</Text>
+    }
+
+    renderLoading = () => {
+        return (<ActivityIndicator style={styles.loadingCharactersScreen} size='large'/>)
+    }
+
+    renderHeader = () => {
+        return <View>
+            <TouchableOpacity onPress={ () => this.checkRegistration()}>
+                <SearchBar lightTheme
+                    placeholder='Search...' 
+                    pointerEvents='none'
+                    editable={false}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={ () => this.props.navigation.navigate('MapCharactersScreen', {size: 'global'})}>
+                <View style={{
+                    alignSelf: 'center', 
+                    height: Dimensions.get('screen').height * 0.23, 
+                    justifyContent: 'center'
+                    }}
+                    pointerEvents='none'>
+                        <MapCharacters/>
+                </View>
+            </TouchableOpacity>
+            <Button title='Set filter' raised
+                onPress={() => this.props.navigation.navigate('Filter')}
+                style={styles.filterButton}
+            />
+        </View>
+    }
+
+    renderCharacters = ({item})  => (
+        <TouchableOpacity 
+            onPress={() => {
+                this.props.charactersStores.resetDetails(item.id)
+                this.props.navigation.navigate('Details')
+            }}
+        >
+            {this.props.navigation.state.params.view ?
+                <ItemCharacterList 
+                    item={item} 
+                    style={styles.textWrapperList} 
+                    key={item.id}
+                    {...this.props}
+                /> :
+                <ItemCharacterTable
+                    item={item} 
+                    style={styles.textWrapperTable} 
+                    key={item.id}
+                />
+            }
+        </TouchableOpacity>
+    )
+    render(){
+        const {charactersStores: {getAllCharacters, refreshing, error, isLoading}, navigation: {state: {params: {view}}, navigate}} = this.props;
+        return(
+            <View>
+                {   
+                    error ? this.renderEmpty() :
+                    isLoading ? this.renderLoading() :
+                    <FlatList 
+                        data={getAllCharacters} 
+                        ListHeaderComponent={() => this.renderHeader()}
+                        renderItem={this.renderCharacters}
+                        getItemLayout={this.getItemLayout}
+                        initialNumToRender={20}
+                        numColumns={view ? 1 : 3}
+                        key={view ? 'h' : 'v'}
+                        onRefresh={() => this.onRefreshUpdateData()}
+                        refreshing={refreshing}
+                        keyExtractor={(item, index) => index.toString()}
+                        ItemSeparatorComponent={this.renderSeparator}
+                        ListFooterComponent={this.renderFooter.bind(this)}
+                        onEndReached={this.handleLoadMore.bind(this)}
+                        onEndReachedThreshold={0.4}> 
+                    </FlatList> 
+                }
+            </View>
+        )
     }
 }
 
