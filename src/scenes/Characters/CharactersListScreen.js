@@ -29,7 +29,7 @@ class CharactersListScreen extends React.Component{
     }
 
     renderFooter = () => {
-        if (this.props.charactersStores.stateList.loadingList){
+        if (this.props.charactersStores.isLoading){
             return <ActivityIndicator style={{color: '#000'}}/>
         } else {
             return null;
@@ -57,14 +57,13 @@ class CharactersListScreen extends React.Component{
     );
 
     render(){
-        const {charactersStores: {getAllCharacters, stateList, refreshing}, navigation: {state: {params: {view}}, navigate}} = this.props;
-        switch(stateList){
-            case(stateList.errorList):
-                return <Text>Something went wrong!</Text>
-            case(stateList.loadingList):
-                return <ActivityIndicator style={{color: '#000'}}/>
-            default:
-                return(
+        const {charactersStores: {getAllCharacters, refreshing, error, isLoading}, navigation: {state: {params: {view}}, navigate}} = this.props;
+        if(error){
+            return <Text>Something went wrong!</Text>
+        } else if(isLoading){
+            return <ActivityIndicator style={{color: '#000'}}/>
+        } else {
+            return(
                     <View>
                         <FlatList 
                             data={getAllCharacters} 
@@ -129,7 +128,7 @@ class CharactersListScreen extends React.Component{
                             </FlatList> 
                     </View>
                 )
-                        }
+        }
     }
 }
 

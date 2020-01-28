@@ -8,10 +8,8 @@ class CharactersList {
     details = [];
     gender = "";
     refreshing = false;
-    stateList = {
-        loadingList: false,
-        errorList: false
-    };
+    isLoading = false;
+    error = false;
     loadingDetails = false;
     errorDetails = false;
     genderChecked = {
@@ -54,11 +52,12 @@ class CharactersList {
         this.queryCharactersList().then( (resp) => {
             let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
             this.refreshing = false;
-            this.loadingList = false;
+            this.isLoading = false;
             this.characters = [...data];
         })
         .catch( (error) => {
-            this.errorList = error;
+            this.error = error;
+            this.isLoading = false;
         });
     }
 
@@ -184,7 +183,8 @@ class CharactersList {
 
 decorate(CharactersList, {
     characters: observable,
-    stateList: observable,
+    isLoading: observable,
+    error: observable,
     refreshing: observable,
     gender: observable,
     genderChecked: observable,
