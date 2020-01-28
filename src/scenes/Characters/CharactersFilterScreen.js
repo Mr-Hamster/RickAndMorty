@@ -19,14 +19,7 @@ class CharactersFilterScreen extends React.Component{
         this.props.charactersStores.changeCheckedGender('all')
     }
     doneFilter = () => {
-        const { male, female, all } = this.props.charactersStores.genderChecked;
-        if(male == true) {
-            this.props.charactersStores.loadMore(1, 'male');
-        } else if(female == true) {
-            this.props.charactersStores.loadMore(1, 'female');
-        } else if(all == true) {
-            this.props.charactersStores.loadMore(1, '');
-        }
+        this.props.charactersStores.loadMore();
         this.props.navigation.navigate('CharactersList')
     }
     render(){

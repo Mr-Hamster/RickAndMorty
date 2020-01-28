@@ -8,19 +8,19 @@ const styles = StyleSheet.create({
         height: 50
     },
     textWrapperList: {
-        flex: 1,
         alignItems: 'center',
         height: 120,
         flexDirection: 'row',
         paddingLeft: '2%',
     },
     textWrapperTable: {
-        flex: 1,
-        justifyContent: 'space-around',
+        width: 150,
+        justifyContent: 'space-evenly',
         height: 150,
         flexDirection: 'column',
         paddingLeft: '5%'
     },
+    textTable: {flexWrap: 'wrap'},
     imageList: {
         width: 100,
         height: 100,

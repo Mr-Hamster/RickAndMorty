@@ -13,7 +13,7 @@ class Users {
 
         AsyncStorage.getItem(registeredUsers).then( value => {
             if(value) {
-                this.usersStore = value;
+                this.users = value;
             }
         })
 
@@ -24,7 +24,7 @@ class Users {
         })
     }
     registered = false;
-    usersStore = [];
+    users = [];
     emailError = false;
     passwordError = false;
     profileInformation = {
@@ -105,7 +105,7 @@ class Users {
 }
 
 decorate(Users, {
-    usersStore: observable,
+    users: observable,
     registered: observable,
     profileInformation: observable,
     emailError: observable,

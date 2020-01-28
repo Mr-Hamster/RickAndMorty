@@ -4,10 +4,14 @@ import { getCharactersQuery, getDetailsCharacterQuery } from '../services/query.
 
 class CharactersList {
     characters = [];
+    charactersPage = 0;
     details = [];
     gender = "";
-    loadingList = false;
-    errorList = false;
+    refreshing = false;
+    stateList = {
+        loadingList: false,
+        errorList: false
+    };
     loadingDetails = false;
     errorDetails = false;
     genderChecked = {
@@ -15,21 +19,21 @@ class CharactersList {
         female: false,
         all: false
     }
-
-    queryCharactersList(page, gender) {
+    queryCharactersList() {
         this.loadingList = true;
 
         return client.query({
             query: getCharactersQuery(),
             variables: {
-                page: page,
-                gender: gender
+                page: this.charactersPage,
+                gender: this.gender
             }
         })
     }
 
-    loadMore(page, gender) {
-        this.queryCharactersList(page, gender).then( (resp) => {
+    loadMore() {
+        this.charactersPage++
+        this.queryCharactersList().then( (resp) => {
             if(resp.data.characters.results == null) {
                 this.characters = [...this.characters];
             } else {
@@ -45,11 +49,13 @@ class CharactersList {
     }
 
     refresh() {
-        this.queryCharactersList(1, "").then( (resp) => {
+        this.refreshing = true;
+        this.charactersPage = 1;
+        this.queryCharactersList().then( (resp) => {
             let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
-            
+            this.refreshing = false;
             this.loadingList = false;
-            this.characters = data;
+            this.characters = [...data];
         })
         .catch( (error) => {
             this.errorList = error;
@@ -60,6 +66,7 @@ class CharactersList {
 
     filterByGender(gender) {
         this.gender = gender;
+        this.charactersPage = 0;
         charactersStores.characters.replace([]);
     }
 
@@ -177,10 +184,11 @@ class CharactersList {
 
 decorate(CharactersList, {
     characters: observable,
-    loadingList: observable,
-    errorList: observable,
+    stateList: observable,
+    refreshing: observable,
     gender: observable,
     genderChecked: observable,
+    charactersPage: observable,
 
     details: observable,
     loadingDetails: observable,

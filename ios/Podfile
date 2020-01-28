@@ -56,6 +56,8 @@ target 'mobX_task' do
 
   pod 'react-native-image-picker-ios', :path => '../node_modules/@react-native-community/image-picker-ios'
 
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   target 'mobX_taskTests' do
     inherit! :search_paths
     # Pods for testing
