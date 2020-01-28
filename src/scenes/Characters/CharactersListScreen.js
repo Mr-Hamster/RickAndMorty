@@ -8,7 +8,7 @@ import {
     Alert,
     Dimensions
 } from 'react-native';
-import { SearchBar, Button } from 'react-native-elements';
+import { SearchBar, Button, Icon } from 'react-native-elements';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 import MapCharacters from '../../components/MapCharacters.js';
@@ -17,7 +17,7 @@ import ItemCharacterTable from '../../components/ItemCharacterTable.js';
 
 class CharactersListScreen extends React.Component{
     componentDidMount = () => {
-        this.props.charactersStores.loadMore();
+       this.props.charactersStores.loadMore();
     }
 
     onRefreshUpdateData = () => {
@@ -49,7 +49,15 @@ class CharactersListScreen extends React.Component{
     }
 
     renderEmpty = () => {
-        return <Text>There is no items available!</Text>
+        return <View style={styles.errorScreenWrapper}>
+            <Text style={styles.errorText}>There is no items available</Text>
+        </View>
+    }
+
+    renderError = () => {
+        return <View style={styles.errorScreenWrapper}>
+            <Text style={styles.errorText}>Something went wrong!</Text>
+        </View>
     }
 
     renderLoading = () => {
@@ -101,8 +109,10 @@ class CharactersListScreen extends React.Component{
     )
 
     render(){
-        const {charactersStores: {getAllCharacters, refreshing, isError, isLoading}, navigation: {state: {params: {view}}, navigate}} = this.props;
+        const {charactersStores: {getAllCharacters, characters, refreshing, isError, isLoading}, navigation: {state: {params: {view}}, navigate}} = this.props;
         if(isError) {
+            return this.renderError()
+        } else if(getAllCharacters.length == 0){
             return this.renderEmpty()
         } else if(isLoading) {
             return this.renderLoading()

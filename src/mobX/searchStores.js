@@ -6,17 +6,29 @@ class Search {
     charactersSearch = [];
     loading = '';
     error = '';
+    searchValue = "";
+    page = 1;
+    refreshing = false;
 
-    searchByName(page, filter) {
+    onChangeSearchValue(text) {
+        console.log(this.searchValue)
+        const prevValue = this.searchValue;
+        this.searchValue = prevValue + text;
+    }
+
+    onClearSearchValue(){
+        this.searchValue = ""
+    }
+
+    searchByName() {
         this.loading = true;
         client.query({
             query: getCharactersBySearch(),
             variables: {
-                page: page,
-                filter: filter
+                page: this.page,
+                filter: this.searchValue
             }
-        })
-        .then( (resp) => {
+        }).then( (resp) => {
             if(resp.data.characters.results == null) {
                 search.charactersSearch.replace([]);
             } else {
@@ -29,13 +41,35 @@ class Search {
         })
     }
 
-    loadMore(page, filter) {
+    refresh() {
+        this.refreshing = true;
+        this.page = 1;
+        this.searchValue = "";
         this.loading = true;
         client.query({
             query: getCharactersBySearch(),
             variables: {
-                page: page,
-                filter: filter
+                page: this.page,
+                filter: this.searchValue
+            }
+        }).then( (resp) => {
+            search.charactersSearch.replace(resp.data.characters.results)
+            this.loading = false;
+            this.refreshing = false;
+        })
+        .catch( (error) => {
+            this.error = error;
+        })
+    }
+
+    loadMore() {
+        this.loading = true;
+        this.page++
+        client.query({
+            query: getCharactersBySearch(),
+            variables: {
+                page: this.page,
+                filter: this.searchValue
             }
         })
         .then( (resp) => {
@@ -54,16 +88,26 @@ class Search {
     get getSearchResult() {
         return this.charactersSearch.flat();
     }
+
+    get getSearchValue() {
+        return this.searchValue;
+    }
 }
 
 decorate(Search, {
     charactersSearch: observable,
     loading: observable,
     error: observable,
+    searchValue: observable,
+    page: observable,
+    refreshing: observable,
 
+    onChangeSearchValue: action,
     searchByName: action,
     loadMore: action,
-    getSearchResult: computed
+    onClearSearchValue: action,
+    getSearchResult: computed,
+    getSearchValue: computed
 })
 
 const search = new Search();

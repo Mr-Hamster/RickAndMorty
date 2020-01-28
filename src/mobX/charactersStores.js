@@ -5,7 +5,6 @@ import { getCharactersQuery, getDetailsCharacterQuery } from '../services/query.
 class CharactersList {
     characters = [];
     charactersPage = 0;
-    gender = "";
     refreshing = false;
     isLoading = false;
     isError = false;
@@ -15,14 +14,16 @@ class CharactersList {
     characterPrevID = 0;
     isLoadingDetails = true;
     isErrorDetails = false;
+
+    gender = "";
     genderChecked = {
         male: false,
         female: false,
         all: false
     }
+
     queryCharactersList() {
         this.isLoading = true;
-
         return client.query({
             query: getCharactersQuery(),
             variables: {
@@ -153,7 +154,7 @@ class CharactersList {
     }
 
     resetDetails(id) {
-        charactersStores.details.clear()
+        this.details = []
         this.characterNextID = id-1;
         this.characterPrevID = id;
     }

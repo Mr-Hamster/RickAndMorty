@@ -17,32 +17,51 @@ class CharactersDetailsScreen extends React.Component{
         this.props.charactersStores.loadFirstCharacters()
         InteractionManager.runAfterInteractions(() => {
             if(this.props.charactersStores.characterPrevID == 0){
-                this.scrollViewRef.scrollTo({x: 0, y: 0, animated: false});
+                this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false});
             } else {
                 this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width * 2, y: 0, animated: false});
             }
         }) 
     }
+
+    renderError = () => {
+        return <View style={styles.errorScreenWrapper}>
+            <Text style={styles.errorText}>Something went wrong!</Text>
+        </View>
+    }
+
+    renderEmpty = () => {
+        return <View style={styles.errorScreenWrapper}>
+            <Text style={styles.errorText}>There is no items available</Text>
+        </View>
+    }
+
     handleLoadMore = () => {
        this.props.charactersStores.loadNextCharacter()
     }
+
     handleLoadMorePrevious = () => {
         this.props.charactersStores.loadPreviousCharacter()
     }
+
     convertDateCreated = (created) => {
         const parseCreated = new Date(created);
         var year = parseCreated.getFullYear();
         var month = parseCreated.getMonth() < 10 ? '0'+parseCreated.getMonth() : parseCreated.getMonth();
         var day = parseCreated.getDate() < 10 ? '0'+parseCreated.getDate() : parseCreated.getDate();
-
         var hours = parseCreated.getHours() < 10 ? '0'+parseCreated.getHours() : parseCreated.getHours();
         var minutes = parseCreated.getMinutes() < 10 ? '0'+parseCreated.getMinutes() : parseCreated.getMinutes();
-
         return `${day}/${month}/${year}, ${hours}:${minutes}`
     }
+
     render(){
-        const { getDetailsList, addToFavorite, isLoadingDetails } = this.props.charactersStores;
-        return(
+        const { getDetailsList, addToFavorite, isLoadingDetails, isErrorDetails } = this.props.charactersStores;
+        if(isErrorDetails) {
+            return this.renderError()
+        } else if(getDetailsList.length == 0){
+            return this.renderEmpty()
+        } else {
+            return(
                 <ScrollView horizontal={true}
                     ref={(ref) => this.scrollViewRef = ref}
                     showsHorizontalScrollIndicator={false}
@@ -89,7 +108,8 @@ class CharactersDetailsScreen extends React.Component{
                         <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
                     </View>)}
                 </ScrollView>
-        )
+            )
+        }
     }
 }
 

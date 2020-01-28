@@ -11,22 +11,11 @@ import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 
 class CharactersSearchScreen extends React.Component{
-    state = {
-        page: 2,
-        searchValue: "",
-        refreshing: false
-    }
     componentDidMount = () => {
-        this.props.search.searchByName(1, "");
+        this.props.search.searchByName();
     }
     onRefreshUpdateData = () => {
-        this.setState({
-            refreshing: true,
-            page: 2
-        }, () => this.props.search.searchByName(1, ""))  
-        this.setState({
-            refreshing: false
-        })
+        this.props.search.refresh()
     }
     renderSeparator = () => {
         return (
@@ -34,25 +23,20 @@ class CharactersSearchScreen extends React.Component{
         )
     }
     handleLoadMore = () => {
-        const { page, searchValue } = this.state;
-        this.setState({
-            page: this.state.page + 1
-        }, () => {
-            this.props.search.loadMore(page, searchValue)
-        })
+        this.props.search.loadMore()
     }
     render() {
-        const { search: {searchByName, getSearchResult}, charactersStores: { resetDetails} } = this.props;
+        const { search: { getSearchValue, getSearchResult, onChangeSearchValue, onClearSearchValue, searchValue, refreshing}, charactersStores: { resetDetails} } = this.props;
+        console.log('Screen:',getSearchValue)
         return(
             <View style={{flex: 1}}>
                 <SearchBar onChangeText={text => {
-                        this.setState({
-                            searchValue: text
-                        }, () => searchByName(1, this.state.searchValue))}
-                    }
+                        onChangeSearchValue(text)
+                    }}
                     style={styles.inputSearch}
                     placeholder='Search...'
-                    value={this.state.searchValue}
+                    value={getSearchValue}
+                    onClear={() => onClearSearchValue()}
                     lightTheme
                 />
                 {getSearchResult.length == 0 ? 
@@ -75,7 +59,7 @@ class CharactersSearchScreen extends React.Component{
                             </View>
                         </TouchableOpacity>}
                     onRefresh={() => this.onRefreshUpdateData()}
-                    refreshing={this.state.refreshing}
+                    refreshing={refreshing}
                     keyExtractor={(item, index) => index.toString()}
                     ItemSeparatorComponent={this.renderSeparator}
                     onEndReached={this.handleLoadMore.bind(this)}

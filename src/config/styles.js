@@ -2,7 +2,19 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 const styles = StyleSheet.create({
     //CHARACTERS LIST
-    loadingCharactersScreen: {color: '#000', height: Dimensions.get('screen').height * 0.8},
+    errorScreenWrapper: {
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center'
+    },
+    errorText: {
+        color: '#A9A9A9', 
+        fontSize: 20
+    },
+    loadingCharactersScreen: {
+        color: '#000', 
+        height: Dimensions.get('screen').height * 0.8
+    },
     filterButton: {
         width: '97%',
         alignSelf: 'center',
