@@ -79,9 +79,11 @@ const Profile = createStackNavigator({
             title: 'YOUR LOCATION'
         }
     }
-},{
-    initialRouteName: AsyncStorage.getItem(isRegistered).then( value => value == 'true') ? 'ProfileScreen' : 'LogIn'
-})
+},
+// {
+//     initialRouteName: AsyncStorage.getItem(isRegistered).then( value => value == 'true') ? 'ProfileScreen' : 'LogIn'
+// }
+)
 
 const RootTabs = createBottomTabNavigator({
     List: {

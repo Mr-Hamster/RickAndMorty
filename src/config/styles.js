@@ -72,6 +72,17 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#CED0CE'
     },
+
+    modalWrapper: {
+        flex: 1, 
+        justifyContent: 'flex-end', 
+        flexDirection: 'column'
+    },
+    modalButtonWrapper: {
+        backgroundColor: '#fff', 
+        marginBottom: '5%', 
+        paddingTop: '5%'
+    },
     //DETAILS SCREEN
     imageCharacter: {
         marginTop: '5%',
