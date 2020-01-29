@@ -70,8 +70,7 @@ class LogInScreen extends React.Component{
                 <Icon.Button
                     name='facebook'
                     onPress={() => {
-                        Promise.resolve(logInWithFacebook())
-                            .then(this.props.navigation.navigate('ProfileScreen'))
+                        logInWithFacebook(this.props)
                     }}
                     style={{height: 40, width: Dimensions.get('window').width * 0.8, justifyContent: 'center'}}>
                     LOGIN WITH FACEBOOK

@@ -59,11 +59,7 @@ class CharactersListScreen extends React.Component{
             <Text style={styles.errorText}>Something went wrong!</Text>
         </View>
     }
-
-    renderLoading = () => {
-        return (<ActivityIndicator style={styles.loadingCharactersScreen} size='large'/>)
-    }
-
+    
     renderHeader = () => {
         return <View>
             <TouchableOpacity onPress={ () => this.checkRegistration()}>
@@ -109,13 +105,11 @@ class CharactersListScreen extends React.Component{
     )
 
     render(){
-        const {charactersStores: {getAllCharacters, characters, refreshing, isError, isLoading}, navigation: {state: {params: {view}}, navigate}} = this.props;
+        const {charactersStores: {getAllCharacters, refreshing, isError}, navigation: {state: {params: {view}}, navigate}} = this.props;
         if(isError) {
             return this.renderError()
         } else if(getAllCharacters.length == 0){
             return this.renderEmpty()
-        } else if(isLoading) {
-            return this.renderLoading()
         } else {
             return(
                 <View>

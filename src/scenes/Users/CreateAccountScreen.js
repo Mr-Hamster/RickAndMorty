@@ -40,7 +40,6 @@ async function requestLocationPermission() {
   }
 
 class CreateAccount extends React.Component{
-   // create account store
     state = {
         email: '',
         emailError: '',
@@ -235,7 +234,6 @@ class CreateAccount extends React.Component{
                 />
                 <Text style={styles.placesTitleText}>Choose your location there:</Text>
                 <View style={styles.buttonPlacesWrapper}>
-                    {/* //color and button -> style */}
                     <IconButton
                         icon='format-list-bulleted'
                         color='#000'

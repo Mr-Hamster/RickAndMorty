@@ -1,6 +1,6 @@
 import React from 'react';
 import MapView, { Marker } from "react-native-maps";
-import { View, Image, TouchableOpacity, Dimensions, YellowBox } from 'react-native';
+import { View, Image, Dimensions, YellowBox } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import styles from '../config/styles';
 

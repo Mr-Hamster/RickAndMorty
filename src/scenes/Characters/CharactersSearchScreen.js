@@ -16,7 +16,7 @@ class CharactersSearchScreen extends React.Component{
     }
 
     componentDidMount = () => {
-        this.props.search.searchByName(this.state.targetValue);
+        this.props.search.fetchSearchResults(this.state.targetValue);
     }
 
     renderError = () => {
@@ -46,14 +46,14 @@ class CharactersSearchScreen extends React.Component{
     )
 
     render() {
-        const { search: {searchByName, getSearchResult, refreshing, refresh, loading, error } } = this.props;
+        const { search: {fetchSearchResults, getSearchResult, refreshing, refresh, error } } = this.props;
         if(error) {
             return this.renderError()
         } else {
             return(
                 <View style={{flex: 1}}>
                     <SearchBar 
-                        onChangeText={(text) => this.setState({targetValue: text}, () => searchByName(text))}
+                        onChangeText={(text) => this.setState({targetValue: text}, () => fetchSearchResults(text))}
                         style={styles.inputSearch}
                         placeholder='Search...'
                         value={this.state.targetValue}

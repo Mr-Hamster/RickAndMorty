@@ -1,29 +1,30 @@
 import { LoginManager, AccessToken, GraphRequest,GraphRequestManager } from 'react-native-fbsdk';
-import users from '../mobX/usersStores.js';
+import { Alert } from 'react-native';
 
-export function logInWithFacebook() {
+export function logInWithFacebook(props) {
         LoginManager.logInWithPermissions(["public_profile"]).then(
             (result) => {
               if (result.isCancelled) {
                 console.log("Login cancelled");
               } else {
                 AccessToken.getCurrentAccessToken().then( data => {
-                    getGraphData(data)
+                    getGraphData(data, props)
                 })
+                props.navigation.navigate('ProfileScreen')
               }
             },
             (error) => {
-              console.log("Login fail with error: " + error);
+                Alert.alert("Login fail with error: ", error)
             }
         )
     }
-function getGraphData(data){
+function getGraphData(data, props){
         let accessToken = data.accessToken
         const responseInfoCallback = (error, result) => {
             if (error) {
-                console.log(error)
+                Alert.alert("Can't get your information: ", error)
             } else {
-                users.signInWithFBSDK(result.name, result.picture.data.url)
+                props.users.signInWithFBSDK(result.name, result.picture.data.url)
             }
         }
         const infoRequest = new GraphRequest(

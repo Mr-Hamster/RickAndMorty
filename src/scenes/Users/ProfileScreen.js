@@ -2,7 +2,8 @@ import React from 'react';
 import { 
     View,
     Image,
-    Text 
+    Text,
+    ActivityIndicator
 } from 'react-native';
 import { Button } from 'react-native-paper';
 import styles from '../../config/styles.js';
@@ -10,21 +11,22 @@ import { observer, inject } from 'mobx-react';
 import {defaultPhotoURL} from '../../services/constants.js';
 
 class ProfileScreen extends React.Component{
-    state = {
-        photo: this.props.users.photo,
-        defaultPhoto: defaultPhotoURL
-    }
     signUp = () => {
         this.props.users.signUp()
         this.props.navigation.navigate('LogIn')
     }
+    renderLoading = () => {
+        return (<ActivityIndicator style={styles.loadingCharactersScreen} size='large'/>)
+    }
     render() {
-        const { email, photo, location, place } = this.props.users.profileInformation;
-        return(
+        const { profileInformation: { email, photo, location, place }, loading } = this.props.users;
+        if(loading) {
+            return this.renderLoading()
+        } else {return(
             <View style={styles.profileWrapper}>
                 <View style={styles.profileInformationWrapper}>
                     <Image 
-                        source={photo? {uri: photo} : {uri: this.state.defaultPhoto}} 
+                        source={photo ? {uri: photo} : {uri: defaultPhotoURL}} 
                         style={styles.imageProfile}
                     />
                     <Text style={styles.textTitle}>{email}</Text>
@@ -44,7 +46,7 @@ class ProfileScreen extends React.Component{
                     onPress={() => this.signUp()}
                     style={styles.loginButton}>Sign Up</Button>
             </View>
-        )
+        )}
     }
 }
 

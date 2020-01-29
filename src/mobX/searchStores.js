@@ -4,24 +4,27 @@ import { getCharactersBySearch } from '../services/query.js';
 
 class Search {
     charactersSearch = [];
-    page = 1;
+    page = 0;
     loading = false;
     error = false;
     refreshing = false;
     searchValue = "";
 
-    searchByName(targetValue) {
-        this.page = 1;
+    querySearching() {
         this.loading = true;
-     //   this.searchValue = targetValue;
-        client.query({
+        return client.query({
             query: getCharactersBySearch(),
             variables: {
                 page: this.page,
-                filter: targetValue
+                filter: this.searchValue
             }
         })
-        .then( (resp) => {
+    }
+
+    fetchSearchResults(targetValue) {
+        this.page = 1;
+        this.searchValue = targetValue;
+        this.querySearching().then( (resp) => {
             if(resp.data.characters.results == null) {
                 search.charactersSearch.replace([]);
             } else {
@@ -37,19 +40,12 @@ class Search {
 
     loadMore(targetValue) {
         this.page++
-        this.loading = true;
-        client.query({
-            query: getCharactersBySearch(),
-            variables: {
-                page: this.page,
-                filter: targetValue
-            }
-        })
-        .then( (resp) => {
+        this.searchValue = targetValue;
+        this.querySearching().then( (resp) => {
             if(resp.data.characters.results == null) {
-                search.charactersSearch.replace(this.charactersSearch);
+                this.charactersSearch = [...this.charactersSearch];
             } else {
-                search.charactersSearch.replace([...this.charactersSearch, resp.data.characters.results]);
+                this.charactersSearch = [...this.charactersSearch, resp.data.characters.results];
             }
             this.loading = false;
         })
@@ -61,16 +57,9 @@ class Search {
 
     refresh() {
         this.refreshing = true;
-        this.loading = true;
         this.page = 1;
-        client.query({
-            query: getCharactersBySearch(),
-            variables: {
-                page: this.page,
-                filter: ""
-            }
-        })
-        .then( (resp) => {
+        this.searchValue = "";
+        this.querySearching().then( (resp) => {
             if(resp.data.characters.results == null) {
                 search.charactersSearch.replace([]);
             } else {
@@ -92,14 +81,17 @@ class Search {
 
 decorate(Search, {
     charactersSearch: observable,
+    page: observable,
+    searchValue: observable,
+
     loading: observable,
     error: observable,
     refreshing: observable,
+
     refresh: action,
-    page: observable,
-    searchValue: observable,
-    searchByName: action,
+    fetchSearchResults: action,
     loadMore: action,
+    
     getSearchResult: computed
 })
 

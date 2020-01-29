@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         paddingLeft: '2%',
     },
     textWrapperTable: {
-        width: 150,
+        width: 130,
         justifyContent: 'space-evenly',
         height: 150,
         flexDirection: 'column',
