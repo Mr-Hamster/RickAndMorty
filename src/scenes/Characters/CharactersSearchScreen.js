@@ -85,4 +85,4 @@ class CharactersSearchScreen extends React.Component{
     }
 }
 
-export default inject('search')(observer(CharactersSearchScreen));
+export default inject('search', 'charactersStores')(observer(CharactersSearchScreen));

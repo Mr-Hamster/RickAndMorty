@@ -28,7 +28,7 @@ const List = createStackNavigator({
             view: true
         },
         navigationOptions: ({ navigation }) => ({
-            title: 'Show characters list',
+            title: 'CHARACTERS LIST',
             headerRight: () => <Icon.Button name={navigation.state.params.view ? "table"  : "list"}
             color='#000'
             backgroundColor='#fff'
@@ -39,7 +39,7 @@ const List = createStackNavigator({
     MapCharactersScreen: {
         screen: MapCharacters,
         navigationOptions: {
-            title: 'Characters Map'
+            title: 'CHARACTERS MAP'
         }
     }
 })
@@ -48,7 +48,7 @@ const Favorite = createStackNavigator({
     FavoriteCharacters: {
         screen: CharactersFavoriteScreen,
         navigationOptions: {
-            title: 'Favorite characters'
+            title: 'FAVORITE'
         }
     }
 })
@@ -57,28 +57,30 @@ const Profile = createStackNavigator({
     LogIn: {
         screen: LogInScreen,
         navigationOptions: {
-            title: 'LogIn'
+            title: 'LOG IN'
         }
     },
     ProfileScreen: {
         screen: ProfileScreen,
         navigationOptions: {
-            title: 'Profile',
+            title: 'PROFILE',
             headerLeft: () => null
         }
     },
     CreateAccount: {
         screen: CreateAccount,
         navigationOptions: {
-            title: 'Create Account'
+            title: 'CREATE ACCOUNT'
         }
     },
     MapScreen: {
         screen: Map,
         navigationOptions: {
-            title: 'Your location'
+            title: 'YOUR LOCATION'
         }
     }
+},{
+    initialRouteName: AsyncStorage.getItem(isRegistered).then( value => value == 'true') ? 'ProfileScreen' : 'LogIn'
 })
 
 const RootTabs = createBottomTabNavigator({
@@ -119,7 +121,7 @@ const RootStack = createStackNavigator({
     Intro: {
         screen: IntroScreen,
         navigationOptions: {
-            title: 'Rick and Morty'
+            title: 'RICK AND MORTY'
         }
     },
     CharactersScreen: {
@@ -131,19 +133,19 @@ const RootStack = createStackNavigator({
     Details: {
         screen: CharacterDetailsScreen,
         navigationOptions: {
-            title: `Show character's details`
+            title: `CHARACTER'S DETAILS`
         }
     },
     Filter: {
         screen: CharactersFilterScreen,
         navigationOptions: {
-            title: 'Filter by gender'
+            title: 'FILTER BY GENDER'
         }
     },
     Search: {
         screen: CharactersSearchScreen,
         navigationOptions: {
-            title: 'Search by name'
+            title: 'SEARCH BY NAME'
         }
     }
 },{

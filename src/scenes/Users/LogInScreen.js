@@ -2,9 +2,8 @@ import React from 'react';
 import { logInWithFacebook } from '../../components/LogInButton.js';
 import { 
     View, 
-    Dimensions,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
 } from 'react-native';
 import { HelperText, TextInput, Button } from 'react-native-paper';
 import styles from '../../config/styles.js';
@@ -12,10 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { observer, inject } from 'mobx-react';
 
 class LogInScreen extends React.Component{
-    state = {
-        email: '',
-        password: ''
-    }
+
     componentDidMount = () => {
         if(this.props.users.registered == "true") {
             this.props.navigation.navigate('ProfileScreen')
@@ -23,56 +19,55 @@ class LogInScreen extends React.Component{
             this.props.navigation.navigate('LogIn')
         }
     }
+    
     onChangeEmail = (text) => {
-        this.setState({ email: text })
+       this.props.users.handleEmail(text)
     }
+
     onChangePassword = (text) => {
-        this.setState({ password: text })
+        this.props.users.handlePassword(text)
     }
+
     logIn = () => {
-        const{ email, password } = this.state;
-        this.props.users.signIn(email, password);
-        if(!this.props.users.emailError && !this.props.users.passwordError) {
+        const { email, password, isEmailError, isPasswordError } = this.props.users;
+        this.props.users.signIn();
+        if(!isEmailError && !isPasswordError && email != "" && password != "") {
             this.props.navigation.navigate('ProfileScreen')
         }
     }
+
     render() {
-        const { emailError, passwordError } = this.props.users;
+        const { isEmailError, isPasswordError, email, password } = this.props.users;
         return(
             <View style={styles.registrationWrapper}>
                 <TextInput 
                     label='E-mail'
-                    value={this.state.email} 
+                    value={email} 
                     onChangeText={ text => this.onChangeEmail(text)}
                     style={styles.loginInput}
                 />
-                <HelperText 
-                    type='error'
-                    visible={emailError}>Incorrect e-mail!</HelperText>
+                <HelperText type='error' visible={isEmailError}>Incorrect e-mail!</HelperText>
                 <TextInput 
                     label='Password'
-                    value={this.state.password} 
+                    value={password} 
                     onChangeText={ text => this.onChangePassword(text)}
                     style={styles.loginInput}
                     textContentType='password'
                     secureTextEntry={true}
                 />
-                <HelperText 
-                    type='error'
-                    visible={passwordError}>Incorrect password!</HelperText>
+                <HelperText type='error' visible={isPasswordError}>Incorrect password!</HelperText>
                 <Button 
                     mode='contained' 
                     color='#000' 
                     style={styles.loginButton}
-                    onPress={() => this.logIn()}
-                >LogIn</Button>
+                    onPress={() => this.logIn()}>
+                    LOG IN
+                </Button>
                 <Text style={styles.loginText}>OR</Text>
                 <Icon.Button
                     name='facebook'
-                    onPress={() => {
-                        logInWithFacebook(this.props)
-                    }}
-                    style={{height: 40, width: Dimensions.get('window').width * 0.8, justifyContent: 'center'}}>
+                    onPress={() => logInWithFacebook(this.props)}
+                    style={styles.facebookButton}>
                     LOGIN WITH FACEBOOK
                 </Icon.Button>
                 <TouchableOpacity onPress={() => this.props.navigation.navigate('CreateAccount')}>

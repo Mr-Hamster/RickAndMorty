@@ -8,7 +8,7 @@ import {
     Alert,
     Dimensions
 } from 'react-native';
-import { SearchBar, Button, Icon } from 'react-native-elements';
+import { SearchBar, Button } from 'react-native-elements';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 import MapCharacters from '../../components/MapCharacters.js';
@@ -79,7 +79,7 @@ class CharactersListScreen extends React.Component{
                         <MapCharacters/>
                 </View>
             </TouchableOpacity>
-            <Button title='Set filter' raised
+            <Button title='SET FILTER' raised
                 onPress={() => this.props.navigation.navigate('Filter')}
                 style={styles.filterButton}
             />

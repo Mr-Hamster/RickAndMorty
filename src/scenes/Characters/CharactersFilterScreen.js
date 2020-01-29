@@ -38,7 +38,7 @@ class CharactersFilterScreen extends React.Component{
                     checked={all}
                     onPress={() => this.handleAllGender()}
                 />
-                <Button title='Done' raised
+                <Button title='DONE' raised
                     onPress={() => this.doneFilter()}
                     style={styles.filterButton}
                 />

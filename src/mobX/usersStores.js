@@ -2,7 +2,6 @@ import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
 import { isRegistered, registeredUsers, userInformation } from '../services/constants.js';
 
-
 class Users {
     constructor() {
         AsyncStorage.getItem(isRegistered).then( value => {
@@ -23,10 +22,13 @@ class Users {
             }
         })
     }
+
     registered = false;
     usersStore = [];
-    emailError = false;
-    passwordError = false;
+
+    isEmailError = false;
+    isPasswordError = false;
+
     profileInformation = {
         photo: '',
         email: '',
@@ -34,42 +36,62 @@ class Users {
         location: {}
     }
 
+    email = "";
+    password = "";
+
     setRegistered(value) {
         this.registered = value;
         AsyncStorage.setItem(isRegistered, value);
     }
 
-    setProfileInformation(user) {
-        this.profileInformation = user;
-        AsyncStorage.setItem(userInformation, JSON.stringify(user));
-    }
-
-    addRegisteredUsers(user) {
+    handleEmail(text) {
+        this.email = text;
         AsyncStorage.getItem(registeredUsers).then( value => {
-            var data = JSON.parse(value) || [];
-            data.push(user);
-            AsyncStorage.setItem(registeredUsers, JSON.stringify(data));
+            JSON.parse(value).map(item => {
+                if(item.email == this.email) {
+                    this.emailError = false
+                } else {
+                    this.emailError = true
+                }
+            })
         })
     }
 
-    signIn(email, password) {
+    handlePassword(text) {
+        this.password = text;
+        AsyncStorage.getItem(registeredUsers).then( value => {
+            JSON.parse(value).map(item => {
+                if(item.password == this.password) {
+                    this.passwordError = false
+                } else {
+                    this.passwordError = true
+                }
+            })
+        })
+    }
+
+    async setProfileInformation(user) {
+        this.profileInformation = user;
+        await AsyncStorage.setItem(userInformation, JSON.stringify(user));
+        this.clearInputs()
+    }
+
+    signIn() {
         AsyncStorage.getItem(registeredUsers).then( value => {
             if(value === null) {
                 this.emailError = true;
                 this.passwordError = true;
             } else {
                 JSON.parse(value).map(item => {
-                    if(item.email == email && item.password == password) {
+                    if(item.email == this.email && item.password == this.password) {
                         this.setRegistered('true');
                         this.emailError = false;
                         this.passwordError = false;
-                        const user = {
-                            email: item.email,
-                            photo: item.photo,
-                            place: item.place,
-                            location: item.location
-                        }
-                        this.setProfileInformation(user);
+                        this.setProfileInformation(item);
+                    } else if(item.email != this.email && item.password == this.password) {
+                        this.emailError = true;
+                    }else if(item.password != this.password && item.email == this.email){
+                        this.passwordError = true;
                     } else {
                         this.emailError = true;
                         this.passwordError = true;
@@ -102,20 +124,29 @@ class Users {
         this.passwordError = false;
     }
 
+    clearInputs() {
+        this.email = "";
+        this.password = "";
+        this.emailError = false;
+        this.passwordError = false;
+    }
 }
 
 decorate(Users, {
     usersStore: observable,
     registered: observable,
     profileInformation: observable,
-    emailError: observable,
-    passwordError: observable,
+    isEmailError: observable,
+    isPasswordError: observable,
+    email: observable,
+    password: observable,
 
     signIn: action,
     signInWithFBSDK: action,
     signUp: action,
     setRegistered: action,
-    addRegisteredUsers: action
+    handleEmail: action,
+    handlePassword: action
 })
 
 const users = new Users();

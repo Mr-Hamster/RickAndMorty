@@ -177,6 +177,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         flexDirection: 'row'
     },
+    facebookButton: {
+        height: 40, 
+        width: Dimensions.get('window').width * 0.8, 
+        justifyContent: 'center'
+    },
     //PROFILE
     profileWrapper: {
         flex: 1,
@@ -191,10 +196,16 @@ const styles = StyleSheet.create({
         marginTop: '5%'
     },
     profileInformationWrapper: {
+        width: '100%',
         flexDirection: 'column',
         height: '70%', 
         justifyContent: 'space-evenly',
         alignItems: 'center'
+    },
+    placesText: {
+        width: '80%',
+        flexWrap: 'wrap',
+        fontSize: 16
     },
     //ROUTER
     iconTabBar: {
