@@ -4,31 +4,24 @@ import { getCharactersBySearch } from '../services/query.js';
 
 class Search {
     charactersSearch = [];
-    loading = '';
-    error = '';
-    searchValue = "";
     page = 1;
+    loading = false;
+    error = false;
     refreshing = false;
+    searchValue = "";
 
-    onChangeSearchValue(text) {
-        console.log(this.searchValue)
-        const prevValue = this.searchValue;
-        this.searchValue = prevValue + text;
-    }
-
-    onClearSearchValue(){
-        this.searchValue = ""
-    }
-
-    searchByName() {
+    searchByName(targetValue) {
+        this.page = 1;
         this.loading = true;
+     //   this.searchValue = targetValue;
         client.query({
             query: getCharactersBySearch(),
             variables: {
                 page: this.page,
-                filter: this.searchValue
+                filter: targetValue
             }
-        }).then( (resp) => {
+        })
+        .then( (resp) => {
             if(resp.data.characters.results == null) {
                 search.charactersSearch.replace([]);
             } else {
@@ -38,38 +31,18 @@ class Search {
         })
         .catch( (error) => {
             this.error = error;
-        })
-    }
-
-    refresh() {
-        this.refreshing = true;
-        this.page = 1;
-        this.searchValue = "";
-        this.loading = true;
-        client.query({
-            query: getCharactersBySearch(),
-            variables: {
-                page: this.page,
-                filter: this.searchValue
-            }
-        }).then( (resp) => {
-            search.charactersSearch.replace(resp.data.characters.results)
             this.loading = false;
-            this.refreshing = false;
-        })
-        .catch( (error) => {
-            this.error = error;
         })
     }
 
-    loadMore() {
-        this.loading = true;
+    loadMore(targetValue) {
         this.page++
+        this.loading = true;
         client.query({
             query: getCharactersBySearch(),
             variables: {
                 page: this.page,
-                filter: this.searchValue
+                filter: targetValue
             }
         })
         .then( (resp) => {
@@ -82,15 +55,38 @@ class Search {
         })
         .catch( (error) => {
             this.error = error;
+            this.loading = false;
+        })
+    }
+
+    refresh() {
+        this.refreshing = true;
+        this.loading = true;
+        this.page = 1;
+        client.query({
+            query: getCharactersBySearch(),
+            variables: {
+                page: this.page,
+                filter: ""
+            }
+        })
+        .then( (resp) => {
+            if(resp.data.characters.results == null) {
+                search.charactersSearch.replace([]);
+            } else {
+                search.charactersSearch.replace(resp.data.characters.results)
+            }
+            this.loading = false;
+            this.refreshing = false;
+        })
+        .catch( (error) => {
+            this.error = error;
+            this.loading = false;
         })
     }
 
     get getSearchResult() {
         return this.charactersSearch.flat();
-    }
-
-    get getSearchValue() {
-        return this.searchValue;
     }
 }
 
@@ -98,16 +94,13 @@ decorate(Search, {
     charactersSearch: observable,
     loading: observable,
     error: observable,
-    searchValue: observable,
-    page: observable,
     refreshing: observable,
-
-    onChangeSearchValue: action,
+    refresh: action,
+    page: observable,
+    searchValue: observable,
     searchByName: action,
     loadMore: action,
-    onClearSearchValue: action,
-    getSearchResult: computed,
-    getSearchValue: computed
+    getSearchResult: computed
 })
 
 const search = new Search();

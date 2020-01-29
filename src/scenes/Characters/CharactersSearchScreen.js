@@ -2,72 +2,81 @@ import React from 'react';
 import { 
     View,
     FlatList,
-    TouchableOpacity,
-    Image,
-    Text
+    Text,
+    ActivityIndicator
 } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
+import ItemCharacterSearch from '../../components/ItemCharacterSearch.js'
 
 class CharactersSearchScreen extends React.Component{
-    componentDidMount = () => {
-        this.props.search.searchByName();
+    state = {
+        targetValue: ""
     }
-    onRefreshUpdateData = () => {
-        this.props.search.refresh()
-    }
-    renderSeparator = () => {
-        return (
-            <View style={styles.borderList}/>
-        )
-    }
-    handleLoadMore = () => {
-        this.props.search.loadMore()
-    }
-    render() {
-        const { search: { getSearchValue, getSearchResult, onChangeSearchValue, onClearSearchValue, searchValue, refreshing}, charactersStores: { resetDetails} } = this.props;
-        console.log('Screen:',getSearchValue)
-        return(
-            <View style={{flex: 1}}>
-                <SearchBar onChangeText={text => {
-                        onChangeSearchValue(text)
-                    }}
-                    style={styles.inputSearch}
-                    placeholder='Search...'
-                    value={getSearchValue}
-                    onClear={() => onClearSearchValue()}
-                    lightTheme
-                />
-                {getSearchResult.length == 0 ? 
-                <View style={styles.noResultsWrapper}>
-                        <Icon name='search' color='grey'/>
-                        <Text style={styles.textFavorite}>No results</Text>
-                    </View>
-                : <FlatList
-                    data={getSearchResult}
-                    renderItem={({item}) =>
-                        <TouchableOpacity onPress={ () => {
-                            resetDetails()
-                            this.props.navigation.navigate('Details', {id: item.id})}}
-                            style={styles.textWrapperList}
-                        >
-                            <Image source={{uri: item.image}} style={styles.imageList}/>
-                            <View style={styles.searchTextWrapper}>
-                                <Text style={styles.titleTextList}>{item.name}</Text>
-                                <Text style={styles.text}>{item.status}</Text>
-                            </View>
-                        </TouchableOpacity>}
-                    onRefresh={() => this.onRefreshUpdateData()}
-                    refreshing={refreshing}
-                    keyExtractor={(item, index) => index.toString()}
-                    ItemSeparatorComponent={this.renderSeparator}
-                    onEndReached={this.handleLoadMore.bind(this)}
-                    onEndReachedThreshold={0.4}>
-                </FlatList>}
 
-            </View>
-        )
+    componentDidMount = () => {
+        this.props.search.searchByName(this.state.targetValue);
+    }
+
+    renderError = () => {
+        return <View style={styles.errorScreenWrapper}>
+            <Text style={styles.errorText}>Something went wrong!</Text>
+        </View>
+    }
+
+    renderLoading = () => {
+        return (<ActivityIndicator style={styles.loadingCharactersScreen} size='large'/>)
+    }
+
+    renderSeparator = () => {
+        return (<View style={styles.borderList}/>)
+    }
+
+    handleLoadMore = () => {
+        this.props.search.loadMore(this.state.targetValue);
+    }
+
+    renderItem = ({item}) => (
+        <ItemCharacterSearch
+            item={item} 
+            key={item.id}
+            {...this.props}
+        />
+    )
+
+    render() {
+        const { search: {searchByName, getSearchResult, refreshing, refresh, loading, error } } = this.props;
+        if(error) {
+            return this.renderError()
+        } else {
+            return(
+                <View style={{flex: 1}}>
+                    <SearchBar 
+                        onChangeText={(text) => this.setState({targetValue: text}, () => searchByName(text))}
+                        style={styles.inputSearch}
+                        placeholder='Search...'
+                        value={this.state.targetValue}
+                        lightTheme
+                    />
+                    { getSearchResult.length == 0 ? 
+                    <View style={styles.noResultsWrapper}>
+                        <Icon name='search' color='grey' size={40}/>
+                        <Text style={styles.textSearch}>No results</Text>
+                    </View> :
+                    <FlatList
+                        data={getSearchResult}
+                        renderItem={this.renderItem}
+                        onRefresh={() => refresh()}
+                        refreshing={refreshing}
+                        keyExtractor={(item, index) => index.toString()}
+                        ItemSeparatorComponent={this.renderSeparator}
+                        onEndReached={this.handleLoadMore.bind(this)}
+                        onEndReachedThreshold={0.4}>
+                    </FlatList>}
+                </View>
+            )
+        }
     }
 }
 

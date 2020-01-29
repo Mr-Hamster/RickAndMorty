@@ -115,12 +115,22 @@ const styles = StyleSheet.create({
     noResultsWrapper: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'flex-start',
-        flexDirection: 'row'
+        alignItems: 'center',
+        flexDirection: 'column'
     },
     searchTextWrapper: {
         width: '70%',
         flexDirection: 'column'
+    },
+    titleTextSearch: {
+        fontSize: 20,
+        fontWeight: '500'
+    },
+    textSearch: {
+        color: '#A9A9A9',
+        fontSize: 18,
+        textAlign: 'center',
+        marginTop: '2%'
     },
     //LOGIN SCREEN && CREATE ACCOUNT SCREEN
     registrationWrapper: {

@@ -21,6 +21,7 @@ export default ({item, style, ...props}) => {
                     source={{uri: item.image}} 
                     style={styles.imageList}
                 />
+                
                 <View style={styles.textWrapper}>
                     <Text style={styles.titleTextList}>{item.name}</Text>
                     <Text style={styles.text}>{item.status}</Text>
@@ -42,3 +43,4 @@ export default ({item, style, ...props}) => {
         </TouchableOpacity>
     )
 }
+
