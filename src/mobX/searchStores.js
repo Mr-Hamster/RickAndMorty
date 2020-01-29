@@ -11,7 +11,6 @@ class Search {
     searchValue = "";
 
     querySearching() {
-        this.loading = true;
         return client.query({
             query: getCharactersBySearch(),
             variables: {
@@ -22,6 +21,7 @@ class Search {
     }
 
     fetchSearchResults(targetValue) {
+        this.loading = true;
         this.page = 1;
         this.searchValue = targetValue;
         this.querySearching().then( (resp) => {
@@ -38,9 +38,9 @@ class Search {
         })
     }
 
-    loadMore(targetValue) {
+    loadMore() {
+        this.loading = true;
         this.page++
-        this.searchValue = targetValue;
         this.querySearching().then( (resp) => {
             if(resp.data.characters.results == null) {
                 this.charactersSearch = [...this.charactersSearch];
@@ -57,6 +57,7 @@ class Search {
 
     refresh() {
         this.refreshing = true;
+        this.loading = true;
         this.page = 1;
         this.searchValue = "";
         this.querySearching().then( (resp) => {

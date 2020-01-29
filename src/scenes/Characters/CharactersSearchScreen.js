@@ -11,12 +11,9 @@ import { observer, inject } from 'mobx-react';
 import ItemCharacterSearch from '../../components/ItemCharacterSearch.js'
 
 class CharactersSearchScreen extends React.Component{
-    state = {
-        targetValue: ""
-    }
-
+  
     componentDidMount = () => {
-        this.props.search.fetchSearchResults(this.state.targetValue);
+        this.props.search.fetchSearchResults("");
     }
 
     renderError = () => {
@@ -33,8 +30,8 @@ class CharactersSearchScreen extends React.Component{
         return (<View style={styles.borderList}/>)
     }
 
-    handleLoadMore = () => {
-        this.props.search.loadMore(this.state.targetValue);
+    refreshList = () => {
+        this.props.search.refresh()
     }
 
     renderItem = ({item}) => (
@@ -45,18 +42,26 @@ class CharactersSearchScreen extends React.Component{
         />
     )
 
+    handleLoadMore = () => {
+        this.props.search.loadMore();
+    }
+
+    handleOnChange = (text) => {
+        this.props.search.fetchSearchResults(text)
+    }
+
     render() {
-        const { search: {fetchSearchResults, getSearchResult, refreshing, refresh, error } } = this.props;
+        const { getSearchResult, refreshing, error, searchValue } = this.props.search;
         if(error) {
             return this.renderError()
         } else {
             return(
                 <View style={{flex: 1}}>
                     <SearchBar 
-                        onChangeText={(text) => this.setState({targetValue: text}, () => fetchSearchResults(text))}
+                        onChangeText={(text) => this.handleOnChange(text)}
                         style={styles.inputSearch}
                         placeholder='Search...'
-                        value={this.state.targetValue}
+                        value={searchValue}
                         lightTheme
                     />
                     { getSearchResult.length == 0 ? 
@@ -67,11 +72,11 @@ class CharactersSearchScreen extends React.Component{
                     <FlatList
                         data={getSearchResult}
                         renderItem={this.renderItem}
-                        onRefresh={() => refresh()}
+                        onRefresh={() => this.refreshList()}
                         refreshing={refreshing}
                         keyExtractor={(item, index) => index.toString()}
                         ItemSeparatorComponent={this.renderSeparator}
-                        onEndReached={this.handleLoadMore.bind(this)}
+                        onEndReached={this.handleLoadMore}
                         onEndReachedThreshold={0.4}>
                     </FlatList>}
                 </View>
@@ -80,4 +85,4 @@ class CharactersSearchScreen extends React.Component{
     }
 }
 
-export default inject('search', 'charactersStores')(observer(CharactersSearchScreen));
+export default inject('search')(observer(CharactersSearchScreen));
