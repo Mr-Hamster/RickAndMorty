@@ -15,7 +15,6 @@ import {
     Button, 
     IconButton 
 } from 'react-native-paper';
-// import ImagePicker from 'react-native-image-picker';
 import ImagePicker from 'react-native-image-crop-picker';
 import { observer, inject } from 'mobx-react';
 import styles from '../../config/styles.js';
@@ -24,63 +23,29 @@ import RNGooglePlaces from 'react-native-google-places';
 import { requestLocationPermission } from '../../services/permissions.js';
 
 class CreateAccount extends React.Component{
-    state = {
-        visible: false
-    }
-
-    handleChangePhoto = () => {
-        // let options = {
-        //     title: 'Select Avatar',
-        //     customButtons: [{ name: 'customOptionKey', title: 'Choose Photo from Custom Option' }],
-        //     storageOptions: {
-        //       skipBackup: true,
-        //       path: 'images',
-        //     },
-        // };
-        // ImagePicker.showImagePicker(options, (response) => {
-        //     if (response.didCancel) {
-        //     console.log('User cancelled image picker');
-        //     } else if (response.error) {
-        //     console.log('ImagePicker Error: ', response.error);
-        //     } else if (response.customButton) {
-        //         this.props.createStore.setPhotoUser(defaultPhotoURL)
-        //     } else {
-        //         this.props.createStore.setPhotoUser(response.uri)
-        //     }
-        // });
-    }
 
     choosePhotoFromGallery = () => {
         ImagePicker.openPicker({
             width: 300,
-            height: 400,
+            height: 300,
             cropping: true
         }).then(image => {
             this.props.createStore.setPhotoUser(image.path)
-            this.setState({
-                visible: false
-            })
         })
     }
 
     choosePhotoFromCamera = () => {
         ImagePicker.openCamera({
             width: 300,
-            height: 400,
+            height: 300,
             cropping: true
         }).then(image => {
             this.props.createStore.setPhotoUser(image.path)
-            this.setState({
-                visible: false
-            })
-            console.log(image);
         })
     }
 
     chooseDefaultPhoto = () => {
-        this.setState({
-            visible: false
-        }, () => this.props.createStore.setPhotoUser(defaultPhotoURL))
+        this.props.createStore.setPhotoUser(defaultPhotoURL)
     }
 
     onChangeEmail = (text) => {
@@ -93,6 +58,10 @@ class CreateAccount extends React.Component{
 
     onChangePasswordAgain = (text) => {
         this.props.createStore.verifyPasswordAgain(text)
+    }
+
+    hiddenModal = () => {
+        this.props.createStore.showModal()
     }
 
     createAccount = () => {
@@ -134,11 +103,11 @@ class CreateAccount extends React.Component{
     }
 
     render(){
-        const { createAccountInformation: { place, photo, location, email, password, passwordAgain }, isEmailError, isPasswordError, isPasswordAgainError } = this.props.createStore;
+        const { createAccountInformation: { place, photo, location, email, password, passwordAgain }, isEmailError, isPasswordError, isPasswordAgainError, isVisibleModal } = this.props.createStore;
         return(
             <ScrollView contentContainerStyle={styles.registrationWrapper}>
                 <Modal 
-                    visible={this.state.visible} 
+                    visible={isVisibleModal} 
                     transparent={true}
                     animationType='slide'
                 >
@@ -162,12 +131,12 @@ class CreateAccount extends React.Component{
                             <Button 
                                 mode='outlined' 
                                 color='#000'
-                                onPress={() => this.setState({visible: false})}
+                                onPress={() => this.hiddenModal()}
                             >Exit</Button>
                         </View>
                     </View>
                 </Modal>
-                <TouchableOpacity onPress={() => this.setState({visible: true})}>
+                <TouchableOpacity onPress={() => this.hiddenModal()}>
                     <Image source={{uri: photo}} style={styles.imageRegistration}/>
                 </TouchableOpacity>
                 <TextInput

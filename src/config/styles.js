@@ -53,15 +53,14 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap'
     },
     titleTextList: {
+        width: '100%',
         fontSize: 20,
         fontWeight: '500',
         flexWrap: 'wrap',
         width: '80%'
     },
     text: {
-        fontSize: 18,
-        padding: 5,
-        paddingLeft: 20
+        fontSize: 18
     },
     checkBox: {
         width: 25, 
@@ -80,7 +79,7 @@ const styles = StyleSheet.create({
     },
     modalButtonWrapper: {
         backgroundColor: '#fff', 
-        marginBottom: '5%', 
+        paddingBottom: '5%', 
         paddingTop: '5%'
     },
     //DETAILS SCREEN
