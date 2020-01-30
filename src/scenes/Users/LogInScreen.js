@@ -13,7 +13,7 @@ import { observer, inject } from 'mobx-react';
 class LogInScreen extends React.Component{
 
     componentDidMount = () => {
-        if(this.props.users.registered == "true") {
+        if(this.props.userStore.registered == "true") {
             this.props.navigation.navigate('ProfileScreen')
         } else {
             this.props.navigation.navigate('LogIn')
@@ -21,23 +21,23 @@ class LogInScreen extends React.Component{
     }
     
     onChangeEmail = (text) => {
-       this.props.users.handleEmail(text)
+       this.props.userStore.handleEmail(text)
     }
 
     onChangePassword = (text) => {
-        this.props.users.handlePassword(text)
+        this.props.userStore.handlePassword(text)
     }
 
     logIn = () => {
-        const { email, password, isEmailError, isPasswordError } = this.props.users;
-        this.props.users.signIn();
+        const { email, password, isEmailError, isPasswordError } = this.props.userStore;
+        this.props.userStore.signIn();
         if(!isEmailError && !isPasswordError && email != "" && password != "") {
             this.props.navigation.navigate('ProfileScreen')
         }
     }
 
     render() {
-        const { isEmailError, isPasswordError, email, password } = this.props.users;
+        const { isEmailError, isPasswordError, email, password } = this.props.userStore;
         return(
             <View style={styles.registrationWrapper}>
                 <TextInput 
@@ -80,4 +80,4 @@ class LogInScreen extends React.Component{
     }
 }
 
-export default inject('users')(observer(LogInScreen));
+export default inject('userStore')(observer(LogInScreen));

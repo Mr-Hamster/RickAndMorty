@@ -33,7 +33,7 @@ class FavoriteCharactersScreen extends React.Component{
     )
 
     render() {
-        const { getFavoritesList  } = this.props.charactersStores;
+        const { getFavoritesList  } = this.props.charactersStore;
         if(getFavoritesList.length == 0) {
             return this.renderEmpty()
         } else {
@@ -47,4 +47,4 @@ class FavoriteCharactersScreen extends React.Component{
         }
     }
 }
-export default inject('charactersStores')(observer(FavoriteCharactersScreen));
+export default inject('charactersStore')(observer(FavoriteCharactersScreen));

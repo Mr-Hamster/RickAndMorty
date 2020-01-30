@@ -60,7 +60,7 @@ class CreateAccount extends React.Component{
         this.props.createStore.verifyPasswordAgain(text)
     }
 
-    hiddenModal = () => {
+    handleModal = () => {
         this.props.createStore.showModal()
     }
 
@@ -131,12 +131,12 @@ class CreateAccount extends React.Component{
                             <Button 
                                 mode='outlined' 
                                 color='#000'
-                                onPress={() => this.hiddenModal()}
+                                onPress={() => this.handleModal()}
                             >Exit</Button>
                         </View>
                     </View>
                 </Modal>
-                <TouchableOpacity onPress={() => this.hiddenModal()}>
+                <TouchableOpacity onPress={() => this.handleModal()}>
                     <Image source={{uri: photo}} style={styles.imageRegistration}/>
                 </TouchableOpacity>
                 <TextInput
@@ -221,4 +221,4 @@ class CreateAccount extends React.Component{
     }
 }
 
-export default inject('users', 'createStore')(observer(CreateAccount));
+export default inject('createStore')(observer(CreateAccount));

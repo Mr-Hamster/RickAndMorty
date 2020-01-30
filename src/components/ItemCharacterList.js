@@ -12,7 +12,7 @@ export default ({item, style, ...props}) => {
     return (
         <TouchableOpacity 
             onPress={() => {
-                props.charactersStores.resetDetails(item.id)
+                props.charactersStore.resetDetails(item.id)
                 props.navigation.navigate('Details')
             }}
         >
@@ -24,7 +24,7 @@ export default ({item, style, ...props}) => {
                 
                 <View style={styles.textWrapper}>
                     <Text style={styles.titleTextList}>{item.name}</Text>
-                    <Text style={styles.text}>{item.status}</Text>
+                    <Text style={{fontSize: 18}}>{item.status}</Text>
                 </View>
                 <CheckBox
                     checkedIcon={<Icon name='favorite' color='red'/>}
@@ -36,7 +36,7 @@ export default ({item, style, ...props}) => {
                     }
                     checked={item.favorite}
                     onPress={() => {
-                        props.charactersStores.addToFavorite(item.id)
+                        props.charactersStore.addToFavorite(item.id)
                     }}
                 /> 
             </View>

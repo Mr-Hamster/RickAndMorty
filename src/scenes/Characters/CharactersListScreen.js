@@ -17,19 +17,19 @@ import ItemCharacterTable from '../../components/ItemCharacterTable.js';
 
 class CharactersListScreen extends React.Component{
     componentDidMount = () => {
-       this.props.charactersStores.loadMore();
+       this.props.charactersStore.loadMore();
     }
 
     onRefreshUpdateData = () => {
-        this.props.charactersStores.refresh();
+        this.props.charactersStore.refresh();
     } 
 
     handleLoadMore = () => {
-        this.props.charactersStores.loadMore();
+        this.props.charactersStore.loadMore();
     }
 
     checkRegistration = () => {
-        if(this.props.users.registered == 'true') {
+        if(this.props.userStore.registered == 'true') {
             this.props.navigation.navigate('Search')
         } else {
             Alert.alert('Cancelled', 'You must register')
@@ -41,7 +41,7 @@ class CharactersListScreen extends React.Component{
     }
 
     renderFooter = () => {
-        if (this.props.charactersStores.isLoading){
+        if (this.props.charactersStore.isLoading){
             return <ActivityIndicator style={{color: '#000'}}/>
         } else {
             return null;
@@ -105,7 +105,7 @@ class CharactersListScreen extends React.Component{
     )
 
     render(){
-        const {charactersStores: {getAllCharacters, refreshing, isError}, navigation: {state: {params: {view}}, navigate}} = this.props;
+        const {charactersStore: {getAllCharacters, refreshing, isError}, navigation: {state: {params: {view}}}} = this.props;
         if(isError) {
             return this.renderError()
         } else if(getAllCharacters.length == 0){
@@ -135,4 +135,4 @@ class CharactersListScreen extends React.Component{
     }
 }
 
-export default inject('charactersStores', 'users')(observer(CharactersListScreen));
+export default inject('charactersStore', 'userStore')(observer(CharactersListScreen));

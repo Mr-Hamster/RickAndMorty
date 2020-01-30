@@ -24,7 +24,7 @@ function getGraphData(data, props){
             if (error) {
                 Alert.alert("Can't get your information: ", error)
             } else {
-                props.users.signInWithFBSDK(result.name, result.picture.data.url)
+                props.userStore.signInWithFBSDK(result.name, result.picture.data.url)
             }
         }
         const infoRequest = new GraphRequest(

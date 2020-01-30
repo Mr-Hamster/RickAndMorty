@@ -13,7 +13,7 @@ import {defaultPhotoURL} from '../../services/constants.js';
 class ProfileScreen extends React.Component{
 
     signUp = () => {
-        this.props.users.signUp()
+        this.props.userStore.signUp()
         this.props.navigation.navigate('LogIn')
     }
 
@@ -22,7 +22,7 @@ class ProfileScreen extends React.Component{
     }
 
     render() {
-        const { profileInformation: { email, photo, location, place }, loading } = this.props.users;
+        const { user: { email, photo, location, place }, loading } = this.props.userStore;
         if(loading) {
             return this.renderLoading()
         } else {
@@ -58,4 +58,4 @@ class ProfileScreen extends React.Component{
     }
 }
 
-export default inject('users')(observer(ProfileScreen));
+export default inject('userStore')(observer(ProfileScreen));

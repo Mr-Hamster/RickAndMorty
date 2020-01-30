@@ -14,9 +14,9 @@ import { observer, inject } from 'mobx-react';
 
 class CharactersDetailsScreen extends React.Component{
     componentDidMount() {
-        this.props.charactersStores.loadFirstCharacters()
+        this.props.charactersStore.loadFirstCharacters()
         InteractionManager.runAfterInteractions(() => {
-            if(this.props.charactersStores.characterPrevID == 0){
+            if(this.props.charactersStore.characterPrevID == 0){
                 this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width, y: 0, animated: false});
             } else {
                 this.scrollViewRef.scrollTo({x: Dimensions.get('screen').width * 2, y: 0, animated: false});
@@ -37,11 +37,11 @@ class CharactersDetailsScreen extends React.Component{
     }
 
     handleLoadMore = () => {
-       this.props.charactersStores.loadNextCharacter()
+       this.props.charactersStore.loadNextCharacter()
     }
 
     handleLoadMorePrevious = () => {
-        this.props.charactersStores.loadPreviousCharacter()
+        this.props.charactersStore.loadPreviousCharacter()
     }
 
     convertDateCreated = (created) => {
@@ -55,7 +55,7 @@ class CharactersDetailsScreen extends React.Component{
     }
 
     render(){
-        const { getDetailsList, addToFavorite, isLoadingDetails, isErrorDetails } = this.props.charactersStores;
+        const { getDetailsList, addToFavorite, isLoadingDetails, isErrorDetails } = this.props.charactersStore;
         if(isErrorDetails) {
             return this.renderError()
         } else if(getDetailsList.length == 0){
@@ -113,5 +113,5 @@ class CharactersDetailsScreen extends React.Component{
     }
 }
 
-export default inject('charactersStores')(observer(CharactersDetailsScreen));
+export default inject('charactersStore')(observer(CharactersDetailsScreen));
 

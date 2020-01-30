@@ -13,7 +13,7 @@ import ItemCharacterSearch from '../../components/ItemCharacterSearch.js'
 class CharactersSearchScreen extends React.Component{
   
     componentDidMount = () => {
-        this.props.search.fetchSearchResults("");
+        this.props.searchStore.fetchSearchResults("");
     }
 
     renderError = () => {
@@ -31,7 +31,7 @@ class CharactersSearchScreen extends React.Component{
     }
 
     refreshList = () => {
-        this.props.search.refresh()
+        this.props.searchStore.refresh()
     }
 
     renderItem = ({item}) => (
@@ -43,15 +43,15 @@ class CharactersSearchScreen extends React.Component{
     )
 
     handleLoadMore = () => {
-        this.props.search.loadMore();
+        this.props.searchStore.loadMore();
     }
 
     handleOnChange = (text) => {
-        this.props.search.fetchSearchResults(text)
+        this.props.searchStore.fetchSearchResults(text)
     }
 
     render() {
-        const { getSearchResult, refreshing, error, searchValue } = this.props.search;
+        const { getSearchResult, refreshing, error, searchValue } = this.props.searchStore;
         if(error) {
             return this.renderError()
         } else {
@@ -85,4 +85,4 @@ class CharactersSearchScreen extends React.Component{
     }
 }
 
-export default inject('search', 'charactersStores')(observer(CharactersSearchScreen));
+export default inject('searchStore', 'charactersStore')(observer(CharactersSearchScreen));

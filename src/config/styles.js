@@ -60,7 +60,9 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     text: {
-        fontSize: 18
+        fontSize: 18,
+        paddingLeft: 20,
+        padding: 5
     },
     checkBox: {
         width: 25, 

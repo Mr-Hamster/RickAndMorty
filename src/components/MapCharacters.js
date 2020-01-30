@@ -26,7 +26,7 @@ class MapCharacters extends React.Component{
         }
     }
     render() {
-        const { charactersStores: { getAllCharacters, resetDetails }, users: { profileInformation } } = this.props;
+        const { charactersStore: { getAllCharacters, resetDetails }, userStore: { user } } = this.props;
         return(
             <MapView
             style={this.state.mapStyle}
@@ -59,8 +59,8 @@ class MapCharacters extends React.Component{
                 )}
                 <Marker
                     coordinate={{
-                        latitude: profileInformation.location.latitude || 0,
-                        longitude: profileInformation.location.longitude || 0
+                        latitude: user.location.latitude || 0,
+                        longitude: user.location.longitude || 0
                     }}
                     title={"You"}
                 />
@@ -69,4 +69,4 @@ class MapCharacters extends React.Component{
     }
 }
 
-export default inject('charactersStores', 'users')(observer(MapCharacters));
+export default inject('charactersStore', 'userStore')(observer(MapCharacters));

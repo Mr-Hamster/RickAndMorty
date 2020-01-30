@@ -11,7 +11,7 @@ export default ({ item, style, ...props }) => {
     return (
         <TouchableOpacity 
             onPress={() => {
-                props.charactersStores.resetDetails(item.id)
+                props.charactersStore.resetDetails(item.id)
                 props.navigation.navigate('Details')
             }}
         >

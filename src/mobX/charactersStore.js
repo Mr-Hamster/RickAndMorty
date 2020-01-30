@@ -70,7 +70,7 @@ class CharactersList {
     filterByGender(gender) {
         this.gender = gender;
         this.charactersPage = 0;
-        charactersStores.characters.replace([]);
+        charactersStore.characters.replace([]);
     }
 
     changeCheckedGender(gender) {
@@ -166,20 +166,20 @@ class CharactersList {
     //FAVORITE CHARACTERS
 
     addToFavorite(id) {
-        const newCharacters = toJS(charactersStores.characters.flat().map( item => {
+        const newCharacters = toJS(charactersStore.characters.flat().map( item => {
             if(item.id == id) {
                 item.favorite = !item.favorite
             }
             return item
         }));
-        const newDetails = toJS(charactersStores.details.flat().map( item => {
+        const newDetails = toJS(charactersStore.details.flat().map( item => {
             if(item.id == id) {
                 item.favorite = !item.favorite
             }
             return item
         }));
-        charactersStores.characters.replace(newCharacters)
-        charactersStores.details.replace(newDetails)
+        charactersStore.characters.replace(newCharacters)
+        charactersStore.details.replace(newDetails)
     }
 
     get getFavoritesList() {
@@ -216,5 +216,5 @@ decorate(CharactersList, {
     getDetailsList: computed
 })
 
-const charactersStores = new CharactersList();
-export default charactersStores;
+const charactersStore = new CharactersList();
+export default charactersStore;

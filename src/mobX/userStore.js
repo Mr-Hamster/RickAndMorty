@@ -1,8 +1,9 @@
 import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
-import { isRegistered, registeredUsers, userInformation } from '../services/constants.js';
+import {registeredUsersList} from '../services/profiles.js';
+import { isRegistered, userInformation } from '../services/constants.js';
 
-class Users {
+class UserStore {
     constructor() {
         AsyncStorage.getItem(isRegistered).then( value => {
             if(value){
@@ -10,32 +11,22 @@ class Users {
             }
         })
 
-        AsyncStorage.getItem(registeredUsers).then( value => {
-            if(value) {
-                this.usersStore = value;
-            }
-        })
-
         AsyncStorage.getItem(userInformation).then( value => {
             if(value) {
-                this.profileInformation = JSON.parse(value);
+                this.user = JSON.parse(value);
             }
         })
     }
 
     registered = false;
-    usersStore = [];
-
     isEmailError = false;
     isPasswordError = false;
-
-    profileInformation = {
+    user = {
         photo: '',
         email: '',
         place: '',
         location: {}
     }
-
     email = "";
     password = "";
 
@@ -46,8 +37,8 @@ class Users {
 
     handleEmail(text) {
         this.email = text;
-        AsyncStorage.getItem(registeredUsers).then( value => {
-            JSON.parse(value).map(item => {
+        registeredUsersList.then(value => {
+            value.map( item => {
                 if(item.email == this.email) {
                     this.emailError = false
                 } else {
@@ -59,8 +50,8 @@ class Users {
 
     handlePassword(text) {
         this.password = text;
-        AsyncStorage.getItem(registeredUsers).then( value => {
-            JSON.parse(value).map(item => {
+        registeredUsersList.then(value => {
+            value.map( item => {
                 if(item.password == this.password) {
                     this.passwordError = false
                 } else {
@@ -71,33 +62,32 @@ class Users {
     }
 
     async setProfileInformation(user) {
-        this.profileInformation = user;
+        this.user = user;
         await AsyncStorage.setItem(userInformation, JSON.stringify(user));
         this.clearInputs()
     }
 
     signIn() {
-        AsyncStorage.getItem(registeredUsers).then( value => {
-            if(value === null) {
+        registeredUsersList.then( value => {
+            value.map( item => {
+            if(item === null) {
                 this.emailError = true;
                 this.passwordError = true;
             } else {
-                JSON.parse(value).map(item => {
-                    if(item.email == this.email && item.password == this.password) {
-                        this.setRegistered('true');
-                        this.emailError = false;
-                        this.passwordError = false;
-                        this.setProfileInformation(item);
-                    } else if(item.email != this.email && item.password == this.password) {
-                        this.emailError = true;
-                    }else if(item.password != this.password && item.email == this.email){
-                        this.passwordError = true;
-                    } else {
-                        this.emailError = true;
-                        this.passwordError = true;
-                    }
-                })
-            }
+                if(item.email == this.email && item.password == this.password) {
+                    this.setRegistered('true');
+                    this.emailError = false;
+                    this.passwordError = false;
+                    this.setProfileInformation(item);
+                } else if(item.email != this.email && item.password == this.password) {
+                    this.emailError = true;
+                }else if(item.password != this.password && item.email == this.email){
+                    this.passwordError = true;
+                } else {
+                    this.emailError = true;
+                    this.passwordError = true;
+                }
+            }})
         })
     }
 
@@ -114,7 +104,7 @@ class Users {
     
     signUp() {
         this.setRegistered('false')
-        this.profileInformation = {
+        this.user = {
             email: '',
             photo: '',
             place: '',
@@ -132,10 +122,9 @@ class Users {
     }
 }
 
-decorate(Users, {
-    usersStore: observable,
+decorate(UserStore, {
     registered: observable,
-    profileInformation: observable,
+    user: observable,
     isEmailError: observable,
     isPasswordError: observable,
     email: observable,
@@ -149,5 +138,5 @@ decorate(Users, {
     handlePassword: action
 })
 
-const users = new Users();
-export default users;
+const userStore = new UserStore();
+export default userStore;

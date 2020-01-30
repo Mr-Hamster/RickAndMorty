@@ -1,9 +1,10 @@
 import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
-import {defaultPhotoURL} from '../services/constants.js';
+import { defaultPhotoURL } from '../services/constants.js';
 import { registeredUsers } from '../services/constants.js';
+import {registeredUsersList} from '../services/profiles.js';
 
-class CreateAccountStores {
+class CreateAccountStore {
     createAccountInformation = {
         email: "",
         password: "",
@@ -69,6 +70,7 @@ class CreateAccountStores {
         AsyncStorage.getItem(registeredUsers).then( value => {
             var data = JSON.parse(value) || [];
             data.push(this.createAccountInformation);
+            registeredUsersList.then(value => value.push(this.createAccountInformation))
             AsyncStorage.setItem(registeredUsers, JSON.stringify(data));
         })
     }
@@ -79,7 +81,7 @@ class CreateAccountStores {
 
 }
 
-decorate(CreateAccountStores, {
+decorate(CreateAccountStore, {
     users: observable,
     createAccountInformation: observable,
     isEmailError: observable,
@@ -96,5 +98,5 @@ decorate(CreateAccountStores, {
     showModal: action
 })
 
-const createStore = new CreateAccountStores();
+const createStore = new CreateAccountStore();
 export default createStore;

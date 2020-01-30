@@ -38,7 +38,7 @@ class IntroScreen extends React.Component{
                 showSkipButton={true}
                 bottomButton
                 onSkip={() => {
-                    this.props.users.setRegistered('false')
+                    this.props.userStore.setRegistered('false')
                     this.props.navigation.navigate('CharactersList')
                 }}
                 skipLabel='Skip Registration'
@@ -51,4 +51,4 @@ class IntroScreen extends React.Component{
         )
     }
 }
-export default inject('users')(observer(IntroScreen));
+export default inject('userStore')(observer(IntroScreen));
