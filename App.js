@@ -1,17 +1,20 @@
 import React from 'react';
-import { Navigation } from './src/scenes/Router.js';
 import { Provider } from 'mobx-react';
-import charactersStore from './src/mobX/charactersStore.js';
-import searchStore from './src/mobX/searchStore.js';
-import userStore from './src/mobX/userStore.js';
-import createStore from './src/mobX/createAccountStore.js';
+import { Navigation } from './src/scenes/Router';
+import charactersStore from './src/mobX/charactersStore';
+import searchStore from './src/mobX/searchStore';
+import userStore from './src/mobX/userStore';
+import createStore from './src/mobX/createAccountStore';
 
-const stores = {charactersStore, searchStore, userStore, createStore};
-class App extends React.Component{
+const stores = {
+  charactersStore, searchStore, userStore, createStore
+};
+
+class App extends React.PureComponent {
   render() {
-    return(
+    return (
       <Provider {...stores}>
-        <Navigation/>
+        <Navigation />
       </Provider>
     );
   }
