@@ -58,6 +58,10 @@ target 'mobX_task' do
 
   pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
+  pod 'react-native-notifications', :path => '../node_modules/react-native-notifications'
+
+  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
+
   target 'mobX_taskTests' do
     inherit! :search_paths
     # Pods for testing

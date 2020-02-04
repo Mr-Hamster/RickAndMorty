@@ -2,50 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb470732783617358</string>
-			</array>
-		</dict>
-	</array>
-	<key>FacebookAppID</key>
-	<string>470732783617358</string>
-	<key>FacebookDisplayName</key>
-	<string>Rick and Morty MobX</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>fbapi</string>
-		<string>fb-messenger-share-api</string>
-		<string>fbauth2</string>
-		<string>fbshareextension</string>
-	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>RNGPDemos needs your location to show you places</string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
-
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>RNGPDemos needs your location to show you places</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app does not require access to the microphone.</string>
-
-	<key>NSCameraUsageDescription</key>
-	<string>camera description.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string> photos description.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-  	<string> photos add description.</string>
-
-	<key>NSAppTransportSecurity</key>
-	<dict>
-	<!--Include to allow all connections (DANGER)-->
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -64,8 +20,30 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb470732783617358</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>470732783617358</string>
+	<key>FacebookDisplayName</key>
+	<string>Rick and Morty MobX</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -81,20 +59,18 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>camera description.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>RNGPDemos needs your location to show you places</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>RNGPDemos needs your location to show you places</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app does not require access to the microphone.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string> photos add description.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string> photos description.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -114,5 +90,19 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
