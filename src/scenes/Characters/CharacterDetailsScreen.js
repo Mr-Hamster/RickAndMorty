@@ -6,11 +6,14 @@ import {
     Dimensions,
     ScrollView,
     InteractionManager,
-    ActivityIndicator
+    ActivityIndicator,
+    Share,
+    Alert
  } from 'react-native';
- import { CheckBox, Icon } from 'react-native-elements';
+ import { CheckBox, Icon, Button } from 'react-native-elements';
  import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
+import branch, { BranchEvent } from 'react-native-branch';
 
 class CharactersDetailsScreen extends React.Component{
     componentDidMount() {
@@ -23,6 +26,31 @@ class CharactersDetailsScreen extends React.Component{
             }
         }) 
     }
+    onShare = async (name, photo) => {
+        let branchUniversalObject = await branch.createBranchUniversalObject('canonicalIdentifier', {
+            title: 'Rick & Morty',
+            contentDescription: 'Find your favorite characters',
+            contentImageUrl: photo
+        })
+        branchUniversalObject.logEvent(BranchEvent.ViewItem)
+        try {
+            const result = await branchUniversalObject.generateShortUrl().then(value => {
+                Share.share({ message: `${name} - from Rick & Morty App ${value.url}` })
+            });
+    
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    Alert.alert('Success', `You are shared ${name}`)
+                } else {
+                console.log('Shared')
+                }
+            } else if (result.action === Share.dismissedAction) {
+                console.log('Dismissed action ')
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+      };
 
     renderError = () => {
         return <View style={styles.errorScreenWrapper}>
@@ -82,20 +110,27 @@ class CharactersDetailsScreen extends React.Component{
                     </View>
                     : null}
                     {getDetailsList.map( item =>
-                     <View key={item.id} style={{width: Dimensions.get('window').width }}>
+                     <ScrollView key={item.id} style={{width: Dimensions.get('window').width }}>
                         <Image source={{uri: item.image}} style={styles.imageCharacter}/>
                         <Text style={styles.textTitle}>{item.name}</Text>
-                        <CheckBox
-                            checkedIcon={
-                                <Icon name='favorite' color='red'/>
-                            }
-                            uncheckedIcon={
-                                <Image source={require('../../assets/favorite_border.png')} 
-                                    style={styles.checkBox}/>
-                            }
-                            checked={item.favorite}
-                            onPress={() => addToFavorite(item.id) }
-                        />
+                        <View style={styles.optionsWrapper}>
+                            <CheckBox
+                                checkedIcon={
+                                    <Icon name='favorite' color='red'/>
+                                }
+                                uncheckedIcon={
+                                    <Image source={require('../../assets/favorite_border.png')} 
+                                        style={styles.checkBox}/>
+                                }
+                                checked={item.favorite}
+                                onPress={() => addToFavorite(item.id) }
+                            />
+                            <Button icon={
+                                <Icon name="share" size={30} color="#000"/>
+                            } 
+                            type="clear"
+                            onPress={() => this.onShare(item.name, item.image)}/>
+                        </View>
                         <Text style={styles.text}>Status: {item.status}</Text>
                         <Text style={styles.text}>Species: {item.species}</Text>
                         <Text style={styles.text}>Gender: {item.gender}</Text>
@@ -106,7 +141,7 @@ class CharactersDetailsScreen extends React.Component{
                             {item.location.dimension}
                         </Text>
                         <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
-                    </View>)}
+                    </ScrollView>)}
                 </ScrollView>
             )
         }

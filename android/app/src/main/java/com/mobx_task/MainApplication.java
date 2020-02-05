@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import cl.json.RNSharePackage;
+import io.branch.rnbranch.RNBranchPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -13,6 +15,7 @@ import java.util.List;
 import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import io.branch.referral.Branch;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -53,6 +56,8 @@ public class MainApplication extends Application implements ReactApplication {
 
         // Create a new Places client instance
       PlacesClient placesClient = Places.createClient(this);
+        // Initialize the Branch object
+        Branch.getAutoInstance(this);
   }
 
 

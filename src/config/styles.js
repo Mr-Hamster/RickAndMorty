@@ -109,6 +109,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: 'center'
     },
+    optionsWrapper: {
+        width: '90%',
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },  
     //SEARCH SCREEN
     inputSearch: {
         width: '100%',

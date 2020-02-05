@@ -1,0 +1,3 @@
+Keystore password: G0KCTE11pdkGk8El
+Key alias: keyalias
+Key password: G0KCTE11pdkGk8El

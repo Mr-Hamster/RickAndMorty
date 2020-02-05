@@ -62,6 +62,11 @@ target 'mobX_task' do
 
   pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
 
+
+  pod 'react-native-branch', :path => '../node_modules/react-native-branch'
+
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
   target 'mobX_taskTests' do
     inherit! :search_paths
     # Pods for testing

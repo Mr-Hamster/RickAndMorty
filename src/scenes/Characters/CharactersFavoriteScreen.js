@@ -4,12 +4,15 @@ import { observer, inject } from 'mobx-react';
 import { 
     View, 
     Text,
-    FlatList
+    FlatList,
+    Button,
+    Linking
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ItemCharacterList from '../../components/ItemCharacterList.js';
 
 class FavoriteCharactersScreen extends React.Component{
+
     renderSeparator = () => {
         return ( <View style={styles.borderList}/> )
     }

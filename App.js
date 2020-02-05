@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { Provider } from 'mobx-react';
 import { Navigation } from './src/scenes/Router';
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
@@ -13,10 +14,14 @@ const stores = {
 
 class App extends React.PureComponent {
   constructor() {
-    super();
-		PushNotificationIOS.addEventListener('register', this.onPushRegistered.bind(this));
-		PushNotificationIOS.addEventListener('registrationError', this.onPushRegistrationFailed.bind(this));
-		PushNotificationIOS.requestPermissions();
+		super();
+			PushNotificationIOS.addEventListener('register', this.onPushRegistered.bind(this));
+			PushNotificationIOS.addEventListener('registrationError', this.onPushRegistrationFailed.bind(this));
+			if (Platform.OS === 'ios') {
+				PushNotificationIOS.checkPermissions((res, error) => {
+					res ? console.log(res) ? error : console.log(error) : PushNotificationIOS.requestPermissions()
+				})
+			}
   }
 	
 	onPushRegistered(deviceToken) {
@@ -28,7 +33,7 @@ class App extends React.PureComponent {
 	}
 	
 	componentWillUnmount() {
-  	PushNotificationIOS.removeEventListener('register', this.onPushRegistered.bind(this));
+		PushNotificationIOS.removeEventListener('register', this.onPushRegistered.bind(this));
 		PushNotificationIOS.removeEventListener('registrationError', this.onPushRegistrationFailed.bind(this));
 	}
 

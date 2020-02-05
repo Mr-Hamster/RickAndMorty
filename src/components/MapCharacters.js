@@ -44,8 +44,8 @@ class MapCharacters extends React.Component{
                             longitude: randomLongitude()
                         }}
                         onPress={ () => {
-                            resetDetails()
-                            this.props.navigation.navigate('Details', {id: item.id})
+                            resetDetails(item.id)
+                            this.props.navigation.navigate('Details')
                         }}
                         key={item.id}
                     >
