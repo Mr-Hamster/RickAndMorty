@@ -8,7 +8,8 @@ import {
     InteractionManager,
     ActivityIndicator,
     Share,
-    Alert
+    Alert,
+    Platform
  } from 'react-native';
  import { CheckBox, Icon, Button } from 'react-native-elements';
  import styles from '../../config/styles.js';
@@ -27,23 +28,22 @@ class CharactersDetailsScreen extends React.Component{
         }) 
     }
     onShare = async (name, photo) => {
-        let branchUniversalObject = await branch.createBranchUniversalObject('canonicalIdentifier', {
-            title: 'Rick & Morty',
-            contentDescription: 'Find your favorite characters',
-            contentImageUrl: photo
-        })
-        branchUniversalObject.logEvent(BranchEvent.ViewItem)
+        let branchUniversalObject = null;
+        if (Platform.OS === 'ios') {
+            branchUniversalObject = await branch.createBranchUniversalObject('canonicalIdentifier', {
+                title: 'Rick & Morty',
+                contentDescription: 'Find your favorite characters',
+                contentImageUrl: photo
+            })
+            branchUniversalObject.logEvent(BranchEvent.ViewItem)
+        }
         try {
-            const result = await branchUniversalObject.generateShortUrl().then(value => {
+            const result = Platform.OS === 'ios' ? branchUniversalObject.generateShortUrl().then(value => {
                 Share.share({ message: `${name} - from Rick & Morty App ${value.url}` })
-            });
+            }) :  Share.share({ message: `${name} - from Rick & Morty App https://d2iyn.app.link/bcYGYeiAP3` })
     
             if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    Alert.alert('Success', `You are shared ${name}`)
-                } else {
-                console.log('Shared')
-                }
+                Alert.alert('Success', `You are shared ${name}`)
             } else if (result.action === Share.dismissedAction) {
                 console.log('Dismissed action ')
             }

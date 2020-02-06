@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import cl.json.RNSharePackage;
 import io.branch.rnbranch.RNBranchPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -28,10 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
 
         @Override
         protected List<ReactPackage> getPackages() {
-          @SuppressWarnings("UnnecessaryLocalVariable")
           List<ReactPackage> packages = new PackageList(this).getPackages();
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
           return packages;
         }
 
@@ -49,15 +45,16 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+      // Branch logging for debugging
+      Branch.enableDebugMode();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this); // Remove this line if you don't want Flipper enabled
       // Initialize the SDK
       Places.initialize(getApplicationContext(), "AIzaSyAuKr8SQ2YiI0bkKjgbH27SbKdRENpOETw");
-
-        // Create a new Places client instance
+      // Create a new Places client instance
       PlacesClient placesClient = Places.createClient(this);
-        // Initialize the Branch object
-        Branch.getAutoInstance(this);
+      // Initialize the Branch object
+      Branch.getAutoInstance(this);
   }
 
 

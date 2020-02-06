@@ -1,6 +1,6 @@
 import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
-//import { registeredUsersList } from '../services/profiles';
+import { registeredUsersList } from '../services/profiles';
 import { isRegistered, userInformation } from '../services/constants';
 
 class UserStore {
