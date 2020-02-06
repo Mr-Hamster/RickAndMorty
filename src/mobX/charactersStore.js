@@ -22,6 +22,8 @@ class CharactersList {
         all: false
     }
 
+    sizeMap = false;
+
     queryCharactersList() {
         this.isLoading = true;
         return client.query({
@@ -166,24 +168,16 @@ class CharactersList {
     //FAVORITE CHARACTERS
 
     addToFavorite(id) {
-        const newCharacters = toJS(charactersStore.characters.flat().map( item => {
-            if(item.id == id) {
-                item.favorite = !item.favorite
-            }
-            return item
-        }));
-        const newDetails = toJS(charactersStore.details.flat().map( item => {
-            if(item.id == id) {
-                item.favorite = !item.favorite
-            }
-            return item
-        }));
-        charactersStore.characters.replace(newCharacters)
-        charactersStore.details.replace(newDetails)
+        this.characters.flat()[id].favorite = !this.characters.flat()[id].favorite;
+        // this.details.flat()[id].favorite = true
     }
 
     get getFavoritesList() {
         return this.characters.flat().filter( item => item.favorite == true)
+    }
+
+    changeSize() {
+        this.sizeMap = !this.sizeMap;
     }
 }
 
@@ -195,6 +189,7 @@ decorate(CharactersList, {
     gender: observable,
     genderChecked: observable,
     charactersPage: observable,
+    sizeMap: observable,
 
     details: observable,
     characterNextID: observable,
@@ -210,6 +205,7 @@ decorate(CharactersList, {
     loadPreviousCharacter: action,
     resetDetails: action,
     addToFavorite: action,
+    changeSize: action,
 
     getFavoritesList: computed,
     getAllCharacters: computed,

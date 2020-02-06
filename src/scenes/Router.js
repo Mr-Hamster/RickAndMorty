@@ -19,7 +19,8 @@ import CreateAccount from './Users/CreateAccountScreen.js';
 import styles from '../config/styles.js';
 import { isRegistered } from '../services/constants.js';
 import Map from '../components/Map.js';
-import MapCharacters from '../components/MapCharacters.js';
+import MapWithCharacters from '../components/MapCharacters.js';
+import MapCharacters from '../scenes/Characters/CharacterMapScreen.js';
 
 const List = createStackNavigator({
     CharactersList: {
@@ -149,6 +150,9 @@ const RootStack = createStackNavigator({
         navigationOptions: {
             title: 'SEARCH BY NAME'
         }
+    },
+    Map: {
+        screen: MapWithCharacters
     }
 },{
     initialRouteName: AsyncStorage.getItem(isRegistered).then(value => value === null) ? 'CharactersScreen' : 'Intro'

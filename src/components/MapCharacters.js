@@ -15,13 +15,16 @@ class MapCharacters extends React.Component{
         YellowBox.ignoreWarnings([
             'RCTRootView cancelTouches'
             ]);
-        if(this.props.navigation === undefined) {
+       if (this.props.charactersStore.sizeMap == true){
             this.setState({
-                mapStyle: {width: Dimensions.get('screen').width * 0.93, height: Dimensions.get('screen').height * 0.2 }
+                mapStyle: {width: Dimensions.get('screen').width, height: Dimensions.get('screen').height * 0.8}
             })
-        } else if (this.props.navigation.state.params.size == 'global'){
+        } else if (this.props.charactersStore.sizeMap == false) {
             this.setState({
-                mapStyle: {width: Dimensions.get('screen').width, height: Dimensions.get('screen').height}
+                mapStyle: {
+                    width: Dimensions.get('screen').width * 0.93, 
+                    height: Dimensions.get('screen').height * 0.2 
+                }
             })
         }
     }

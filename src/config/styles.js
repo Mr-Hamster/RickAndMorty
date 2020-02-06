@@ -250,6 +250,50 @@ const styles = StyleSheet.create({
         width: 50, 
         height: 50, 
         borderRadius: 8 
+    },
+    //MAP SCREEN
+    headerBottomSheet: {
+        backgroundColor: '#fff',
+        borderRadius: 20
+    },
+    contentBottomSheet: {
+        backgroundColor: '#fff',
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    topCharactersWrapper: {
+        height: 300,
+        width: '100%',
+        backgroundColor: '#fff',
+        flexDirection: 'row'
+    },
+    contentImage: {
+        width: 150, 
+        height: 150,
+        borderRadius: 15
+    },
+    contentImageAllCharacters: {
+        width: Dimensions.get('screen').width * 0.9, 
+        height: 150,
+        borderRadius: 15
+    },
+    contentSeparator: {
+        width: '2%'
+    },
+    contentText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        textAlign: 'center',
+        height: 30,
+        alignSelf: 'center'
+    },
+    contentInfoWrapper: {
+        width: '80%', 
+        justifyContent: 'space-evenly', 
+        flexDirection: 'row', 
+        alignItems: 'center'
     }
 });
 

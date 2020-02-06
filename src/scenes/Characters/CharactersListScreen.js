@@ -69,7 +69,7 @@ class CharactersListScreen extends React.Component{
                     editable={false}
                 />
             </TouchableOpacity>
-            <TouchableOpacity onPress={ () => this.props.navigation.navigate('MapCharactersScreen', {size: 'global'})}>
+            <TouchableOpacity onPress={ () => this.props.navigation.navigate('MapCharactersScreen')}>
                 <View style={{
                     alignSelf: 'center', 
                     height: Dimensions.get('screen').height * 0.23, 
@@ -105,7 +105,7 @@ class CharactersListScreen extends React.Component{
     )
 
     render(){
-        const {charactersStore: {getAllCharacters, refreshing, isError}, navigation: {state: {params: {view}}}} = this.props;
+        const {charactersStore: {getAllCharacters, characters, refreshing, isError}, navigation: {state: {params: {view}}}} = this.props;
         if(isError) {
             return this.renderError()
         } else if(getAllCharacters.length == 0){
@@ -114,7 +114,7 @@ class CharactersListScreen extends React.Component{
             return(
                 <View>
                     <FlatList 
-                        data={getAllCharacters} 
+                        data={characters.flat()} 
                         ListHeaderComponent={() => this.renderHeader()}
                         renderItem={view ? this.renderCharactersListView : this.renderCharactersTableView}
                         getItemLayout={this.getItemLayout}
