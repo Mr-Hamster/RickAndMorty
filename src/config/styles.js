@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     //MAP SCREEN
     headerBottomSheet: {
         backgroundColor: '#fff',
-        borderRadius: 20
+        flex: 1
     },
     contentBottomSheet: {
         backgroundColor: '#fff',

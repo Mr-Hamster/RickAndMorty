@@ -28,8 +28,13 @@ class MapCharacters extends React.Component{
             })
         }
     }
+
+    openDetailsScreen = (id) => {
+        this.props.charactersStore.resetDetails(id)
+        this.props.navigation.navigate('Details')
+    }
     render() {
-        const { charactersStore: { getAllCharacters, resetDetails }, userStore: { user } } = this.props;
+        const { charactersStore: { getAllCharacters }, userStore: { user } } = this.props;
         return(
             <MapView
             style={this.state.mapStyle}
@@ -46,10 +51,7 @@ class MapCharacters extends React.Component{
                             latitude: randomLatitude(),
                             longitude: randomLongitude()
                         }}
-                        onPress={ () => {
-                            resetDetails(item.id)
-                            this.props.navigation.navigate('Details')
-                        }}
+                        onPress={ () => this.openDetailsScreen(item.id)}
                         key={item.id}
                     >
                         <View style={styles.mapWrapper}>

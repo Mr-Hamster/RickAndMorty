@@ -1,7 +1,7 @@
 import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
-//import { registeredUsersList } from '../services/profiles';
-import { isRegistered, userInformation } from '../services/constants';
+import { registeredUsersList } from '../services/profiles';
+import { isRegistered, userInformation, registeredUsers } from '../services/constants';
 
 class UserStore {
     constructor() {
@@ -16,6 +16,8 @@ class UserStore {
                 this.user = JSON.parse(value);
             }
         })
+
+        AsyncStorage.setItem(registeredUsers, JSON.stringify([]))
     }
 
     registered = false;
@@ -64,7 +66,6 @@ class UserStore {
     async setProfileInformation(user) {
         this.user = user;
         await AsyncStorage.setItem(userInformation, JSON.stringify(user));
-        this.clearInputs()
     }
 
     signIn() {
@@ -112,13 +113,8 @@ class UserStore {
         }
         this.emailError = false;
         this.passwordError = false;
-    }
-
-    clearInputs() {
         this.email = "";
         this.password = "";
-        this.emailError = false;
-        this.passwordError = false;
     }
 }
 

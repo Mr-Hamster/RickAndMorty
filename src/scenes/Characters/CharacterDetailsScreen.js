@@ -82,8 +82,12 @@ class CharactersDetailsScreen extends React.Component{
         return `${day}/${month}/${year}, ${hours}:${minutes}`
     }
 
+    addToFavorite = (id) => {
+        this.props.charactersStore.addToFavorite(id) 
+    }
+
     render(){
-        const { getDetailsList, addToFavorite, isLoadingDetails, isErrorDetails } = this.props.charactersStore;
+        const { getDetailsList, isLoadingDetails, isErrorDetails } = this.props.charactersStore;
         if(isErrorDetails) {
             return this.renderError()
         } else if(getDetailsList.length == 0){
@@ -123,7 +127,7 @@ class CharactersDetailsScreen extends React.Component{
                                         style={styles.checkBox}/>
                                 }
                                 checked={item.favorite}
-                                onPress={() => addToFavorite(item.id) }
+                                onPress={() => this.addToFavorite(item.id)}
                             />
                             <Button icon={
                                 <Icon name="share" size={30} color="#000"/>
