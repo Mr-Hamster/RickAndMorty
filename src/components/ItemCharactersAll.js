@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Share
 } from 'react-native';
-import branch from 'react-native-branch';
+import branch, { BranchEvent } from 'react-native-branch';
 import { observer } from "mobx-react"
 
 onShare = async (name, photo) => {
