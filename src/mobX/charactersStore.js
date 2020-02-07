@@ -72,7 +72,7 @@ class CharactersList {
     filterByGender(gender) {
         this.gender = gender;
         this.charactersPage = 0;
-        charactersStore.characters.replace([]);
+        this.characters.replace([]);
     }
 
     changeCheckedGender(gender) {
@@ -83,10 +83,6 @@ class CharactersList {
                 this.genderChecked[key] = false;
             }
         }
-    }
-
-    get getAllCharacters() {
-        return this.characters.flat();
     }
 
     //DETAILS 
@@ -161,23 +157,27 @@ class CharactersList {
         this.characterPrevID = id;
     }
 
-    get getDetailsList() {
-        return this.details.flat();
+    changeSize() {
+        this.sizeMap = !this.sizeMap;
     }
 
     //FAVORITE CHARACTERS
 
     addToFavorite(id) {
-        this.characters.flat()[id].favorite = !this.characters.flat()[id].favorite;
-        // this.details.flat()[id].favorite = true
+        this.characters.flat().map( item => item.id == id ? item.favorite = !item.favorite : null);
+        this.details.flat().map( item => item.id == id ? item.favorite = !item.favorite : null);
     }
 
     get getFavoritesList() {
         return this.characters.flat().filter( item => item.favorite == true)
     }
 
-    changeSize() {
-        this.sizeMap = !this.sizeMap;
+    get getAllCharacters() {
+        return this.characters.flat();
+    }
+
+    get getDetailsList() {
+        return this.details.flat();
     }
 }
 

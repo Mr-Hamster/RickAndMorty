@@ -4,9 +4,7 @@ import { observer, inject } from 'mobx-react';
 import { 
     View, 
     Text,
-    FlatList,
-    Button,
-    Linking
+    FlatList
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ItemCharacterList from '../../components/ItemCharacterList.js';

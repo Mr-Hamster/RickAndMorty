@@ -15,6 +15,7 @@ import { observer, inject } from 'mobx-react';
 import styles from '../../config/styles';
 import { Icon } from 'react-native-elements';
 import BottomSheetContent from '../../components/BottomSheetContent';
+import ItemCharactersFavorite from '../../components/ItemCharactersFavorite';
 
 class CharacterMapScreen extends React.Component {
   componentDidMount = () => {
@@ -35,7 +36,16 @@ class CharacterMapScreen extends React.Component {
 
   renderSeparator = () => (<View style={styles.contentSeparator}/>)
 
-  renderItem = ({item}) => (<Image source={{uri: item.image}} style={styles.contentImage}/>)
+  renderItem = ({item}) => (
+    <TouchableOpacity 
+      onPress={() => {
+          this.props.charactersStore.resetDetails(item.id)
+          this.props.navigation.navigate('Details')
+      }}
+    >
+      <Image source={{uri: item.image}} style={styles.contentImage}/>
+    </TouchableOpacity>
+  )
 
   renderContent = () => (
     <View style={{backgroundColor: '#fff', color: '#fff'}}>
@@ -50,23 +60,9 @@ class CharacterMapScreen extends React.Component {
         /> 
      </View>
 
-     <View style={{height: 200}}>
-      <Text style={styles.contentText}>Favorite characters</Text>
-      {
-        this.props.charactersStore.getFavoritesList.length == 0 ?
-        <Text style={styles.textFavorite}><Icon name='favorite' color='grey'/>No favorites added yet</Text> : 
-        <FlatList 
-          data={this.props.charactersStore.getFavoritesList} 
-          renderItem={this.renderItem}
-          ItemSeparatorComponent={this.renderSeparator}
-          horizontal={true}
-        />
-      }
-    </View>
+    {/* <ItemCharactersFavorite {...this.props} /> */}
 
-    <BottomSheetContent
-        {...this.props}
-      />
+    <BottomSheetContent {...this.props} />
 
     </View>
   )

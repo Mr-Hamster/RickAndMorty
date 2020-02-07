@@ -7,8 +7,9 @@ import {
     Image,
     TouchableOpacity
 } from 'react-native';
+import { observer } from "mobx-react"
 
-export default ({item, style, ...props}) => {
+export default observer(({item, style, ...props}) => {
     return (
         <TouchableOpacity 
             onPress={() => {
@@ -35,12 +36,10 @@ export default ({item, style, ...props}) => {
                         />
                     }
                     checked={item.favorite}
-                    onPress={() => {
-                        props.charactersStore.addToFavorite(item.id)
-                    }}
+                    onPress={() => props.charactersStore.addToFavorite(item.id)}
                 /> 
             </View>
         </TouchableOpacity>
     )
-}
+})
 

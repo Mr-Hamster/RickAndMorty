@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from '../config/styles.js';
 import {
-    View,
-    Text,
-    FlatList
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator
 } from 'react-native';
 import ItemCharacterMap from './ItemCharacterMap';
 

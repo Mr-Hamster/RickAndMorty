@@ -9,6 +9,7 @@ import {
     Share
 } from 'react-native';
 import branch, { BranchEvent } from 'react-native-branch';
+import { observer } from "mobx-react"
 
 onShare = async (name, photo) => {
   let branchUniversalObject = null;
@@ -35,7 +36,7 @@ onShare = async (name, photo) => {
   }
 };
 
-export default ({item, ...props}) => (
+export default observer(({item, ...props}) => (
   <TouchableOpacity 
     onPress={() => {
         props.charactersStore.resetDetails(item.id)
@@ -69,4 +70,4 @@ export default ({item, ...props}) => (
       </View>
     </View>
   </TouchableOpacity>
-)
+));
