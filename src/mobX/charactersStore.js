@@ -1,6 +1,7 @@
 import { observable, action, computed, decorate, toJS } from "mobx";
 import { client } from '../services/client.js';
 import { getCharactersQuery, getDetailsCharacterQuery } from '../services/query.js';
+import { computedFn } from 'mobx-utils';
 
 class CharactersList {
     characters = [];
@@ -22,6 +23,11 @@ class CharactersList {
         all: false
     }
 
+    favorites = [];
+    isFavorite = computedFn(function(id) {
+        return charactersStore.favorites.includes(id)
+    })
+
     sizeMap = false;
 
     queryCharactersList() {
@@ -39,10 +45,9 @@ class CharactersList {
         this.charactersPage++
         this.queryCharactersList().then( (resp) => {
             if(resp.data.characters.results == null) {
-                this.characters = [...this.characters];
+                this.characters = this.characters;
             } else {
-                let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
-                this.characters = [...this.characters, data];
+                this.characters = this.characters.concat(resp.data.characters.results);
             }
             this.isLoading = false;
         })
@@ -56,10 +61,9 @@ class CharactersList {
         this.refreshing = true;
         this.charactersPage = 1;
         this.queryCharactersList().then( (resp) => {
-            let data = resp.data.characters.results.map( item => Object.assign({}, item, item.favorite = false))
             this.refreshing = false;
             this.isLoading = false;
-            this.characters = [...data];
+            this.characters = resp.data.characters.results;
         })
         .catch( (error) => {
             this.error = error;
@@ -106,17 +110,9 @@ class CharactersList {
         this.characterNextID++
         return this.queryDetailsCharacter(this.characterNextID).then( (resp) => {
             if(resp.data.character == null) {
-                this.details = [...this.details];
+                this.details = this.details;
             } else {
-                let data = new Array(resp.data.character).map( item => Object.assign({}, item, item.favorite=false))
-                this.characters.flat().map( itemCharacters => {
-                    data.filter( item => {
-                        if(itemCharacters.id == item.id) {
-                            item.favorite = itemCharacters.favorite
-                        }
-                    })
-                })
-                this.details = [...this.details, data];
+                this.details = this.details.concat(resp.data.character);
                 this.loadingDetails = false;
             }
         })
@@ -131,16 +127,9 @@ class CharactersList {
         this.characterPrevID--
         return this.queryDetailsCharacter(this.characterPrevID).then( (resp) => {
             if(resp.data.character == null) {
-                this.details = [...this.details];
+                this.details = this.details;
             } else {
-                let data = new Array(resp.data.character).map( item => Object.assign({}, item, item.favorite=false))
-                this.characters.flat().map( itemCharacters => {
-                    data.filter( item => {
-                        if(itemCharacters.id == item.id) {
-                            item.favorite = itemCharacters.favorite
-                        }
-                    })
-                })
+                let data = new Array(resp.data.character);
                 this.details = data.concat(this.details);
                 this.loadingDetails = false;
             }
@@ -164,21 +153,17 @@ class CharactersList {
     //FAVORITE CHARACTERS
 
     addToFavorite(id) {
-        this.characters.flat().map( item => item.id == id ? item.favorite = !item.favorite : null);
-        this.details.flat().map( item => item.id == id ? item.favorite = !item.favorite : null);
+        if (this.favorites.includes(id)) {
+            this.favorites.splice(this.favorites.indexOf(id), 1)
+        } else {
+            this.favorites.push(id);
+        }
     }
 
     get getFavoritesList() {
-        return this.characters.flat().filter( item => item.favorite == true)
+        return this.characters.filter(item => this.favorites.indexOf(item.id) != -1)
     }
 
-    get getAllCharacters() {
-        return this.characters.flat();
-    }
-
-    get getDetailsList() {
-        return this.details.flat();
-    }
 }
 
 decorate(CharactersList, {
@@ -197,6 +182,9 @@ decorate(CharactersList, {
     isLoadingDetails: observable,
     isErrorDetails: observable,
 
+    favorites: observable,
+    isFavorite: observable,
+
     filterByGender: action,
     changeCheckedGender: action,
     loadMore: action,
@@ -207,9 +195,7 @@ decorate(CharactersList, {
     addToFavorite: action,
     changeSize: action,
 
-    getFavoritesList: computed,
-    getAllCharacters: computed,
-    getDetailsList: computed
+    getFavoritesList: computed
 })
 
 const charactersStore = new CharactersList();

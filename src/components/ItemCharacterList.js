@@ -35,7 +35,7 @@ export default observer(({item, style, ...props}) => {
                             style={styles.checkBox}
                         />
                     }
-                    checked={item.favorite}
+                    checked={props.charactersStore.isFavorite(item.id)}
                     onPress={() => props.charactersStore.addToFavorite(item.id)}
                 /> 
             </View>

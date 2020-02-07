@@ -105,16 +105,16 @@ class CharactersListScreen extends React.Component{
     )
 
     render(){
-        const {charactersStore: {getAllCharacters, characters, refreshing, isError}, navigation: {state: {params: {view}}}} = this.props;
+        const {charactersStore: {characters, refreshing, isError }, navigation: {state: {params: {view}}}} = this.props;
         if(isError) {
             return this.renderError()
-        } else if(getAllCharacters.length == 0){
+        } else if(characters.length == 0){
             return this.renderEmpty()
         } else {
             return(
                 <View>
                     <FlatList 
-                        data={characters.flat()} 
+                        data={characters} 
                         ListHeaderComponent={() => this.renderHeader()}
                         renderItem={view ? this.renderCharactersListView : this.renderCharactersTableView}
                         getItemLayout={this.getItemLayout}

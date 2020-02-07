@@ -8,14 +8,14 @@ import {
   Image,
   Text,
   FlatList,
-  Share,
   ActivityIndicator
 } from 'react-native';
-import { SearchBar, CheckBox, Icon, Button } from 'react-native-elements';
+import { SearchBar, Icon, Button } from 'react-native-elements';
 import MapCharacters from '../../components/MapCharacters';
 import { observer, inject } from 'mobx-react';
 import styles from '../../config/styles';
-import branch from 'react-native-branch';
+import ItemCharacterAll from '../../components/ItemCharactersAll.js';
+import ItemCharacterFavorite from '../../component../../components/ItemCharacterFavorite'
 
 class CharacterMapScreen extends React.Component {
   componentDidMount = () => {
@@ -34,41 +34,16 @@ class CharacterMapScreen extends React.Component {
     }
   }
 
-  onShare = async (name, photo) => {
-    let branchUniversalObject = null;
-    if (Platform.OS === 'ios') {
-        branchUniversalObject = await branch.createBranchUniversalObject('canonicalIdentifier', {
-            title: 'Rick & Morty',
-            contentDescription: 'Find your favorite characters',
-            contentImageUrl: photo
-        })
-        branchUniversalObject.logEvent(BranchEvent.ViewItem)
-    }
-    try {
-        const result = Platform.OS === 'ios' ? branchUniversalObject.generateShortUrl().then(value => {
-            Share.share({ message: `${name} - from Rick & Morty App ${value.url}` })
-        }) :  Share.share({ message: `${name} - from Rick & Morty App https://d2iyn.app.link/bcYGYeiAP3` })
-  
-        if (result.action === Share.sharedAction) {
-            Alert.alert('Success', `You are shared ${name}`)
-        } else if (result.action === Share.dismissedAction) {
-            console.log('Dismissed action ')
-        }
-    } catch (error) {
-        alert(error.message);
-    }
-  };
-
   renderSeparator = () => (<View style={styles.contentSeparator}/>)
 
   renderItem = ({item}) => (
     <TouchableOpacity onPress={() => {
-      this.props.charactersStore.resetDetails(item.id)
-      this.props.navigation.navigate('Details')
+        this.props.charactersStore.resetDetails(item.id)
+        this.props.navigation.navigate('Details')
       }}
     >
-     <Image source={{uri: item.image}} style={styles.contentImage}/> 
-   </TouchableOpacity>
+    <Image source={{uri: item.image}} style={styles.contentImage}/> 
+  </TouchableOpacity>
   )
 
   renderFooter = () => {
@@ -83,40 +58,11 @@ class CharacterMapScreen extends React.Component {
     this.props.charactersStore.loadMore();
   }
   
-  renderItemAllCharacters = (item) => (
-    <TouchableOpacity 
-    onPress={() => {
-        this.props.charactersStore.resetDetails(item.id)
-        this.props.navigation.navigate('Details')
-    }}
-  >
-    <View style={{alignSelf: 'center'}}>
-      <Image source={{uri: item.image}} style={styles.contentImageAllCharacters}/>
-      <View style={styles.contentInfoWrapper}>
-        <Text style={styles.titleTextList}>{item.name}</Text>
-        <CheckBox
-          checkedIcon={<Icon name='favorite' color='red'/>}
-          uncheckedIcon={
-              <Image 
-                  source={require('../../assets/favorite_border.png')} 
-                  style={styles.checkBox}
-              />
-          }
-          checked={item.favorite}
-          onPress={() => {
-              this.props.charactersStore.addToFavorite(item.id)
-          }}
-        /> 
-        <Button 
-          icon={
-            <Icon name="share" size={30} color="#000"/>
-          } 
-          type="clear"
-          onPress={() => this.onShare(item.name, item.image)}
-        />
-      </View>
-    </View>
-  </TouchableOpacity>
+  renderItemAllCharacters = ({item}) => (
+    <ItemCharacterAll
+      item={item}
+      {...this.props}
+    />
   )
 
   renderContent = () => (
@@ -125,34 +71,20 @@ class CharacterMapScreen extends React.Component {
      <View style={{height: 200}}>
       <Text style={styles.contentText}>Top characters</Text>
       <FlatList 
-          data={this.props.charactersStore.getAllCharacters.slice(0,5)} 
+          data={this.props.charactersStore.characters.slice(0,5)} 
           renderItem={this.renderItem}
           ItemSeparatorComponent={this.renderSeparator}
           horizontal={true}
         /> 
      </View>
 
-     <View style={{height: 200}}>
-      <Text style={styles.contentText}>Favorite characters</Text>
-      { this.props.charactersStore.getFavoritesList.length == 0 ?
-        <View style={styles.noFavoritesWrapper}>
-          <Icon name='favorite' color='grey'/>
-          <Text style={styles.textFavorite}>No favorites added yet</Text>
-        </View> :
-        <FlatList 
-          data={this.props.charactersStore.getFavoritesList} 
-          renderItem={this.renderItem}
-          ItemSeparatorComponent={this.renderSeparator}
-          horizontal={true}
-        />
-      }
-    </View>
+     <ItemCharacterFavorite {...this.props}/>
 
     <View style={{width: '100%', justifyContent: 'center'}}>
       <Text style={styles.contentText}>All characters</Text>
       <FlatList 
-        data={this.props.charactersStore.getAllCharacters} 
-        renderItem={({item}) => this.renderItemAllCharacters(item)}
+        data={this.props.charactersStore.characters} 
+        renderItem={this.renderItemAllCharacters}
         ListFooterComponent={this.renderFooter.bind(this)}
         onEndReached={this.handleLoadMore.bind(this)}
         onEndReachedThreshold={0.4}
@@ -183,7 +115,6 @@ class CharacterMapScreen extends React.Component {
   )
 
   render() {
-    console.log(this.props.charactersStore.getFavoritesList)
     return (
       <View>
         <MapCharacters size='global' {...this.props}/>

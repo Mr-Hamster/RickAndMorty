@@ -33,8 +33,9 @@ class MapCharacters extends React.Component{
         this.props.charactersStore.resetDetails(id)
         this.props.navigation.navigate('Details')
     }
+    
     render() {
-        const { charactersStore: { getAllCharacters }, userStore: { user } } = this.props;
+        const { charactersStore: { characters }, userStore: { user } } = this.props;
         return(
             <MapView
             style={this.state.mapStyle}
@@ -45,7 +46,7 @@ class MapCharacters extends React.Component{
                     longitudeDelta: 100
                 }}
             >
-                {getAllCharacters.map( item => 
+                {characters.map( item => 
                     <Marker 
                         coordinate={{
                             latitude: randomLatitude(),

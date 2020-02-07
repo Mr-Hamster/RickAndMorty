@@ -87,10 +87,10 @@ class CharactersDetailsScreen extends React.Component{
     }
 
     render(){
-        const { getDetailsList, isLoadingDetails, isErrorDetails } = this.props.charactersStore;
+        const { details, isLoadingDetails, isErrorDetails, isFavorite } = this.props.charactersStore;
         if(isErrorDetails) {
             return this.renderError()
-        } else if(getDetailsList.length == 0){
+        } else if(details.length == 0){
             return this.renderEmpty()
         } else {
             return(
@@ -113,7 +113,7 @@ class CharactersDetailsScreen extends React.Component{
                         <ActivityIndicator size='large'/>
                     </View>
                     : null}
-                    {getDetailsList.map( item =>
+                    {details.map( item =>
                      <ScrollView key={item.id} style={{width: Dimensions.get('window').width }}>
                         <Image source={{uri: item.image}} style={styles.imageCharacter}/>
                         <Text style={styles.textTitle}>{item.name}</Text>
@@ -126,7 +126,7 @@ class CharactersDetailsScreen extends React.Component{
                                     <Image source={require('../../assets/favorite_border.png')} 
                                         style={styles.checkBox}/>
                                 }
-                                checked={item.favorite}
+                                checked={isFavorite(item.id)}
                                 onPress={() => this.addToFavorite(item.id)}
                             />
                             <Button icon={
