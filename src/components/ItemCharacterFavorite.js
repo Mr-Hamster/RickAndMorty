@@ -12,10 +12,10 @@ import { observer } from "mobx-react";
 
 renderSeparator = () => (<View style={styles.contentSeparator}/>)
 
-renderItem = ({item}) => (
+renderItem = (item, props) => (
   <TouchableOpacity onPress={() => {
-      this.props.charactersStore.resetDetails(item.id)
-      this.props.navigation.navigate('Details')
+      props.charactersStore.resetDetails(item.id)
+      props.navigation.navigate('Details')
     }}
   >
   <Image source={{uri: item.image}} style={styles.contentImage}/> 
@@ -33,7 +33,7 @@ export default observer( ({...props}) => {
         </View> :
         <FlatList 
           data={props.charactersStore.getFavoritesList} 
-          renderItem={renderItem}
+          renderItem={({item}) => renderItem(item, props)}
           ItemSeparatorComponent={renderSeparator}
           horizontal={true}
         />
