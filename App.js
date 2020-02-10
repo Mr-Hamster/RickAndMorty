@@ -7,9 +7,10 @@ import charactersStore from './src/mobX/charactersStore';
 import searchStore from './src/mobX/searchStore';
 import userStore from './src/mobX/userStore';
 import createStore from './src/mobX/createAccountStore';
+import chatStore from './src/mobX/chatStore';
 
 const stores = {
-  charactersStore, searchStore, userStore, createStore
+  charactersStore, searchStore, userStore, createStore, chatStore
 };
 
 class App extends React.PureComponent {

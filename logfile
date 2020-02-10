@@ -1,0 +1,40 @@
+2020-02-10 11:58:02.139 EET [1722] LOG:  starting PostgreSQL 12.1 on x86_64-apple-darwin19.0.0, compiled by Apple clang version 11.0.0 (clang-1100.0.33.12), 64-bit
+2020-02-10 11:58:02.141 EET [1722] LOG:  listening on IPv6 address "::1", port 5432
+2020-02-10 11:58:02.141 EET [1722] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2020-02-10 11:58:02.142 EET [1722] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2020-02-10 11:58:02.157 EET [1723] LOG:  database system was shut down at 2020-02-10 11:57:17 EET
+2020-02-10 11:58:02.161 EET [1722] LOG:  database system is ready to accept connections
+2020-02-10 11:58:06.167 EET [1731] FATAL:  database "teamvoy" does not exist
+2020-02-10 12:01:31.308 EET [1743] FATAL:  database "teamvoy" does not exist
+2020-02-10 12:02:34.729 EET [1754] FATAL:  database "teamvoy" does not exist
+2020-02-10 12:02:47.579 EET [1756] FATAL:  role "database" does not exist
+2020-02-10 12:05:33.829 EET [1770] FATAL:  database "teamvoy" does not exist
+2020-02-10 14:39:52.919 EET [1773] ERROR:  syntax error at or near "select" at character 27
+2020-02-10 14:39:52.919 EET [1773] STATEMENT:  SELECT * FROM chat_app_db
+	select * from user
+	use chat_app_db
+	use chat_app_db;
+2020-02-10 14:40:07.011 EET [1773] ERROR:  syntax error at or near "use" at character 1
+2020-02-10 14:40:07.011 EET [1773] STATEMENT:  use chat_app_db;
+2020-02-10 14:40:20.634 EET [1773] ERROR:  syntax error at or near "USE" at character 1
+2020-02-10 14:40:20.634 EET [1773] STATEMENT:  USE chat_app_db;
+2020-02-10 14:40:31.465 EET [1773] ERROR:  relation "chat_app_db" does not exist at character 15
+2020-02-10 14:40:31.465 EET [1773] STATEMENT:  SELECT * FROM chat_app_db;
+2020-02-10 14:41:45.248 EET [1773] ERROR:  SELECT * with no tables specified is not valid at character 8
+2020-02-10 14:41:45.248 EET [1773] STATEMENT:  SELECT *;
+2020-02-10 14:52:07.922 EET [2935] ERROR:  syntax error at or near "user" at character 14
+2020-02-10 14:52:07.922 EET [2935] STATEMENT:  CREATE TABLE user ( name VARCHAR(30), password VARCHAR(30) );
+2020-02-10 14:54:16.404 EET [1722] LOG:  could not open file "postmaster.pid": No such file or directory
+2020-02-10 14:54:16.404 EET [1722] LOG:  performing immediate shutdown because data directory lock file is invalid
+2020-02-10 14:54:16.404 EET [1722] LOG:  received immediate shutdown request
+2020-02-10 14:54:16.404 EET [1722] LOG:  could not open file "postmaster.pid": No such file or directory
+2020-02-10 14:54:16.405 EET [2935] WARNING:  terminating connection because of crash of another server process
+2020-02-10 14:54:16.405 EET [2935] DETAIL:  The postmaster has commanded this server process to roll back the current transaction and exit, because another server process exited abnormally and possibly corrupted shared memory.
+2020-02-10 14:54:16.405 EET [2935] HINT:  In a moment you should be able to reconnect to the database and repeat your command.
+2020-02-10 14:54:16.406 EET [2974] WARNING:  terminating connection because of crash of another server process
+2020-02-10 14:54:16.406 EET [2974] DETAIL:  The postmaster has commanded this server process to roll back the current transaction and exit, because another server process exited abnormally and possibly corrupted shared memory.
+2020-02-10 14:54:16.406 EET [2974] HINT:  In a moment you should be able to reconnect to the database and repeat your command.
+2020-02-10 14:54:16.408 EET [1727] WARNING:  terminating connection because of crash of another server process
+2020-02-10 14:54:16.408 EET [1727] DETAIL:  The postmaster has commanded this server process to roll back the current transaction and exit, because another server process exited abnormally and possibly corrupted shared memory.
+2020-02-10 14:54:16.408 EET [1727] HINT:  In a moment you should be able to reconnect to the database and repeat your command.
+2020-02-10 14:54:16.421 EET [1722] LOG:  database system is shut down

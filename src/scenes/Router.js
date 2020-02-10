@@ -21,6 +21,7 @@ import { isRegistered } from '../services/constants.js';
 import Map from '../components/Map.js';
 import MapWithCharacters from '../components/MapCharacters.js';
 import MapCharacters from '../scenes/Characters/CharacterMapScreen.js';
+import ChatScreen from './Chat/ChatScreen.js';
 
 const List = createStackNavigator({
     CharactersList: {
@@ -149,6 +150,12 @@ const RootStack = createStackNavigator({
         screen: CharactersSearchScreen,
         navigationOptions: {
             title: 'SEARCH BY NAME'
+        }
+    },
+    Chat: {
+        screen: ChatScreen,
+        navigationOptions: {
+            title: 'CHAT'
         }
     },
     Map: {

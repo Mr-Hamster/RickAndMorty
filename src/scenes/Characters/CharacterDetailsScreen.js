@@ -145,6 +145,7 @@ class CharactersDetailsScreen extends React.Component{
                             {item.location.dimension}
                         </Text>
                         <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
+                        <Button title='START CHAT' onPress={() => this.props.navigation.navigate('Chat', {receiver: item.name})}/>
                     </ScrollView>)}
                 </ScrollView>
             )
