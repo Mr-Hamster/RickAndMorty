@@ -50,7 +50,7 @@ class CharactersListScreen extends React.Component{
 
     renderEmpty = () => {
         return <View style={styles.errorScreenWrapper}>
-            <Text style={styles.errorText}>There is no items available</Text>
+            <ActivityIndicator style={{color: '#000'}} size='large'/>
         </View>
     }
 
