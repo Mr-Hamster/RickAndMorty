@@ -1,8 +1,7 @@
 import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
-import { defaultPhotoURL } from '../services/constants';
-import { registeredUsers } from '../services/constants';
-//import { registeredUsersList } from '../services/profiles';
+import { defaultPhotoURL, registeredUsers } from '../services/constants';
+import { registeredUsersList } from '../services/profiles';
 
 class CreateAccountStore {
     createAccountInformation = {

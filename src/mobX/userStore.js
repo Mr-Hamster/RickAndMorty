@@ -1,7 +1,7 @@
 import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
-//import { registeredUsersList } from '../services/profiles';
-import { isRegistered, userInformation, registeredUsers } from '../services/constants';
+import { registeredUsersList } from '../services/profiles';
+import { isRegistered, userInformation } from '../services/constants';
 
 class UserStore {
     constructor() {
@@ -17,7 +17,6 @@ class UserStore {
             }
         })
 
-        AsyncStorage.setItem(registeredUsers, JSON.stringify([]))
     }
 
     registered = false;
@@ -71,24 +70,25 @@ class UserStore {
     signIn() {
         registeredUsersList.then( value => {
             value.map( item => {
-            if(item === null) {
-                this.emailError = true;
-                this.passwordError = true;
-            } else {
-                if(item.email == this.email && item.password == this.password) {
-                    this.setRegistered('true');
-                    this.emailError = false;
-                    this.passwordError = false;
-                    this.setProfileInformation(item);
-                } else if(item.email != this.email && item.password == this.password) {
+                if(item === null) {
                     this.emailError = true;
-                }else if(item.password != this.password && item.email == this.email){
                     this.passwordError = true;
                 } else {
-                    this.emailError = true;
-                    this.passwordError = true;
+                    if(item.email == this.email && item.password == this.password) {
+                        this.setRegistered('true');
+                        this.emailError = false;
+                        this.passwordError = false;
+                        this.setProfileInformation(item);
+                    } else if(item.email != this.email && item.password == this.password) {
+                        this.emailError = true;
+                    }else if(item.password != this.password && item.email == this.email){
+                        this.passwordError = true;
+                    } else {
+                        this.emailError = true;
+                        this.passwordError = true;
+                    }
                 }
-            }})
+            })
         })
     }
 
