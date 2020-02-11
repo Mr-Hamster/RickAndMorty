@@ -106,6 +106,7 @@ class CharactersListScreen extends React.Component{
 
     render(){
         const {charactersStore: {characters, refreshing, isError }, navigation: {state: {params: {view}}}} = this.props;
+        console.log(characters)
         if(isError) {
             return this.renderError()
         } else if(characters.length == 0){

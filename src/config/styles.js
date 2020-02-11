@@ -294,7 +294,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly', 
         flexDirection: 'row', 
         alignItems: 'center'
-    }
+    },
+    //CHAT
+    chatImage : {
+        width: 30, 
+        height: 30, 
+        alignSelf: 'center'
+    },
 });
 
 export default styles;

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
 import io.branch.rnbranch.RNBranchPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -15,6 +16,7 @@ import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import io.branch.referral.Branch;
+
 
 public class MainApplication extends Application implements ReactApplication {
 

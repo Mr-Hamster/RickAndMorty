@@ -2,20 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>branch_key</key>
-  <string>key_live_mlSQA4rzCln123XupD9dXehhDrljheM5</string>
-  <key>branch_app_domain</key>
-  <string>d2iyn.app.link</string>
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>httpsd2iyn.app.link/bcYGYeiAP3</string>
-      </array>
-    </dict>
-  </array>
-  
+	<key>branch_key</key>
+	<string>key_live_mlSQA4rzCln123XupD9dXehhDrljheM5</string>
+	<key>branch_app_domain</key>
+	<string>d2iyn.app.link</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb470732783617358</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -34,15 +33,6 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb470732783617358</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>FacebookAppID</key>
@@ -50,7 +40,7 @@
 	<key>FacebookDisplayName</key>
 	<string>Rick and Morty MobX</string>
 	<key>LSApplicationCategoryType</key>
-	<string></string>
+	<string/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>

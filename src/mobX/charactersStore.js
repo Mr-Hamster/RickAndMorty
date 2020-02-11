@@ -45,6 +45,7 @@ class CharactersList {
         this.charactersPage++
         this.queryCharactersList().then( (resp) => {
             if(resp.data.characters.results == null) {
+                console.log('null data')
                 this.characters = this.characters;
             } else {
                 this.characters = this.characters.concat(resp.data.characters.results);
