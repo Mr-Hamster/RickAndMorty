@@ -86,6 +86,11 @@ class CharactersDetailsScreen extends React.Component{
         this.props.charactersStore.addToFavorite(id) 
     }
 
+    startChat = (name, photo) => {
+        this.props.navigation.navigate('Chat');
+        this.props.chatStore.addReceiver(name, photo);
+    }
+
     render(){
         const { details, isLoadingDetails, isErrorDetails, isFavorite } = this.props.charactersStore;
         if(isErrorDetails) {
@@ -145,7 +150,7 @@ class CharactersDetailsScreen extends React.Component{
                             {item.location.dimension}
                         </Text>
                         <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
-                        <Button title='START CHAT' onPress={() => this.props.navigation.navigate('Chat', {receiver: item.name})}/>
+                        <Button title='START CHAT' onPress={() => this.startChat(item.name, item.image)}/>
                     </ScrollView>)}
                 </ScrollView>
             )
@@ -153,5 +158,5 @@ class CharactersDetailsScreen extends React.Component{
     }
 }
 
-export default inject('charactersStore')(observer(CharactersDetailsScreen));
+export default inject('charactersStore', 'chatStore', 'userStore')(observer(CharactersDetailsScreen));
 

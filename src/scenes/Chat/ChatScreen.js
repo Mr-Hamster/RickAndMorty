@@ -8,14 +8,18 @@ class ChatScreen extends React.Component {
   }
 
   send = (message) => {
-    this.props.chatStore.sendMessage(message, this.props.userStore.user.email, this.props.navigation.state.params.receiver);
+    this.props.chatStore.sendMessage(message);
   }
 
 render() {
     return (
         <GiftedChat
           messages={this.props.chatStore.getMessagesArray}
-          user={this.props.userStore.user.email}
+          user={{
+            _id: this.props.chatStore.name,
+            name: this.props.chatStore.name,
+            avatar: this.props.chatStore.photo
+          }}
           onSend={(message) => this.send(message[0])}
         />
     );
