@@ -70,7 +70,7 @@ class Chat {
       message.image = this.uploadImage;
     }
 
-    if (this.uploadFile) {
+    if (Object.entries(this.props.chatStore.uploadFile).length !== 0) {
       message.text = message.text + ' ' + this.uploadFile.name;
     }
 
