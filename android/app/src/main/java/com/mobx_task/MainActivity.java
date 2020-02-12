@@ -1,17 +1,10 @@
 package com.mobx_task;
 
 import android.content.Intent;
-import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
 
-import org.json.JSONObject;
-import io.branch.indexing.BranchUniversalObject;
 import io.branch.referral.Branch;
-import io.branch.referral.BranchError;
-import io.branch.referral.util.LinkProperties;
 
 public class MainActivity extends ReactActivity {
 
@@ -39,10 +32,7 @@ public class MainActivity extends ReactActivity {
     }
 
     public Branch.BranchReferralInitListener branchReferralInitListener =
-            new Branch.BranchReferralInitListener() {
-                @Override
-                public void onInitFinished(@Nullable JSONObject referringParams, @Nullable BranchError error) {
+            (referringParams, error) -> {
 
-                }
-    };
+            };
 }

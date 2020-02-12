@@ -210,6 +210,8 @@ PODS:
   - react-native-branch (4.3.0):
     - Branch (= 0.31.3)
     - React
+  - react-native-cameraroll (1.4.1):
+    - React
   - react-native-document-picker (3.2.4):
     - React
   - react-native-fbsdk (1.1.1):
@@ -321,6 +323,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-branch (from `../node_modules/react-native-branch`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
@@ -396,6 +399,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-branch:
     :path: "../node_modules/react-native-branch"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-document-picker:
     :path: "../node_modules/react-native-document-picker"
   react-native-fbsdk:
@@ -481,6 +486,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-branch: df34ffd1ff1f592b42455c717e55b4b01a1d17d3
+  react-native-cameraroll: 035c425c733acd3333e6c673db5ab66a559ca2e0
   react-native-document-picker: c36bf5f067a581657ecaf7124dcd921a8be19061
   react-native-fbsdk: b94a83971c496a35803f38b921aec6d637ba07b5
   react-native-geolocation: cbd9d6bd06bac411eed2671810f454d4908484a8
@@ -513,6 +519,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 07446d0f575c5325a0b78a8b822b571094f6fa3f
+PODFILE CHECKSUM: 4049b85bcc2b60595ac94d7da009be1724749d41
 
 COCOAPODS: 1.8.4

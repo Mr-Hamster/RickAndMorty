@@ -2,10 +2,12 @@ import React from 'react';
 import { GiftedChat, Composer } from 'react-native-gifted-chat';
 import { observer, inject } from 'mobx-react';
 import { View, YellowBox, Image } from 'react-native';
+import CameraRoll from "@react-native-community/cameraroll";
 import DocumentPicker from 'react-native-document-picker';
 import { Icon, Button } from 'react-native-elements';
 import ImagePicker from 'react-native-image-crop-picker';
 import styles from '../../config/styles.js';
+import ChatFooter from '../../components/ChatFooter';
 
 class ChatScreen extends React.Component {
 
@@ -14,16 +16,6 @@ class ChatScreen extends React.Component {
       '[mobx.array] Attempt'
       ]);
     this.props.chatStore.returnMessages()
-  }
-
-  choosePhotoFromGallery = () => {
-    ImagePicker.openPicker({
-        width: 300,
-        height: 300,
-        cropping: true
-    }).then(image => {
-        this.props.chatStore.setUploadImage(image.path);
-    })
   }
 
   choosePhotoFromCamera = () => {
@@ -40,14 +32,9 @@ class ChatScreen extends React.Component {
     // Pick a single file
     try {
       const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
+        type: [DocumentPicker.types.allFiles],
       });
-      console.log(
-        res.uri,
-        res.type,
-        res.name,
-        res.size
-      );
+      this.props.chatStore.setUploadFile(res);
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('You cancelled file selection')
@@ -56,6 +43,20 @@ class ChatScreen extends React.Component {
       }
     }
   }
+
+  showAllPhotos = () => {
+    CameraRoll.getPhotos({
+        first: 20,
+        assetType: 'Photos',
+      })
+      .then(r => {
+        this.props.chatStore.getAllPhotos(r.edges);
+      })
+      .catch((err) => {
+         console.log(err)
+      }
+    );
+  };
 
   send = (message) => {
     this.props.chatStore.sendMessage(message);
@@ -83,11 +84,12 @@ class ChatScreen extends React.Component {
             <Icon name='photo' color='#000' width={30}/>
           } 
           type='clear'
-          onPress={() => this.choosePhotoFromGallery()}
+          onPress={this.showAllPhotos}
         /> 
         <Button
-          icon={
-            <Icon name='add' color='#000' width={30}/>
+          icon={ Object.entries(this.props.chatStore.uploadFile).length === 0 ? 
+            <Icon name='add' color='#000' width={30}/> :
+            <Icon name='check' color='#000' width={30}/>
           }
           type='clear'
           onPress={() => this.chooseFile()}
@@ -95,13 +97,19 @@ class ChatScreen extends React.Component {
       </View>
     }
     </View>
-    )
+  )
+
+  renderFooter = () => (
+    <ChatFooter {...this.props} />
+  )
+
 
 render() {
-  console.log(this.props.chatStore.uploadImage)
+  console.log('Photo: ', this.props.chatStore.uploadImage);
+  const { getMessagesArray } = this.props.chatStore;
     return (
       <GiftedChat
-        messages={this.props.chatStore.getMessagesArray}
+        messages={getMessagesArray}
         user={{
           _id: 'sender',
           name: 'sender',
@@ -110,6 +118,7 @@ render() {
         onSend={(message) => this.send(message[0])}
         renderUsernameOnMessage={true}
         renderComposer={this.renderComposer}
+        renderFooter={this.renderFooter}
         showUserAvatar={true}
       />
     );

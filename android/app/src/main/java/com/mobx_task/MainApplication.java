@@ -2,19 +2,18 @@ package com.mobx_task;
 
 import android.app.Application;
 import android.content.Context;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
-import io.branch.rnbranch.RNBranchPackage;
-import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import com.arttitude360.reactnative.rngoogleplaces.RNGooglePlacesPackage;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import io.branch.referral.Branch;
 
 

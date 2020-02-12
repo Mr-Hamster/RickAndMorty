@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/art": "^1.1.2",
+    "@react-native-community/cameraroll": "^1.4.1",
     "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/image-picker-ios": "^1.0.1",
     "@react-native-community/masked-view": "^0.1.6",

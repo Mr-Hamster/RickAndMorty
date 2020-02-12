@@ -4,13 +4,17 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import userStore from './userStore';
 
 class Chat {
-  isModalVisible = false;
   receiver = '';
   receiverPhoto = '';
   messages = [];
   uploadImage = '';
+  cameraRollPhotos = [];
+  uploadFile = {};
 
   addReceiver(name, photo) {
+    this.cameraRollPhotos = [];
+    this.uploadImage = '';
+    this.uploadFile = {};
     this.receiver = name;
     this.receiverPhoto = photo;
     this.messages = [
@@ -28,14 +32,18 @@ class Chat {
     socket.off('messageReturn');
   }
 
+  getAllPhotos(photos) {
+    this.cameraRollPhotos = photos;
+  }
+
   setUploadImage(path) {
     console.log(path)
     this.uploadImage = path;
-    this.isModalVisible = false;
   }
 
-  showModal() {
-    this.isModalVisible = !this.isModalVisible;
+  setUploadFile(file) {
+    console.log(file)
+    this.uploadFile = file;
   }
 
   returnMessages() {
@@ -62,8 +70,14 @@ class Chat {
       message.image = this.uploadImage;
     }
 
+    if (this.uploadFile) {
+      message.text = message.text + ' ' + this.uploadFile.name;
+    }
+
     socket.emit('message', { message, sender, receiver });
     this.uploadImage = '';
+    this.cameraRollPhotos = [];
+    this.uploadFile = {};
   }
 
   get getMessagesArray() {
@@ -77,12 +91,18 @@ decorate(Chat, {
   receiver: observable,
   isModalVisible: observable,
   uploadImage: observable,
+  cameraRollPhotos: observable,
+  uploadFile: observable,
+
   addReceiver: action,
   sendMessage: action,
-  getMessagesArray: computed,
   returnMessages: action,
   setUploadImage: action,
-  showModal: action
+  showModal: action,
+  getAllPhotos: action,
+  setUploadFile: action,
+
+  getMessagesArray: computed
 })
 
 const chatStore = new Chat();
