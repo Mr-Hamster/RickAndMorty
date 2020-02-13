@@ -113,7 +113,31 @@ const styles = StyleSheet.create({
         width: '90%',
         justifyContent: 'space-between',
         flexDirection: 'row'
-    },  
+    },  //comments
+    inputComment: {
+        height: 40, 
+        backgroundColor: '#fff', 
+        marginBottom: '2%'
+    },
+    contentCommentsBottomSheet: {
+        height: Dimensions.get('screen').height, 
+        backgroundColor: '#fff', 
+        flexDirection: 'column'
+    },
+    contentButtonWrapper: {
+        flexDirection: 'row', 
+        justifyContent: 'space-around'
+    },
+    buttonComments: {
+        width: Dimensions.get('screen').width * 0.4
+    },
+    imageUserComments: {
+        width: 50, 
+        height: 50, 
+        borderRadius: 50, 
+        marginRight: '5%', 
+        marginLeft: '5%'
+    },
     //SEARCH SCREEN
     inputSearch: {
         width: '100%',

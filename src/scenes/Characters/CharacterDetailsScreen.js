@@ -9,15 +9,21 @@ import {
     ActivityIndicator,
     Share,
     Alert,
-    Platform
+    Platform,
+    TouchableOpacity,
+    FlatList
  } from 'react-native';
+ import BottomSheet from 'reanimated-bottom-sheet';
  import { CheckBox, Icon, Button } from 'react-native-elements';
  import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 import branch, { BranchEvent } from 'react-native-branch';
+import CommentBottomSheetContent from '../../components/CommentBottomSheetContent';
+import CommentsList from '../../components/CommentsList';
 
 class CharactersDetailsScreen extends React.Component{
     componentDidMount() {
+        this.props.commentStore.resetCommentStore()
         this.props.charactersStore.loadFirstCharacters()
         InteractionManager.runAfterInteractions(() => {
             if(this.props.charactersStore.characterPrevID == 0){
@@ -91,6 +97,33 @@ class CharactersDetailsScreen extends React.Component{
         this.props.chatStore.addReceiver(name, photo);
     }
 
+    renderHeader = () => (
+        <TouchableOpacity 
+            onPress={() => this.props.commentStore.changeSizeBottomSheet('full')}
+            style={{backgroundColor: '#fff', alignItems: 'flex-end'}}
+        >
+            <Icon name={this.props.commentStore.sizeBottomSheet==='full' ? 'arrow-drop-down' : 'fullscreen'} size={30}/>
+        </TouchableOpacity>
+    )
+
+    renderContent = () => {
+        return <CommentBottomSheetContent {...this.props} />
+    }
+
+    setSizeBottomSheet = () => {
+        if( this.props.commentStore.sizeBottomSheet==='default') {
+            return [0,0,0]
+        } else if (this.props.commentStore.sizeBottomSheet==='full') {
+            return [150, Dimensions.get('screen').height * 0.9, 150]
+        } else {
+            return [150,150,0]
+        }
+    }
+
+    openCommentsView = () => {
+        this.props.commentStore.changeSizeBottomSheet('input')
+    }
+    
     render(){
         const { details, isLoadingDetails, isErrorDetails, isFavorite } = this.props.charactersStore;
         if(isErrorDetails) {
@@ -119,44 +152,70 @@ class CharactersDetailsScreen extends React.Component{
                     </View>
                     : null}
                     {details.map( item =>
-                     <ScrollView key={item.id} style={{width: Dimensions.get('window').width }}>
-                        <Image source={{uri: item.image}} style={styles.imageCharacter}/>
-                        <Text style={styles.textTitle}>{item.name}</Text>
-                        <View style={styles.optionsWrapper}>
-                            <CheckBox
-                                checkedIcon={
-                                    <Icon name='favorite' color='red'/>
-                                }
-                                uncheckedIcon={
-                                    <Image source={require('../../assets/favorite_border.png')} 
-                                        style={styles.checkBox}/>
-                                }
-                                checked={isFavorite(item.id)}
-                                onPress={() => this.addToFavorite(item.id)}
-                            />
-                            <Button icon={
-                                <Icon name="share" size={30} color="#000"/>
-                            } 
-                            type="clear"
-                            onPress={() => this.onShare(item.name, item.image)}/>
-                        </View>
-                        <Text style={styles.text}>Status: {item.status}</Text>
-                        <Text style={styles.text}>Species: {item.species}</Text>
-                        <Text style={styles.text}>Gender: {item.gender}</Text>
-                        <Text style={styles.text}>Type: {item.type == "" ? 'Unknown' : item.type}</Text>
-                        <Text style={styles.text}>Location:{"\n"}
-                            {item.location.name}{"\n"}
-                            {item.location.name}{"\n"}
-                            {item.location.dimension}
-                        </Text>
-                        <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
-                        <Button title='START CHAT' onPress={() => this.startChat(item.name, item.image)}/>
-                    </ScrollView>)}
+                     <View key={item.id} style={{width: Dimensions.get('window').width }}>
+                         <ScrollView>
+                            <Image source={{uri: item.image}} style={styles.imageCharacter}/>
+                            <Text style={styles.textTitle}>{item.name}</Text>
+                            <View style={styles.optionsWrapper}>
+                                <CheckBox
+                                    checkedIcon={
+                                        <Icon name='favorite' color='red'/>
+                                    }
+                                    uncheckedIcon={
+                                        <Image source={require('../../assets/favorite_border.png')} 
+                                            style={styles.checkBox}/>
+                                    }
+                                    checked={isFavorite(item.id)}
+                                    onPress={() => this.addToFavorite(item.id)}
+                                />
+                                <Button 
+                                    icon ={
+                                        <Icon name="chat-bubble-outline" size={30} color="#000" />
+                                    }
+                                    type="clear"
+                                    onPress={() => this.startChat(item.name, item.image)}
+                                />
+                                <Button 
+                                    icon ={
+                                        <Icon name="comment" size={30} color="#000" />
+                                    }
+                                    type="clear"
+                                    onPress={() => this.openCommentsView()}
+                                />
+                                <Button 
+                                    icon={
+                                        <Icon name="share" size={30} color="#000"/>
+                                    } 
+                                    type="clear"
+                                    onPress={() => this.onShare(item.name, item.image)}
+                                />
+                            </View>
+                            <Text style={styles.text}>Status: {item.status}</Text>
+                            <Text style={styles.text}>Species: {item.species}</Text>
+                            <Text style={styles.text}>Gender: {item.gender}</Text>
+                            <Text style={styles.text}>Type: {item.type == "" ? 'Unknown' : item.type}</Text>
+                            <Text style={styles.text}>Location:{"\n"}
+                                {item.location.name}{"\n"}
+                                {item.location.name}{"\n"}
+                                {item.location.dimension}
+                            </Text>
+                            <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
+                            <Text style={{fontSize: 18, fontWeight: 'bold', marginLeft: '5%'}}>Comments:</Text>
+                            <CommentsList {...this.props} />
+                         </ScrollView>
+                        <BottomSheet
+                            snapPoints={this.setSizeBottomSheet()}
+                            renderHeader = {this.renderHeader}
+                            renderContent = {this.renderContent}
+                            style={{backgroundColor: '#fff'}}
+                            key={item.id}
+                        />
+                    </View>)}
                 </ScrollView>
             )
         }
     }
 }
 
-export default inject('charactersStore', 'chatStore', 'userStore')(observer(CharactersDetailsScreen));
+export default inject('charactersStore', 'chatStore', 'userStore', 'commentStore')(observer(CharactersDetailsScreen));
 
