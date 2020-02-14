@@ -11,17 +11,23 @@ import {
     Alert,
     Platform,
     TouchableOpacity,
-    FlatList
+    Animated,
+    Easing
  } from 'react-native';
- import BottomSheet from 'reanimated-bottom-sheet';
- import { CheckBox, Icon, Button } from 'react-native-elements';
- import styles from '../../config/styles.js';
+import BottomSheet from 'reanimated-bottom-sheet';
+import { CheckBox, Icon, Button } from 'react-native-elements';
+import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 import branch, { BranchEvent } from 'react-native-branch';
 import CommentBottomSheetContent from '../../components/CommentBottomSheetContent';
 import CommentsList from '../../components/CommentsList';
 
 class CharactersDetailsScreen extends React.Component{
+    constructor() {
+        super()
+        this.show = new Animated.Value(0)
+    }
+
     componentDidMount() {
         this.props.commentStore.resetCommentStore()
         this.props.charactersStore.loadFirstCharacters()
@@ -97,17 +103,21 @@ class CharactersDetailsScreen extends React.Component{
         this.props.chatStore.addReceiver(name, photo);
     }
 
-    renderHeader = () => (
-        <TouchableOpacity 
-            onPress={() => this.props.commentStore.changeSizeBottomSheet('full')}
-            style={{backgroundColor: '#fff', alignItems: 'flex-end'}}
-        >
-            <Icon name={this.props.commentStore.sizeBottomSheet==='full' ? 'arrow-drop-down' : 'fullscreen'} size={30}/>
-        </TouchableOpacity>
-    )
-
     renderContent = () => {
-        return <CommentBottomSheetContent {...this.props} />
+        this.show.setValue(0);
+        Animated.timing( this.show, {
+            toValue: 1,
+            duration: 500
+        }).start()
+        return <Animated.View style={{ opacity: this.show }}>
+            <TouchableOpacity 
+                onPress={() => this.props.commentStore.changeSizeBottomSheet('full')}
+                style={{backgroundColor: '#fff', alignItems: 'flex-end'}}
+            >
+                <Icon name={this.props.commentStore.sizeBottomSheet==='full' ? 'arrow-drop-down' : 'fullscreen'} size={30}/>
+            </TouchableOpacity>
+            <CommentBottomSheetContent {...this.props} />
+            </Animated.View>
     }
 
     setSizeBottomSheet = () => {
@@ -123,7 +133,7 @@ class CharactersDetailsScreen extends React.Component{
     openCommentsView = () => {
         this.props.commentStore.changeSizeBottomSheet('input')
     }
-    
+   
     render(){
         const { details, isLoadingDetails, isErrorDetails, isFavorite } = this.props.charactersStore;
         if(isErrorDetails) {
@@ -202,12 +212,14 @@ class CharactersDetailsScreen extends React.Component{
                             <Text style={styles.textCreated}>Created: {this.convertDateCreated(item.created)}</Text>
                             <Text style={{fontSize: 18, fontWeight: 'bold', marginLeft: '5%'}}>Comments:</Text>
                             <CommentsList {...this.props} />
-                         </ScrollView>
+                        </ScrollView>
                         <BottomSheet
+                            ref={ (ref) => this.bottomSheetRef = ref}
                             snapPoints={this.setSizeBottomSheet()}
-                            renderHeader = {this.renderHeader}
                             renderContent = {this.renderContent}
-                            style={{backgroundColor: '#fff'}}
+                            enabledBottomInitialAnimation = {true}
+                            initialSnap='0'
+                            style={{backgroundColor: '#fff'}} 
                             key={item.id}
                         />
                     </View>)}

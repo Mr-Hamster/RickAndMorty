@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         marginBottom: '2%'
     },
     contentCommentsBottomSheet: {
-        height: Dimensions.get('screen').height, 
+        height: Dimensions.get('screen').height,
         backgroundColor: '#fff', 
         flexDirection: 'column'
     },

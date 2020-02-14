@@ -3,15 +3,14 @@ import { observable, action, decorate } from "mobx";
 class Comment {
   value = '';
   comments = [];
-
   sizeBottomSheet = 'default';
 
   onChangeCommentText(text) {
     this.value = text;
   }
 
-  changeSizeBottomSheet(screen) {
-    this.sizeBottomSheet = screen;
+  changeSizeBottomSheet(size) {
+    this.sizeBottomSheet = size;
   }
 
   sendComment() {
