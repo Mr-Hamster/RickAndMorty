@@ -1,0 +1,59 @@
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+mongoose.connect(
+  'mongodb+srv://Admin:' + 
+    'test123' + 
+    '@rickandmortycluster-igbrz.azure.mongodb.net/test?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
+mongoose.Promise = global.Promise;
+
+const signUpRouter = require('./features/sign-up/router');
+const uploadRouter = require('./features/uploadFile/router');
+const signInRouter = require('./features/sign-in/router');
+const userRouter = require('./features/profile/router');
+
+app.use('/uploads', express.static('uploads'));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers', 
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+    return res.status(200).json({})
+  }
+  next();
+})
+
+app.use('/sign-up', signUpRouter);
+app.use('/sign-in', signInRouter);
+app.use('/user', userRouter);
+app.use('/upload', uploadRouter);
+
+app.use((req, res, next) => {
+  const error = new Error('Not Found!');
+  error.status = 404;
+  next(error)
+});
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+    error: {
+      message: error.message
+    }
+  })
+})
+
+module.exports = app;
