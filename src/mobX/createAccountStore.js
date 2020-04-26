@@ -2,6 +2,7 @@ import { observable, action, decorate } from "mobx";
 import { AsyncStorage } from 'react-native';
 import { defaultPhotoURL, registeredUsers } from '../services/constants';
 import { registeredUsersList } from '../services/profiles';
+import { uploadFile } from '../api';
 
 class CreateAccountStore {
     createAccountInformation = {
@@ -59,8 +60,15 @@ class CreateAccountStore {
     setPhotoUser(photoURI) {
         for( let key in this.createAccountInformation){
             if( key == 'photo') {
-                this.createAccountInformation[key] = photoURI;
-                this.showModal()
+                // this.createAccountInformation[key] = photoURI;
+                uploadFile(photoURI)
+                    .then(({ file: { _id }}) => {
+                        this.createAccountInformation[key] = _id;
+                        this.showModal();
+                    })
+                    .catch(err => {
+                        console.log('Something went wrong!', err);
+                    });
             } 
         }
     }

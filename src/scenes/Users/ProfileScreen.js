@@ -9,11 +9,13 @@ import { Button } from 'react-native-paper';
 import styles from '../../config/styles.js';
 import { observer, inject } from 'mobx-react';
 import {defaultPhotoURL} from '../../services/constants.js';
+import { onSignOut } from '../../services/auth';
 
 class ProfileScreen extends React.Component{
 
     signUp = () => {
-        this.props.userStore.signUp()
+        // this.props.userStore.signUp()
+        onSignOut();
         this.props.navigation.navigate('LogIn')
     }
 
